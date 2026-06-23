@@ -1127,14 +1127,14 @@ function initDuolingoTabs() {
             contentDash.classList.add('hidden');
             contentDuo.classList.remove('hidden');
             
-            if (navDash) navDash.className = "text-slate-400 hover:text-slate-100 text-sm font-medium flex items-center gap-2 pb-1.5 transition-all";
-            if (navDuo) navDuo.className = "text-pink-400 border-b-2 border-pink-500 text-sm font-semibold flex items-center gap-2 pb-1.5 transition-all";
+            if (navDash) navDash.className = "text-slate-400 hover:text-slate-200 hover:bg-slate-950/40 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 whitespace-nowrap";
+            if (navDuo) navDuo.className = "bg-pink-600/20 text-pink-400 border border-pink-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 whitespace-nowrap";
         } else {
             contentDash.classList.remove('hidden');
             contentDuo.classList.add('hidden');
             
-            if (navDash) navDash.className = "text-indigo-400 border-b-2 border-indigo-500 text-sm font-semibold flex items-center gap-2 pb-1.5 transition-all";
-            if (navDuo) navDuo.className = "text-slate-400 hover:text-slate-100 text-sm font-medium flex items-center gap-2 pb-1.5 transition-all";
+            if (navDash) navDash.className = "bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 whitespace-nowrap";
+            if (navDuo) navDuo.className = "text-slate-400 hover:text-slate-200 hover:bg-slate-950/40 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 whitespace-nowrap";
         }
     }
     
