@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulateur de Coupe 3D | CAP Coiffure 2027</title>
+    <meta name="description" content="Simulateur de coupe de cheveux 3D interactif avec Three.js. Entraînez-vous sur les angles de projection et de coupe du CAP Coiffure.">
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            850: '#1e293b',
+                            950: '#020617',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        heading: ['"Outfit"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- OrbitControls CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-slate-950/80 border-b border-slate-900/50 backdrop-blur-md py-3 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-2">
+                <span class="text-xl">✂️</span>
+                <span class="font-heading font-black text-sm tracking-wider uppercase bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">Alban Coiffure</span>
+            </div>
+            
+            <!-- Navigation Links (styled as pill group) -->
+            <div class="flex items-center gap-1.5 bg-slate-900/60 p-1.5 rounded-2xl border border-slate-800/80 max-w-full overflow-x-auto no-scrollbar">
+                <a href="index.html" id="nav-dashboard"
+                    class="text-slate-400 hover:text-slate-200 hover:bg-slate-950/40 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 whitespace-nowrap">
+                    📊 Mon Espace
+                </a>
+                <a href="biologie.html" id="nav-biology"
+                    class="text-slate-400 hover:text-slate-200 hover:bg-slate-950/40 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 whitespace-nowrap">
+                    🧬 Biologie
+                </a>
+                <a href="chimie.html" id="nav-chemistry"
+                    class="text-slate-400 hover:text-slate-200 hover:bg-slate-950/40 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 whitespace-nowrap">
+                    🧪 Chimie & pH
+                </a>
+                <a href="technologie.html" id="nav-technology"
+                    class="text-slate-400 hover:text-slate-200 hover:bg-slate-950/40 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 whitespace-nowrap">
+                    ✂️ Technologie
+                </a>
+                <a href="quiz.html" id="nav-quiz"
+                    class="text-slate-400 hover:text-slate-200 hover:bg-slate-950/40 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 whitespace-nowrap">
+                    📝 Quiz d'Examen
+                </a>
+                <a href="flashcards.html" id="nav-flashcards"
+                    class="text-slate-400 hover:text-slate-200 hover:bg-slate-950/40 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 whitespace-nowrap">
+                    🎴 Flashcards
+                </a>
+                <a href="index.html?tab=duolingo" id="nav-duolingo"
+                    class="text-slate-400 hover:text-slate-200 hover:bg-slate-950/40 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 whitespace-nowrap">
+                    🗺️ Parcours (Duolingo)
+                </a>
+                <a href="simulateur_coupe_3d.html" id="nav-simulator"
+                    class="bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 whitespace-nowrap">
+                    🥽 Simulateur 3D
+                </a>
+            </div>
+            
+            <!-- Theme Toggler -->
+            <button class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-all cursor-pointer" id="theme-toggle" aria-label="Changer de thème">
+                <!-- SVG injected by JS -->
+            </button>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="relative overflow-hidden bg-slate-950 border-b border-slate-900 py-8 px-4 sm:px-6 lg:px-8">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_-20%,rgba(99,102,241,0.12),transparent_70%)] pointer-events-none"></div>
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
+            <div>
+                <span class="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-widest text-indigo-400 bg-indigo-950/50 border border-indigo-900/50 px-3 py-1 rounded-full mb-2">
+                    Simulateur Technique 3D
+                </span>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-300 bg-clip-text text-transparent font-heading">
+                    📐 Simulateur de Coupe & Angles 3D
+                </h1>
+                <p class="text-slate-400 text-sm sm:text-base mt-1">
+                    Visualisez les angles de projection en direct sur un mannequin et entraînez-vous aux lignes de coupe réglementaires du CAP.
+                </p>
+            </div>
+            
+            <!-- Stats & Progress Tracker -->
+            <div class="w-full md:w-auto flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+                <!-- Gamification Stats -->
+                <div class="flex gap-2">
+                    <!-- XP / Level -->
+                    <div class="bg-slate-900/80 px-3.5 py-2.5 rounded-2xl border border-slate-800 backdrop-blur-md flex flex-col justify-center min-w-[110px]">
+                        <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider block leading-none mb-1">Niveau</span>
+                        <div class="flex items-baseline gap-1.5 leading-none">
+                            <strong class="text-sm font-black text-pink-400 font-heading" id="gamification-level">Nv. 1</strong>
+                            <span class="text-[10px] text-slate-400 font-semibold" id="gamification-xp">0 XP</span>
+                        </div>
+                    </div>
+                    <!-- Streak -->
+                    <div class="bg-slate-900/80 px-3.5 py-2.5 rounded-2xl border border-slate-800 backdrop-blur-md flex flex-col justify-center min-w-[85px]">
+                        <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider block leading-none mb-1">🔥 Streak</span>
+                        <strong class="text-sm font-black text-amber-500 font-heading leading-none" id="gamification-streak">0 jr</strong>
+                    </div>
+                </div>
+                <!-- Global Progress -->
+                <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 backdrop-blur-md flex items-center gap-4 min-w-[240px]">
+                    <div class="text-left leading-none">
+                        <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider block mb-1">Progression</span>
+                        <strong class="text-lg font-black text-indigo-400 font-heading" id="global-progress-percent">0%</strong>
+                    </div>
+                    <div class="flex-grow bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-850">
+                        <div class="bg-gradient-to-r from-indigo-500 to-emerald-500 h-full w-0 transition-all duration-700" id="global-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-6xl w-full mx-auto px-4 py-8 sm:px-6 lg:px-8 flex-grow">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- 3D Canvas container (Left panel, spans 2 cols on lg) -->
+            <div class="lg:col-span-2 bg-slate-900/40 border border-slate-800/80 rounded-3xl p-4 glow-card flex flex-col relative min-h-[520px]">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-xs font-bold text-slate-400 flex items-center gap-2">
+                        <span>📹 Vue 3D Interactive</span>
+                        <span class="bg-slate-800 px-2 py-0.5 rounded text-[10px] text-indigo-400">Maintenez le clic pour tourner / Glissez pour inspecter</span>
+                    </span>
+                    <button id="btn-reset-view" class="text-[10px] bg-slate-800 hover:bg-slate-700 border border-slate-700 px-2.5 py-1 rounded-lg text-slate-300 font-semibold transition-all">
+                        Réinitialiser la Caméra 👤
+                    </button>
+                </div>
+                
+                <!-- 3D Render Target -->
+                <div id="canvas-container" class="w-full flex-grow bg-slate-950 rounded-2xl relative overflow-hidden min-h-[420px]">
+                    <!-- Canvas will be appended here -->
+                    
+                    <!-- Floating Overlay for current state -->
+                    <div class="absolute top-4 left-4 bg-slate-900/90 border border-slate-800/80 backdrop-blur-sm px-3.5 py-2.5 rounded-xl text-xs space-y-1.5 z-10 text-slate-200 shadow-xl pointer-events-none">
+                        <div>Zone : <strong id="overlay-zone" class="text-indigo-400 font-bold">Sommet (Top)</strong></div>
+                        <div>Angle : <strong id="overlay-angle" class="text-pink-400 font-bold">90°</strong></div>
+                        <div>Longueur : <strong id="overlay-length" class="text-emerald-400 font-bold">2.0 dm</strong></div>
+                    </div>
+
+                    <!-- Legend Panel (Bottom Left) -->
+                    <div class="absolute bottom-4 left-4 bg-slate-900/90 border border-slate-800/80 backdrop-blur-sm p-3 rounded-xl text-[10px] z-10 text-slate-300 shadow-xl pointer-events-none hidden sm:block space-y-1">
+                        <div class="font-bold text-slate-400 mb-1">Guides de coupe :</div>
+                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-1 rounded-full bg-red-500"></span> 0° (Carré / Tombant)</div>
+                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-1 rounded-full bg-amber-500"></span> 45° (Graduation / Dégradé léger)</div>
+                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-1 rounded-full bg-emerald-500"></span> 90° (Dégradé uniforme)</div>
+                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-1 rounded-full bg-indigo-500"></span> 135° (Dégradé progressif prononcé)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls panel (Right panel, 1 col) -->
+            <div class="flex flex-col gap-6">
+                <!-- Zone selection -->
+                <section class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 glow-card transition-all">
+                    <h3 class="text-sm font-black text-slate-300 font-heading uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <span>👩‍🦲 1. Zone d'implantation</span>
+                    </h3>
+                    <div class="grid grid-cols-2 gap-2" id="zone-buttons">
+                        <button data-zone="sommet" class="zone-btn bg-indigo-600/20 text-indigo-400 border border-indigo-500/40 p-3 rounded-xl text-xs font-bold transition-all hover:scale-[1.02] cursor-pointer">
+                            📍 Sommet (Top)
+                        </button>
+                        <button data-zone="frange" class="zone-btn bg-slate-950/60 text-slate-400 hover:text-slate-200 border border-slate-850 hover:bg-slate-950 p-3 rounded-xl text-xs font-bold transition-all hover:scale-[1.02] cursor-pointer">
+                            📍 Frange (Devant)
+                        </button>
+                        <button data-zone="cote" class="zone-btn bg-slate-950/60 text-slate-400 hover:text-slate-200 border border-slate-850 hover:bg-slate-950 p-3 rounded-xl text-xs font-bold transition-all hover:scale-[1.02] cursor-pointer">
+                            📍 Côté (Oreille)
+                        </button>
+                        <button data-zone="nuque" class="zone-btn bg-slate-950/60 text-slate-400 hover:text-slate-200 border border-slate-850 hover:bg-slate-950 p-3 rounded-xl text-xs font-bold transition-all hover:scale-[1.02] cursor-pointer">
+                            📍 Nuque (Derrière)
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Angle selection -->
+                <section class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 glow-card transition-all">
+                    <h3 class="text-sm font-black text-slate-300 font-heading uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <span>📐 2. Angle de projection</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-slate-400">Projection :</span>
+                            <span class="text-sm font-black text-pink-400" id="angle-display">90°</span>
+                        </div>
+                        <input type="range" id="angle-slider" min="0" max="135" value="90" step="5" class="w-full h-1.5 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-pink-500">
+                        
+                        <div class="grid grid-cols-4 gap-1.5 pt-2">
+                            <button data-angle="0" class="angle-btn bg-slate-950/60 text-slate-400 hover:text-slate-200 border border-slate-850 rounded-lg py-1.5 text-xs font-bold transition-all hover:scale-[1.02] cursor-pointer">0°</button>
+                            <button data-angle="45" class="angle-btn bg-slate-950/60 text-slate-400 hover:text-slate-200 border border-slate-850 rounded-lg py-1.5 text-xs font-bold transition-all hover:scale-[1.02] cursor-pointer">45°</button>
+                            <button data-angle="90" class="angle-btn bg-indigo-600/20 text-indigo-400 border border-indigo-500/40 rounded-lg py-1.5 text-xs font-bold transition-all hover:scale-[1.02] cursor-pointer">90°</button>
+                            <button data-angle="135" class="angle-btn bg-slate-950/60 text-slate-400 hover:text-slate-200 border border-slate-850 rounded-lg py-1.5 text-xs font-bold transition-all hover:scale-[1.02] cursor-pointer">135°</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Actions card -->
+                <section class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 glow-card transition-all">
+                    <h3 class="text-sm font-black text-slate-300 font-heading uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <span>✂️ 3. Actions de coupe</span>
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs text-slate-400">Longueur après coupe :</span>
+                                <span class="text-xs font-bold text-slate-250" id="length-display">1.2 dm</span>
+                            </div>
+                            <input type="range" id="length-slider" min="0.4" max="1.8" value="1.2" step="0.1" class="w-full h-1.5 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+                        </div>
+                        
+                        <div class="flex flex-col gap-2">
+                            <button id="btn-cut" class="w-full bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-bold p-3.5 rounded-xl text-xs shadow-lg hover:shadow-indigo-500/20 transition-all hover:scale-[1.02] flex items-center justify-center gap-2 cursor-pointer">
+                                <span>Couper la mèche ✂️</span>
+                            </button>
+                            <button id="btn-reset-hair" class="w-full bg-slate-950/60 hover:bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-850 hover:border-slate-800 font-bold p-2.5 rounded-xl text-xs transition-all hover:scale-[1.02] flex items-center justify-center gap-2 cursor-pointer">
+                                <span>Réinitialiser la mèche 🔄</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Theoretical explanation card -->
+                <section class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white p-6 rounded-3xl border border-indigo-900/30 shadow-2xl">
+                    <span class="inline-block text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-white/10 border border-white/10 mb-3 text-indigo-350">
+                        Savoir Théorique Examen
+                    </span>
+                    <h4 class="text-base font-bold font-heading" id="theory-title">Dégradé Uniforme (90°)</h4>
+                    <p class="text-indigo-200/80 text-xs mt-2.5 leading-relaxed" id="theory-desc">
+                        Les cheveux sont projetés perpendiculairement au crâne. En coupant à cette orientation, toutes les mèches auront la même longueur finale relative au crâne. Cela crée une texture très aérée et fluide, typique du dégradé uniforme du CAP.
+                    </p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-6 px-4">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-center text-xs text-slate-500">
+            <p>© 2026 Alban Coiffure. Tous droits réservés.</p>
+            <p>Conçu en binôme avec votre prof expert en coiffure.</p>
+        </div>
+    </footer>
+
+    <!-- Three.js Simulator Logic -->
+    <script>
+        let scene, camera, renderer, controls;
+        let headGroup;
+        let strandGroup, baseHairGroup, guideLinesGroup;
+        let scissorsGroup;
+        let fallingHairs = []; 
+        let currentZone = 'sommet';
+        let currentAngle = 90;
+        let currentLength = 2.0; 
+        let cutLength = 1.2; 
+        let isAnimatingCut = false;
+
+        // Directions and locations config
+        const zoneConfig = {
+            sommet: {
+                name: "Sommet (Top)",
+                origin: new THREE.Vector3(0, 1.5, 0),
+                normal: new THREE.Vector3(0, 1, 0),
+                axis: new THREE.Vector3(0, 0, 1),
+                cameraLookAt: new THREE.Vector3(0, 0.7, 0),
+                cameraPos: new THREE.Vector3(0, 1.4, 3.8),
+                keyframes: {
+                    0: new THREE.Vector3(0, -1, 0),
+                    45: new THREE.Vector3(0.707, -0.707, 0),
+                    90: new THREE.Vector3(0, 1, 0),
+                    135: new THREE.Vector3(-0.707, 0.707, 0)
+                }
+            },
+            frange: {
+                name: "Frange (Devant)",
+                origin: new THREE.Vector3(0, 1.1, 1.0),
+                normal: new THREE.Vector3(0, 0.5, 0.866).normalize(),
+                axis: new THREE.Vector3(1, 0, 0),
+                cameraLookAt: new THREE.Vector3(0, 0.6, 0.6),
+                cameraPos: new THREE.Vector3(3.0, 0.9, 2.5),
+                keyframes: {
+                    0: new THREE.Vector3(0, -1, 0),
+                    45: new THREE.Vector3(0, -0.5, 0.866),
+                    90: new THREE.Vector3(0, 0.5, 0.866),
+                    135: new THREE.Vector3(0, 0.866, 0.5)
+                }
+            },
+            cote: {
+                name: "Côté (Oreille)",
+                origin: new THREE.Vector3(1.45, 0.2, 0),
+                normal: new THREE.Vector3(1, 0, 0),
+                axis: new THREE.Vector3(0, 0, 1),
+                cameraLookAt: new THREE.Vector3(0.6, 0.2, 0),
+                cameraPos: new THREE.Vector3(3.3, 0.2, 1.8),
+                keyframes: {
+                    0: new THREE.Vector3(0, -1, 0),
+                    45: new THREE.Vector3(0.707, -0.707, 0),
+                    90: new THREE.Vector3(1, 0, 0),
+                    135: new THREE.Vector3(0.707, 0.707, 0)
+                }
+            },
+            nuque: {
+                name: "Nuque (Derrière)",
+                origin: new THREE.Vector3(0, -0.6, -1.37),
+                normal: new THREE.Vector3(0, -0.3, -0.95).normalize(),
+                axis: new THREE.Vector3(-1, 0, 0),
+                cameraLookAt: new THREE.Vector3(0, -0.4, -0.6),
+                cameraPos: new THREE.Vector3(-2.8, -0.3, -2.8),
+                keyframes: {
+                    0: new THREE.Vector3(0, -1, 0),
+                    45: new THREE.Vector3(0, -0.707, -0.707),
+                    90: new THREE.Vector3(0, -0.3, -0.95),
+                    135: new THREE.Vector3(0, 0.5, -0.866)
+                }
+            }
+        };
+
+        const theoryData = {
+            sommet: {
+                0: {
+                    title: "Ligne Carrée (Sommet) - Projection 0°",
+                    desc: "À 0° de projection au sommet, les cheveux retombent entièrement sous le poids de la gravité (tombant naturel). Couper ces mèches à plat crée une ligne droite horizontale parfaite, appelée carré droit ou forme massive."
+                },
+                45: {
+                    title: "Graduation Légère (Sommet) - Projection 45°",
+                    desc: "À 45°, les mèches supérieures sont projetées en diagonale basse. Cela crée une légère graduation (dégradé très doux sur les pointes), augmentant le volume sur la partie haute du crâne sans vider les longueurs."
+                },
+                90: {
+                    title: "Dégradé Uniforme (Sommet) - Projection 90°",
+                    desc: "À 90° (perpendiculaire au sommet, verticalement vers le haut), chaque mèche est coupée à la même longueur par rapport à son point d'implantation. C'est la base de la coupe dégradée uniforme."
+                },
+                135: {
+                    title: "Dégradé Progressif Prononcé - Projection 135°",
+                    desc: "À 135° (projeté vers le haut et l'arrière), les mèches du sommet sont tirées très haut, ce qui les raccourcit fortement par rapport au bas. Cela crée une structure très dégradée progressive, conservant beaucoup de longueur sur le bas de la chevelure."
+                }
+            },
+            frange: {
+                0: {
+                    title: "Frange Droite Implantation Basse - Projection 0°",
+                    desc: "À 0°, les cheveux tombent verticalement le long du front. Idéal pour couper une frange pleine, droite et lourde."
+                },
+                45: {
+                    title: "Frange Effilée / Balayée - Projection 45°",
+                    desc: "À 45°, la frange est projetée vers l'avant. La coupe crée un léger dégradé qui permet à la frange de s'ouvrir sur le front de façon plus aérée et de se positionner sur le côté."
+                },
+                90: {
+                    title: "Frange Dégradée Texturée - Projection 90°",
+                    desc: "À 90°, les mèches de la frange sont tirées perpendiculairement au front. Cette technique permet de réduire l'épaisseur et de créer une frange très texturée et légère."
+                },
+                135: {
+                    title: "Frange Courte Raccordée - Projection 135°",
+                    desc: "À 135°, les cheveux sont projetés vers le haut. Les couches de surface de la frange deviennent très courtes, ce qui crée un effet ultra-effilé et déconnecté."
+                }
+            },
+            cote: {
+                0: {
+                    title: "Ligne de Profil Basse - Projection 0°",
+                    desc: "Les mèches sur le côté tombent verticalement sur l'oreille. À 0°, c'est l'angle utilisé pour tracer la ligne de pourtour d'oreille ou la base d'un carré de profil."
+                },
+                45: {
+                    title: "Dégradé de Côtés Progressif - Projection 45°",
+                    desc: "À 45°, les mèches sont écartées de la tête. Cet angle permet d'entamer la transition pour dégrader les côtés d'une coupe mi-longue sans démarcation brutale."
+                },
+                90: {
+                    title: "Coupe Homme / Dégradé Court - Projection 90°",
+                    desc: "À 90°, les mèches sont tirées perpendiculairement au côté. C'est l'angle standard de raccordement des côtés pour les coupes courtes et les dégradés hommes."
+                },
+                135: {
+                    title: "Effet Plumeux de Profil - Projection 135°",
+                    desc: "À 135°, les mèches latérales sont tirées vers le haut. Cela désépaissit fortement le dessus de l'oreille tout en conservant une patte longue et fine."
+                }
+            },
+            nuque: {
+                0: {
+                    title: "Carré Nuque Bas - Projection 0°",
+                    desc: "À 0° au niveau de la nuque, les cheveux reposent sur le cou. C'est la base incontournable pour réaliser la première ligne (mèche guide) d'un carré droit."
+                },
+                45: {
+                    title: "Graduation de Nuque - Projection 45°",
+                    desc: "À 45°, les cheveux du bas sont projetés vers l'arrière et le bas. Cela crée un volume rebondi sur l'occipital (effet boule ou dégradé progressif de nuque)."
+                },
+                90: {
+                    title: "Nuque Effilée Dynamique - Projection 90°",
+                    desc: "À 90°, les mèches de la nuque sont tirées perpendiculairement au bombement occipital. Idéal pour réaliser une nuque courte propre sans démarcation."
+                },
+                135: {
+                    title: "Nuque Longue / Mulet Stylisé - Projection 135°",
+                    desc: "À 135° au niveau de la nuque, les mèches sont tirées très haut. Cela crée un dégradé extrême : les mèches du haut de la nuque sont courtes, alors que celles du bas conservent une grande longueur."
+                }
+            }
+        };
+
+        // Materials definition
+        const skinMaterial = new THREE.MeshStandardMaterial({
+            color: 0x475569, // slate-600
+            roughness: 0.4,
+            metalness: 0.1
+        });
+
+        const activeHairMaterial = new THREE.MeshStandardMaterial({
+            color: 0xec4899, // neon pink
+            roughness: 0.5,
+            metalness: 0.1,
+            side: THREE.DoubleSide
+        });
+
+        const staticHairMaterial = new THREE.MeshStandardMaterial({
+            color: 0x1e293b, // slate-800
+            roughness: 0.9,
+            metalness: 0.0
+        });
+
+        const metalMaterial = new THREE.MeshStandardMaterial({
+            color: 0xcbd5e1, // silver metal
+            metalness: 0.9,
+            roughness: 0.1
+        });
+
+        const handleMaterial = new THREE.MeshStandardMaterial({
+            color: 0x6366f1, // indigo handle
+            metalness: 0.2,
+            roughness: 0.3
+        });
+
+        // Direction interpolation function
+        function getHairDirection(zone, angle) {
+            const kf = zoneConfig[zone].keyframes;
+            let v1, v2, t;
+            if (angle <= 45) {
+                v1 = kf[0];
+                v2 = kf[45];
+                t = angle / 45;
+            } else if (angle <= 90) {
+                v1 = kf[45];
+                v2 = kf[90];
+                t = (angle - 45) / 45;
+            } else {
+                v1 = kf[90];
+                v2 = kf[135];
+                t = (angle - 90) / 45;
+            }
+            const result = new THREE.Vector3();
+            result.lerpVectors(v1, v2, t);
+            return result.normalize();
+        }
+
+        // Web Audio API scissor synthesizer
+        function playCutSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const now = ctx.currentTime;
+                
+                function playSnip(time, duration) {
+                    const bufferSize = ctx.sampleRate * duration;
+                    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                    const data = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        data[i] = Math.random() * 2 - 1;
+                    }
+                    
+                    const noise = ctx.createBufferSource();
+                    noise.buffer = buffer;
+                    
+                    const filter = ctx.createBiquadFilter();
+                    filter.type = 'highpass';
+                    filter.frequency.setValueAtTime(1200, time);
+                    filter.frequency.exponentialRampToValueAtTime(7000, time + duration);
+                    
+                    const gain = ctx.createGain();
+                    gain.gain.setValueAtTime(0.15, time);
+                    gain.gain.exponentialRampToValueAtTime(0.01, time + duration);
+                    
+                    noise.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(ctx.destination);
+                    
+                    noise.start(time);
+                    noise.stop(time + duration);
+                }
+                
+                // Play double blade sound
+                playSnip(now, 0.07);
+                playSnip(now + 0.04, 0.07);
+            } catch (e) {
+                console.warn("L'AudioContext n'a pas pu s'initialiser correctement (interaction utilisateur requise).");
+            }
+        }
+
+        // Three.js Scene Setup
+        function init3D() {
+            const container = document.getElementById('canvas-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x020617); // slate-950
+
+            camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+            camera.position.copy(zoneConfig[currentZone].cameraPos);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            container.appendChild(renderer.domElement);
+
+            // OrbitControls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.maxPolarAngle = Math.PI / 2 + 0.2; 
+            controls.minDistance = 1.8;
+            controls.maxDistance = 6;
+            controls.target.copy(zoneConfig[currentZone].cameraLookAt);
+
+            // Lighting
+            const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+            scene.add(ambient);
+
+            const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
+            dirLight1.position.set(5, 8, 5);
+            scene.add(dirLight1);
+
+            const dirLight2 = new THREE.DirectionalLight(0x6366f1, 0.3); // indigo accent
+            dirLight2.position.set(-5, 3, -5);
+            scene.add(dirLight2);
+
+            const pointLight = new THREE.PointLight(0xec4899, 0.5, 8); // pink point light
+            pointLight.position.set(0, 2, 2);
+            scene.add(pointLight);
+
+            // Head mannequin
+            headGroup = new THREE.Group();
+            scene.add(headGroup);
+
+            // Skull
+            const skullGeo = new THREE.SphereGeometry(1.5, 32, 32);
+            const skull = new THREE.Mesh(skullGeo, skinMaterial);
+            headGroup.add(skull);
+
+            // Neck
+            const neckGeo = new THREE.CylinderGeometry(0.48, 0.65, 1.2, 24);
+            const neck = new THREE.Mesh(neckGeo, skinMaterial);
+            neck.position.y = -1.6;
+            headGroup.add(neck);
+
+            // Shoulders
+            const shouldersGeo = new THREE.BoxGeometry(2.8, 0.5, 1.4, 2, 2, 2);
+            const shoulders = new THREE.Mesh(shouldersGeo, skinMaterial);
+            shoulders.position.y = -2.25;
+            headGroup.add(shoulders);
+
+            // Nose
+            const noseGeo = new THREE.ConeGeometry(0.18, 0.55, 4);
+            const nose = new THREE.Mesh(noseGeo, skinMaterial);
+            nose.rotation.x = Math.PI / 2;
+            nose.position.set(0, 0.15, 1.55);
+            headGroup.add(nose);
+
+            // Ears
+            const earGeo = new THREE.SphereGeometry(0.24, 16, 16);
+            const earL = new THREE.Mesh(earGeo, skinMaterial);
+            earL.position.set(-1.5, 0, 0);
+            headGroup.add(earL);
+
+            const earR = earL.clone();
+            earR.position.x = 1.5;
+            headGroup.add(earR);
+
+            // Eyes
+            const eyeGeo = new THREE.SphereGeometry(0.08, 16, 16);
+            const eyeMat = new THREE.MeshBasicMaterial({ color: 0x0f172a });
+            const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
+            eyeL.position.set(-0.35, 0.35, 1.44);
+            headGroup.add(eyeL);
+
+            const eyeR = eyeL.clone();
+            eyeR.position.x = 0.35;
+            headGroup.add(eyeR);
+
+            // Hair helmet shell
+            const hairShellGeo = new THREE.SphereGeometry(1.54, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+            const hairShell = new THREE.Mesh(hairShellGeo, staticHairMaterial);
+            hairShell.rotation.x = -0.25;
+            hairShell.position.set(0, 0.05, -0.05);
+            headGroup.add(hairShell);
+
+            // Some static side/back locks
+            const sideLockLGeo = new THREE.CylinderGeometry(0.12, 0.02, 1.5, 8);
+            const sideLockL = new THREE.Mesh(sideLockLGeo, staticHairMaterial);
+            sideLockL.position.set(-1.45, -0.75, -0.15);
+            sideLockL.rotation.z = 0.08;
+            headGroup.add(sideLockL);
+
+            const sideLockR = sideLockL.clone();
+            sideLockR.position.x = 1.45;
+            sideLockR.rotation.z = -0.08;
+            headGroup.add(sideLockR);
+
+            const backLockGeo = new THREE.CylinderGeometry(0.2, 0.05, 1.7, 8);
+            const backLock = new THREE.Mesh(backLockGeo, staticHairMaterial);
+            backLock.position.set(0, -0.85, -1.35);
+            backLock.rotation.x = -0.15;
+            headGroup.add(backLock);
+
+            // Active hair strand group
+            strandGroup = new THREE.Group();
+            scene.add(strandGroup);
+
+            // Build Scissors
+            buildScissors();
+
+            // Setup elements
+            rebuildActiveStrand();
+            rebuildGuideLines();
+            updateTheoryDisplay();
+
+            // Resize listener
+            window.addEventListener('resize', onWindowResize);
+
+            // Animation Loop
+            animate();
+        }
+
+        // Build 3D Scissors Model
+        function buildScissors() {
+            scissorsGroup = new THREE.Group();
+            scissorsGroup.visible = false;
+            
+            // Blades
+            const bladeLeft = new THREE.Group();
+            bladeLeft.name = "leftBlade";
+            const b1 = new THREE.Mesh(new THREE.BoxGeometry(0.015, 0.04, 0.55), metalMaterial);
+            b1.geometry.translate(0, 0.02, 0.275); // Pivot at local Z=0
+            const ring1 = new THREE.Mesh(new THREE.TorusGeometry(0.075, 0.013, 8, 20), handleMaterial);
+            ring1.position.set(-0.06, 0.06, -0.08);
+            bladeLeft.add(b1);
+            bladeLeft.add(ring1);
+
+            const bladeRight = new THREE.Group();
+            bladeRight.name = "rightBlade";
+            const b2 = new THREE.Mesh(new THREE.BoxGeometry(0.015, 0.04, 0.55), metalMaterial);
+            b2.geometry.translate(0, -0.02, 0.275); // Pivot at local Z=0
+            const ring2 = new THREE.Mesh(new THREE.TorusGeometry(0.075, 0.013, 8, 20), handleMaterial);
+            ring2.position.set(0.06, -0.06, -0.08);
+            bladeRight.add(b2);
+            bladeRight.add(ring2);
+
+            // Vis / center screw
+            const screw = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.05, 8), handleMaterial);
+            screw.rotation.x = Math.PI / 2;
+
+            scissorsGroup.add(bladeLeft);
+            scissorsGroup.add(bladeRight);
+            scissorsGroup.add(screw);
+
+            // We add the scissors directly to the strandGroup so it moves and rotates with the hair!
+            // We rotate it 90 degrees around Y-axis so blades lie across the fibers
+            scissorsGroup.rotation.set(0, Math.PI / 2, 0);
+            strandGroup.add(scissorsGroup);
+        }
+
+        // Rebuild active interactive hair strand
+        function rebuildActiveStrand() {
+            // Remove old children except the scissors group
+            const toRemove = [];
+            strandGroup.children.forEach(child => {
+                if (child !== scissorsGroup) {
+                    toRemove.push(child);
+                }
+            });
+            toRemove.forEach(child => strandGroup.remove(child));
+
+            const config = zoneConfig[currentZone];
+            const strandDir = getHairDirection(currentZone, currentAngle);
+
+            strandGroup.position.copy(config.origin);
+
+            const target = new THREE.Vector3().addVectors(config.origin, strandDir);
+            strandGroup.lookAt(target);
+
+            // Draw a flat ribbon of fibers
+            const numFibers = 6;
+            const width = 0.3;
+            for (let i = 0; i < numFibers; i++) {
+                const offsetX = -width / 2 + (i / (numFibers - 1)) * width;
+
+                // Cylinder geometry pointing along Z
+                const fiberGeo = new THREE.CylinderGeometry(0.007, 0.007, 1.0, 6);
+                fiberGeo.rotateX(Math.PI / 2);
+                fiberGeo.translate(0, 0, 0.5); // base at z=0, tip at z=1.0
+
+                const fiber = new THREE.Mesh(fiberGeo, activeHairMaterial);
+                fiber.position.set(offsetX, 0, 0);
+                fiber.scale.set(1, 1, currentLength);
+                fiber.castShadow = true;
+                strandGroup.add(fiber);
+            }
+
+            // Draw Fingers guide pinching the hair
+            if (currentLength >= cutLength && !isAnimatingCut) {
+                const fingers = new THREE.Group();
+                fingers.name = "fingers";
+
+                const fingerMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.6 });
+                const f1 = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.45, 8), fingerMat);
+                f1.rotation.z = Math.PI / 2;
+                f1.position.set(0, 0.045, cutLength);
+
+                const f2 = f1.clone();
+                f2.position.y = -0.045;
+
+                fingers.add(f1);
+                fingers.add(f2);
+                strandGroup.add(fingers);
+            }
+
+            // Reposition scissors Group along the local Z axis
+            scissorsGroup.position.set(0, 0, cutLength);
+            
+            // Adjust length slider limits dynamically
+            const lengthSlider = document.getElementById('length-slider');
+            lengthSlider.max = Math.max(0.4, currentLength - 0.1).toFixed(1);
+            if (parseFloat(lengthSlider.value) > currentLength) {
+                lengthSlider.value = (currentLength - 0.2).toFixed(1);
+                cutLength = parseFloat(lengthSlider.value);
+            }
+
+            // Update overlay status text
+            document.getElementById('overlay-length').textContent = currentLength.toFixed(1) + " dm";
+        }
+
+        // Rebuild angular guidelines guides in 3D
+        function rebuildGuideLines() {
+            if (guideLinesGroup) {
+                scene.remove(guideLinesGroup);
+            }
+
+            guideLinesGroup = new THREE.Group();
+            scene.add(guideLinesGroup);
+
+            const config = zoneConfig[currentZone];
+            const origin = config.origin;
+
+            const angles = [0, 45, 90, 135];
+            const colors = {
+                0: 0xef4444,   // Red
+                45: 0xf59e0b,  // Amber
+                90: 0x10b981,  // Emerald
+                135: 0x6366f1  // Indigo
+            };
+
+            angles.forEach(angle => {
+                const dir = getHairDirection(currentZone, angle);
+                const dest = origin.clone().add(dir.clone().multiplyScalar(1.9));
+
+                const points = [origin, dest];
+                const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+                let line;
+                if (Math.abs(angle - currentAngle) < 1) {
+                    const material = new THREE.LineBasicMaterial({ color: colors[angle] });
+                    line = new THREE.Line(geometry, material);
+                } else {
+                    const material = new THREE.LineDashedMaterial({
+                        color: colors[angle],
+                        dashSize: 0.08,
+                        gapSize: 0.05
+                    });
+                    line = new THREE.Line(geometry, material);
+                    line.computeLineDistances();
+                }
+                
+                // Sphere label at end of guide line
+                const sphere = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.045, 8, 8),
+                    new THREE.MeshBasicMaterial({ color: colors[angle] })
+                );
+                sphere.position.copy(dest);
+                guideLinesGroup.add(sphere);
+
+                guideLinesGroup.add(line);
+            });
+        }
+
+        // Update the textual theory display card
+        function updateTheoryDisplay() {
+            // Find closest keyframe angle (0, 45, 90, 135)
+            const kfs = [0, 45, 90, 135];
+            let closest = 90;
+            let minDist = 180;
+            kfs.forEach(k => {
+                const d = Math.abs(currentAngle - k);
+                if (d < minDist) {
+                    minDist = d;
+                    closest = k;
+                }
+            });
+
+            const data = theoryData[currentZone][closest];
+            document.getElementById('theory-title').textContent = data.title;
+            document.getElementById('theory-desc').textContent = data.desc;
+
+            document.getElementById('overlay-zone').textContent = zoneConfig[currentZone].name;
+            document.getElementById('overlay-angle').textContent = currentAngle + "°";
+        }
+
+        // Trigger Scissor Snip Cut Animation
+        function performCut() {
+            if (isAnimatingCut || currentLength <= cutLength) return;
+            isAnimatingCut = true;
+
+            // Hide fingers guide temporarily
+            const fingers = strandGroup.getObjectByName("fingers");
+            if (fingers) fingers.visible = false;
+
+            // Make scissors visible and open blades
+            scissorsGroup.visible = true;
+            const leftBlade = scissorsGroup.getObjectByName("leftBlade");
+            const rightBlade = scissorsGroup.getObjectByName("rightBlade");
+
+            leftBlade.rotation.x = -0.35;
+            rightBlade.rotation.x = 0.35;
+
+            let frame = 0;
+            const closeDuration = 12; // frames to close
+            const openDuration = 12;  // frames to reopen
+
+            function animateBlades() {
+                frame++;
+                if (frame <= closeDuration) {
+                    // Close blades
+                    const progress = frame / closeDuration;
+                    leftBlade.rotation.x = -0.35 * (1 - progress);
+                    rightBlade.rotation.x = 0.35 * (1 - progress);
+                    requestAnimationFrame(animateBlades);
+                } else if (frame === closeDuration + 1) {
+                    // Blade closed - Play sound and split hair!
+                    playCutSound();
+                    spawnFallingHairs();
+
+                    // Shorten the active strand
+                    currentLength = cutLength;
+                    rebuildActiveStrand();
+
+                    // Reward Alban with +10 XP for practicing cutting angles!
+                    rewardXP();
+
+                    requestAnimationFrame(animateBlades);
+                } else if (frame <= closeDuration + 1 + openDuration) {
+                    // Reopen blades
+                    const progress = (frame - closeDuration - 1) / openDuration;
+                    leftBlade.rotation.x = -0.35 * progress;
+                    rightBlade.rotation.x = 0.35 * progress;
+                    requestAnimationFrame(animateBlades);
+                } else {
+                    // Finish
+                    scissorsGroup.visible = false;
+                    isAnimatingCut = false;
+                    rebuildActiveStrand(); // rebuild to show shortened strand and fingers
+                }
+            }
+
+            animateBlades();
+        }
+
+        // Spawn falling hair sheared part with physics gravity
+        function spawnFallingHairs() {
+            const fallingGroup = new THREE.Group();
+            
+            // Position & rotate falling group to match the strand group exactly
+            fallingGroup.position.copy(strandGroup.position);
+            fallingGroup.quaternion.copy(strandGroup.quaternion);
+
+            // Length of cut section
+            const cutPartLength = currentLength - cutLength;
+            const numFibers = 6;
+            const width = 0.3;
+
+            // Create temporary unique materials for falling fibers so they can fade independently
+            const fallMaterial = activeHairMaterial.clone();
+            fallMaterial.transparent = true;
+
+            for (let i = 0; i < numFibers; i++) {
+                const offsetX = -width / 2 + (i / (numFibers - 1)) * width;
+
+                const geo = new THREE.CylinderGeometry(0.007, 0.007, 1.0, 6);
+                geo.rotateX(Math.PI / 2);
+                geo.translate(0, 0, 0.5); // base at z=0, tip at z=1.0
+
+                const fiber = new THREE.Mesh(geo, fallMaterial);
+                fiber.position.set(offsetX, 0, cutLength); // starts at cut line
+                fiber.scale.set(1, 1, cutPartLength);
+                fallingGroup.add(fiber);
+            }
+
+            scene.add(fallingGroup);
+
+            // Add physics parameters
+            fallingHairs.push({
+                group: fallingGroup,
+                material: fallMaterial,
+                velocity: new THREE.Vector3(
+                    (Math.random() - 0.5) * 0.02,
+                    0.02, // slight upward bounce initially
+                    (Math.random() - 0.5) * 0.02
+                ),
+                rotSpeed: new THREE.Vector3(
+                    (Math.random() - 0.5) * 0.1,
+                    (Math.random() - 0.5) * 0.1,
+                    (Math.random() - 0.5) * 0.1
+                ),
+                opacity: 1.0
+            });
+        }
+
+        // Reward Alban XP for action
+        function rewardXP() {
+            if (typeof window.localStorage !== 'undefined') {
+                let state = { xp: 0, level: 1, streak: 0 };
+                try {
+                    const saved = localStorage.getItem('alban_gamification');
+                    if (saved) state = JSON.parse(saved);
+                } catch (e) {}
+
+                state.xp += 10;
+                // Level up every 100 XP
+                const newLevel = Math.floor(state.xp / 100) + 1;
+                if (newLevel > state.level) {
+                    state.level = newLevel;
+                    // Trigger level up alert if possible
+                    alert("Félicitations ! Vous êtes passé Niveau " + newLevel + " ! 🎉");
+                }
+                localStorage.setItem('alban_gamification', JSON.stringify(state));
+
+                // Sync stats inside header
+                if (typeof updateGamificationDisplay === 'function') {
+                    updateGamificationDisplay();
+                } else {
+                    const lvlEl = document.getElementById('gamification-level');
+                    const xpEl = document.getElementById('gamification-xp');
+                    if (lvlEl) lvlEl.textContent = "Nv. " + state.level;
+                    if (xpEl) xpEl.textContent = state.xp + " XP";
+                }
+                if (typeof updateProgressBar === 'function') {
+                    updateProgressBar();
+                }
+            }
+        }
+
+        // Frame rendering and physics calculations
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Orbit controls update
+            if (controls) controls.update();
+
+            // Animate falling hair pieces
+            for (let i = fallingHairs.length - 1; i >= 0; i--) {
+                const fh = fallingHairs[i];
+                // Apply gravity
+                fh.velocity.y -= 0.003; 
+                fh.group.position.add(fh.velocity);
+
+                // Rotate tumbling hair
+                fh.group.rotation.x += fh.rotSpeed.x;
+                fh.group.rotation.y += fh.rotSpeed.y;
+                fh.group.rotation.z += fh.rotSpeed.z;
+
+                // Scale down slightly
+                fh.group.scale.multiplyScalar(0.985);
+
+                // Fade out
+                fh.opacity -= 0.02;
+                fh.material.opacity = fh.opacity;
+
+                if (fh.opacity <= 0) {
+                    scene.remove(fh.group);
+                    fh.material.dispose();
+                    fallingHairs.splice(i, 1);
+                }
+            }
+
+            if (renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
+        }
+
+        // Window resize handler
+        function onWindowResize() {
+            const container = document.getElementById('canvas-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(width, height);
+        }
+
+        // Initialize elements on load
+        window.addEventListener('DOMContentLoaded', () => {
+            init3D();
+
+            // Set zone click listeners
+            document.querySelectorAll('.zone-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.zone-btn').forEach(b => {
+                        b.className = "zone-btn bg-slate-950/60 text-slate-400 hover:text-slate-200 border border-slate-850 hover:bg-slate-950 p-3 rounded-xl text-xs font-bold transition-all hover:scale-[1.02] cursor-pointer";
+                    });
+                    btn.className = "zone-btn bg-indigo-600/20 text-indigo-400 border border-indigo-500/40 p-3 rounded-xl text-xs font-bold transition-all hover:scale-[1.02] cursor-pointer";
+                    
+                    currentZone = btn.dataset.zone;
+                    currentLength = 2.0; // Restore hair length on zone change
+                    
+                    // Re-focus camera to zone
+                    const config = zoneConfig[currentZone];
+                    camera.position.copy(config.cameraPos);
+                    controls.target.copy(config.cameraLookAt);
+
+                    rebuildActiveStrand();
+                    rebuildGuideLines();
+                    updateTheoryDisplay();
+                });
+            });
+
+            // Set slider listeners
+            const angleSlider = document.getElementById('angle-slider');
+            angleSlider.addEventListener('input', (e) => {
+                currentAngle = parseInt(e.target.value);
+                document.getElementById('angle-display').textContent = currentAngle + "°";
+                
+                // Highlight active button if matching
+                document.querySelectorAll('.angle-btn').forEach(b => {
+                    if (parseInt(b.dataset.angle) === currentAngle) {
+                        b.className = "angle-btn bg-indigo-600/20 text-indigo-400 border border-indigo-500/40 rounded-lg py-1.5 text-xs font-bold transition-all hover:scale-[1.02] cursor-pointer";
+                    } else {
+                        b.className = "angle-btn bg-slate-950/60 text-slate-400 hover:text-slate-200 border border-slate-850 rounded-lg py-1.5 text-xs font-bold transition-all hover:scale-[1.02] cursor-pointer";
+                    }
+                });
+
+                rebuildActiveStrand();
+                rebuildGuideLines();
+                updateTheoryDisplay();
+            });
+
+            // Preset angle buttons
+            document.querySelectorAll('.angle-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const angle = parseInt(btn.dataset.angle);
+                    angleSlider.value = angle;
+                    currentAngle = angle;
+                    document.getElementById('angle-display').textContent = currentAngle + "°";
+
+                    document.querySelectorAll('.angle-btn').forEach(b => {
+                        b.className = "angle-btn bg-slate-950/60 text-slate-400 hover:text-slate-200 border border-slate-850 rounded-lg py-1.5 text-xs font-bold transition-all hover:scale-[1.02] cursor-pointer";
+                    });
+                    btn.className = "angle-btn bg-indigo-600/20 text-indigo-400 border border-indigo-500/40 rounded-lg py-1.5 text-xs font-bold transition-all hover:scale-[1.02] cursor-pointer";
+
+                    rebuildActiveStrand();
+                    rebuildGuideLines();
+                    updateTheoryDisplay();
+                });
+            });
+
+            // Cut position slider listener
+            const lengthSlider = document.getElementById('length-slider');
+            lengthSlider.addEventListener('input', (e) => {
+                cutLength = parseFloat(e.target.value);
+                document.getElementById('length-display').textContent = cutLength.toFixed(1) + " dm";
+                rebuildActiveStrand();
+            });
+
+            // Scissor cut click listener
+            document.getElementById('btn-cut').addEventListener('click', () => {
+                performCut();
+            });
+
+            // Reset hair length click listener
+            document.getElementById('btn-reset-hair').addEventListener('click', () => {
+                currentLength = 2.0;
+                rebuildActiveStrand();
+            });
+
+            // Reset camera target view listener
+            document.getElementById('btn-reset-view').addEventListener('click', () => {
+                const config = zoneConfig[currentZone];
+                camera.position.copy(config.cameraPos);
+                controls.target.copy(config.cameraLookAt);
+            });
+        });
+    </script>
+    <script src="js/main.js"></script>
+</body>
+</html>

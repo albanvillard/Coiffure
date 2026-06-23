@@ -69,6 +69,10 @@
                     class="text-slate-400 hover:text-slate-200 hover:bg-slate-950/40 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 whitespace-nowrap">
                     🗺️ Parcours (Duolingo)
                 </a>
+                <a href="simulateur_coupe_3d.html" id="nav-simulator"
+                    class="text-slate-400 hover:text-slate-200 hover:bg-slate-950/40 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 whitespace-nowrap">
+                    🥽 Simulateur 3D
+                </a>
             </div>
             
             <!-- Theme Toggler -->
@@ -131,7 +135,7 @@
     <main class="max-w-6xl w-full mx-auto px-4 py-8 sm:px-6 lg:px-8 flex-grow">
         <!-- Dashboard Tab Content -->
         <div id="tab-content-dashboard">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 
                 <!-- Card 1: Alban Profile -->
                 <section class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 glow-card transition-all flex flex-col justify-between" id="profile-card">
@@ -185,6 +189,24 @@
                     <div class="mt-6 flex items-center justify-between text-xs text-slate-400">
                         <span>Dijon, Bourgogne</span>
                         <span class="font-bold text-white flex items-center gap-1">CAP Coiffure ⚡</span>
+                    </div>
+                </section>
+
+                <!-- Card 4: Simulateur d'Angles 3D -->
+                <section class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 glow-card transition-all flex flex-col justify-between" id="simulator-card">
+                    <div>
+                        <span class="inline-block text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-indigo-950 text-indigo-400 border border-indigo-900/30 mb-3">
+                            Interactif 🥽 3D
+                        </span>
+                        <h3 class="text-lg font-bold text-slate-100 font-heading">Simulateur d'Angles 3D</h3>
+                        <p class="text-slate-300 text-xs mt-3 leading-relaxed">
+                            Visualisez et testez les angles de projection de coupe (0°, 45°, 90°, 135°) en temps réel sur un mannequin interactif !
+                        </p>
+                    </div>
+                    <div class="mt-6">
+                        <a href="simulateur_coupe_3d.html" class="w-full text-center py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white text-xs font-bold shadow-md hover:shadow-indigo-500/20 transition-all hover:scale-[1.02] flex items-center justify-center gap-2 cursor-pointer">
+                            <span>Ouvrir le simulateur 📐</span>
+                        </a>
                     </div>
                 </section>
                 
