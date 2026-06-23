@@ -360,84 +360,185 @@ function switchCycleTab(phase, element) {
 // ==========================================
 // 8. DYNAMIC QUIZ SYSTEM
 // ==========================================
-const quizQuestions = [
+const allQuizQuestionsPool = [
     {
-        q: "1. Quel est le pH naturel d'un cuir chevelu en pleine santé ?",
+        q: "Quel est le pH naturel d'un cuir chevelu en pleine santé ?",
         opts: ["A) Entre 7.5 et 8.5 (Basique / Alcalin)", "B) Entre 4.5 et 5.5 (Acide)", "C) Pile 7.0 (Neutre)"],
         correct: "B",
         explain: "Le cuir chevelu et le cheveu sont acides par nature (pH ~4.5 à 5.5). Cette acidité est maintenue par le film hydrolipidique protecteur qui combat la prolifération bactérienne."
     },
     {
-        q: "2. Quelle phase correspond à la croissance active du cheveu ?",
+        q: "Quelle phase correspond à la croissance active du cheveu ?",
         opts: ["A) Phase Anagène", "B) Phase Catagène", "C) Phase Télogène"],
         correct: "A",
         explain: "La phase anagène est la phase de pousse active qui concerne environ 85% de la chevelure. La mitose y est permanente dans la matrice. Elle dure de 3 à 7 ans."
     },
     {
-        q: "3. Quel outil de coupe élimine entre 15% et 30% d'une mèche ?",
+        q: "Quel outil de coupe élimine entre 15% et 30% d'une mèche ?",
         opts: ["A) Les ciseaux droits", "B) Le rasoir de rasage", "C) Les ciseaux sculpteurs"],
         correct: "C",
         explain: "Les ciseaux sculpteurs possèdent une lame lisse et une lame dentelée (crantée), permettant d'effiler de manière ciblée en ne coupant qu'un pourcentage des cheveux."
     },
     {
-        q: "4. Si un client présente des plaques chauves circulaires recouvertes de squames sèches et grises, quelle est la conduite à tenir ?",
+        q: "Si un client présente des plaques chauves circulaires recouvertes de squames sèches et grises, quelle est la conduite à tenir ?",
         opts: ["A) Faire une coloration d'oxydation ton sur ton", "B) Refuser poliment la prestation pour risque d'affection contagieuse (teigne)", "C) Réaliser un shampooing exfoliant intense"],
         correct: "B",
         explain: "Ces plaques indiquent les symptômes d'une teigne tondante (infection fongique contagieuse). Le coiffeur a l'obligation de refuser le service et d'orienter vers un dermatologue."
     },
     {
-        q: "5. Quelle molécule chimique brise les pigments mélaniques du cortex de la tige pilaire ?",
+        q: "Quelle molécule chimique brise les pigments mélaniques du cortex de la tige pilaire ?",
         opts: ["A) Le soufre", "B) L'eau oxygénée (H2O2) en milieu alcalin", "C) Les agents de surface (tensioactifs)"],
         correct: "B",
         explain: "L'eau oxygénée (oxydant), activée dans un milieu basique (ammoniaque), libère de l'oxygène gazeux qui dissout et oxyde les pigments mélaniques logés dans le cortex."
     },
     {
-        q: "6. Quelle couche de la peau produit le sébum ?",
+        q: "Quelle couche de la peau produit le sébum ?",
         opts: ["A) L'épiderme", "B) Le derme (via la glande sébacée)", "C) L'hypoderme"],
         correct: "B",
         explain: "La glande sébacée est une glande exocrine logée dans le derme et rattachée au follicule pileux, sécrétant le sébum gras pour lubrifier la tige pilaire."
     },
     {
-        q: "7. Quel produit utilise-t-on juste après une décoloration pour stabiliser la kératine ?",
+        q: "Quel produit utilise-t-on juste après une décoloration pour stabiliser la kératine ?",
         opts: ["A) Un après-shampooing alcalin", "B) Un shampooing technique acide ou neutralisant", "C) De l'eau calcaire chaude"],
         correct: "B",
         explain: "Le shampooing technique au pH acide referme instantanément les écailles de la cuticule soulevées par le processus alcalin de décoloration, en ramenant le cheveu à son pH isoélectrique."
     },
     {
-        q: "8. Quelle liaison forte est modifiée lors d'un protocole de permanente (mise en plis permanente) ?",
+        q: "Quelle liaison forte est modifiée lors d'un protocole de permanente (mise en plis permanente) ?",
         opts: ["A) Les liaisons hydrogène", "B) Les ponts disulfures", "C) Les liaisons salines / ioniques"],
         correct: "B",
         explain: "Les ponts disulfures (liaisons covalentes de soufre) assurent la rigidité de la kératine. Le réducteur les coupe pour permettre l'enroulage, puis le fixateur les ressoude dans la nouvelle forme."
     },
     {
-        q: "9. Comment s'appelle l'anomalie correspondant à des pointes fourchues ?",
+        q: "Comment s'appelle l'anomalie correspondant à des pointes fourchues ?",
         opts: ["A) La trichoptilose", "B) Le pityriasis", "C) L'effluvium"],
         correct: "A",
         explain: "La trichoptilose est le terme dermatologique exact qui désigne le dédoublement de l'extrémité de la tige pilaire (les pointes fourchues) suite à une usure mécanique ou chimique."
     },
     {
-        q: "10. Quel est l'effet d'un produit acide sur la cuticule du cheveu ?",
+        q: "Quel effet a un produit acide sur la cuticule du cheveu ?",
         opts: ["A) Il gonfle le cheveu et ouvre les écailles", "B) Il lisse et resserre les écailles", "C) Il dissout complètement la kératine"],
         correct: "B",
         explain: "L'acidité resserre et lisse les écailles de kératine qui se chevauchent. Cela renforce la brillance (la lumière se réfléchit mieux) et retient l'hydratation au cœur du cortex."
+    },
+    {
+        q: "Quelle partie de l'os de la tête constitue le repère arrière-bas majeur pour les fondus de nuque ?",
+        opts: ["A) L'os frontal", "B) L'os occipital", "C) L'os temporal"],
+        correct: "B",
+        explain: "L'os occipital forme l'arrière-bas du crâne. Sa protubérance externe est le repère d'appui clé pour définir la graduation et le fondu d'une nuque."
+    },
+    {
+        q: "Quelle est la partie d'une molécule tensioactive qui s'attache à la graisse et au sébum ?",
+        opts: ["A) La tête hydrophile", "B) La queue lipophile (apolaire)", "C) Les charges ioniques"],
+        correct: "B",
+        explain: "La queue lipophile (ou hydrophobe) est constituée d'une chaîne carbonée qui possède une affinité naturelle pour les corps gras, capturant le sébum lors du shampooing."
+    },
+    {
+        q: "Quelle est la durée moyenne de la phase Catagène (transition) dans le cycle de vie du cheveu ?",
+        opts: ["A) 3 à 7 ans", "B) 3 mois environ", "C) 2 à 3 semaines"],
+        correct: "C",
+        explain: "La phase catagène est une phase transitoire très courte (2 à 3 semaines) qui marque l'arrêt de la mitose et l'atrophie du bulbe qui se détache de la papille."
+    },
+    {
+        q: "Quelle couche de l'épiderme produit continuellement de nouveaux kératinocytes ?",
+        opts: ["A) La couche basale (germinative)", "B) La couche cornée supérieure", "C) La couche granuleuse"],
+        correct: "A",
+        explain: "La couche basale (ou germinative) est la couche la plus profonde de l'épiderme. C'est le lieu de la mitose (division cellulaire) qui renouvelle l'épiderme."
+    },
+    {
+        q: "Qu'indique précisément le Titre Hydrotimétrique (TH) de l'eau utilisée en salon ?",
+        opts: ["A) Le taux d'acidité de l'eau", "B) La dureté (concentration en sels de calcium et de magnésium)", "C) La quantité de chlore actif"],
+        correct: "B",
+        explain: "Le TH exprime la dureté de l'eau en degrés français (°f). Une eau à TH élevé est calcaire, ternissant la cuticule et réduisant le pouvoir moussant des shampooings."
+    },
+    {
+        q: "Quelle affection parasitaire du cuir chevelu se manifeste par des œufs blanchâtres collés près de la racine ?",
+        opts: ["A) La teigne favique", "B) La pédiculose (poux)", "C) Le pityriasis simplex"],
+        correct: "B",
+        explain: "La pédiculose est l'infestation de poux de tête. Les lentes (œufs) sont solidement cimentées à la tige pilaire et ne s'envolent pas au souffle, contrairement aux pellicules."
+    },
+    {
+        q: "Quel volume d'oxydant est le maximum autorisé en contact direct avec la peau lors d'un éclaircissement ?",
+        opts: ["A) 10 Volumes (3% H2O2)", "B) 20 Volumes (6% H2O2)", "C) 30 Volumes (9% H2O2)"],
+        correct: "B",
+        explain: "L'oxydant à 20 volumes est le seuil de tolérance cutanée maximal pour éviter les brûlures chimiques et irritations du cuir chevelu."
+    },
+    {
+        q: "Lors d'une permanente, quel produit chimique est appliqué à l'étape 1 pour rompre les ponts disulfures ?",
+        opts: ["A) Le fixateur d'eau oxygénée", "B) L'acide thioglycolique (réducteur alcalin)", "C) Le persulfate de sodium"],
+        correct: "B",
+        explain: "L'acide thioglycolique agit comme réducteur en apportant de l'hydrogène pour casser les liaisons covalentes de soufre de la kératine."
+    },
+    {
+        q: "Quel revêtement de plaques de fer à lisser émet des ions négatifs pour lutter contre l'électricité statique ?",
+        opts: ["A) La tourmaline", "B) L'aluminium anodisé", "C) Le cuivre nu"],
+        correct: "A",
+        explain: "La tourmaline est une pierre semi-précieuse broyée sur les plaques, qui libère naturellement des ions négatifs sous l'action de la chaleur pour lisser la fibre."
+    },
+    {
+        q: "Quelle anomalie de la tige pilaire forme de petits nœuds blanchâtres fragiles provoquant des cassures nettes ?",
+        opts: ["A) La trichoptilose", "B) La trichorrhexie noueuse", "C) Le moniléthrix"],
+        correct: "B",
+        explain: "La trichorrhexie noueuse est une anomalie mécanique ou chimique formant des nodosités microscopiques où les fibres s'écartent comme un balai avant de casser."
+    },
+    {
+        q: "Pour éviter les troubles musculosquelettiques (TMS), quelle consigne de hauteur de travail doit-on respecter ?",
+        opts: ["A) Travailler bras tendus au-dessus des yeux", "B) Ajuster la pompe hydraulique du fauteuil pour garder les coudes près du corps", "C) Se courber vers l'avant au niveau de la taille"],
+        correct: "B",
+        explain: "Garder les coudes près du corps et le dos droit grâce à l'ajustement du fauteuil client permet de limiter les sollicitations des épaules et de la région lombaire."
+    },
+    {
+        q: "Quel tensioactif s'ancre sur les zones abîmées (négatives) du cheveu pour gainer la fibre sans laver ?",
+        opts: ["A) Tensioactif anionique (-)", "B) Tensioactif cationique (+)", "C) Tensioactif non-ionique"],
+        correct: "B",
+        explain: "Les tensioactifs cationiques portent une charge positive qui est attirée par les zones lésées chargées négativement du cheveu, apportant douceur et démêlage."
+    },
+    {
+        q: "Quelle norme européenne certifie l'action fongicide/levuricide d'un produit désinfectant au salon ?",
+        opts: ["A) EN 1040", "B) EN 1275", "C) EN 1500"],
+        correct: "B",
+        explain: "La norme EN 1275 certifie l'activité antifongique. La norme EN 1040 concerne quant à elle l'efficacité bactéricide."
+    },
+    {
+        q: "La phase aqueuse du film hydrolipidique (FHL) de la peau provient principalement de :",
+        opts: ["A) La sécrétion des glandes sébacées", "B) La sueur (sécrétion des glandes sudoripares)", "C) La condensation de l'air ambiant"],
+        correct: "B",
+        explain: "La sueur (contenant eau, sels minéraux, urée et acide lactique) se mélange au sébum gras pour former le FHL et maintenir son acidité de protection."
+    },
+    {
+        q: "Quel est le rôle du fixateur (oxydant acide) à l'étape 2 d'une permanente ?",
+        opts: ["A) Évaporer le produit réducteur restant", "B) Capter l'hydrogène pour ressouder les ponts disulfures dans leur nouvelle forme", "C) Gonfler le cheveu pour faire briller les écailles"],
+        correct: "B",
+        explain: "Le fixateur apporte de l'oxygène qui capte l'hydrogène inséré à la réduction, permettant de reconstruire les ponts disulfures pour figer la nouvelle forme frisée."
     }
 ];
 
 let quizUserAnswers = {};
+let currentQuizQuestions = [];
 
 function loadQuiz() {
     const container = document.getElementById('quiz-container');
     if (!container) return;
     
     container.innerHTML = '';
+    quizUserAnswers = {};
     
-    quizQuestions.forEach((item, index) => {
+    const scoreDisplay = document.getElementById('quiz-score-display');
+    if (scoreDisplay) {
+        scoreDisplay.innerText = '0/10';
+    }
+    
+    // Select 10 random questions from the pool
+    const shuffledPool = [...allQuizQuestionsPool].sort(() => 0.5 - Math.random());
+    currentQuizQuestions = shuffledPool.slice(0, 10);
+    
+    currentQuizQuestions.forEach((item, index) => {
         const questionCard = document.createElement('div');
         questionCard.className = 'quiz-question-card animate-fade-in';
         questionCard.id = `quiz-q${index}`;
         questionCard.style.animationDelay = `${index * 0.05}s`;
         
-        let optionsHtml = item.opts.map((opt, optIndex) => {
+        let optionsHtml = item.opts.map((opt) => {
             const optLetter = opt.charAt(0);
             return `
                 <button onclick="submitQuizAnswer(${index}, '${optLetter}', this)" class="quiz-option-btn">
@@ -447,7 +548,7 @@ function loadQuiz() {
         }).join('');
         
         questionCard.innerHTML = `
-            <p class="quiz-question-title">${item.q}</p>
+            <p class="quiz-question-title">${index + 1}. ${item.q}</p>
             <div class="quiz-options">
                 ${optionsHtml}
             </div>
@@ -460,7 +561,7 @@ function loadQuiz() {
 function submitQuizAnswer(qIndex, letter, element) {
     if (quizUserAnswers[qIndex] !== undefined) return; // Already answered
     
-    const question = quizQuestions[qIndex];
+    const question = currentQuizQuestions[qIndex];
     quizUserAnswers[qIndex] = letter;
     
     const questionBox = document.getElementById(`quiz-q${qIndex}`);
@@ -496,7 +597,7 @@ function submitQuizAnswer(qIndex, letter, element) {
     
     // Update score display
     let score = 0;
-    quizQuestions.forEach((q, idx) => {
+    currentQuizQuestions.forEach((q, idx) => {
         if (quizUserAnswers[idx] === q.correct) score++;
     });
     
@@ -505,3 +606,4 @@ function submitQuizAnswer(qIndex, letter, element) {
         scoreDisplay.innerText = `${score}/10`;
     }
 }
+

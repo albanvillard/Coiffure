@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Espace Personnel d'Alban | CAP Coiffure 2027</title>
-    <meta name="description" content="Tableau de bord de révision interactif pour le CAP Coiffure 2027 d'Alban. Suivi de progression et journal de bord.">
+    <meta name="description"
+        content="Tableau de bord de révision interactif pour le CAP Coiffure 2027 d'Alban. Suivi de progression et journal de bord.">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
     <header>
@@ -36,7 +39,6 @@
                 <a href="chimie.html" class="nav-item" id="nav-chemistry">🧪 Chimie Appliquée</a>
                 <a href="technologie.html" class="nav-item" id="nav-technology">✂️ Technologie Outillage</a>
                 <a href="quiz.html" class="nav-item" id="nav-quiz">📝 Quiz d'Examen</a>
-                <a href="github.html" class="nav-item" id="nav-github">🚀 Déployer sur GitHub</a>
             </div>
             <button class="theme-toggle-btn" id="theme-toggle" aria-label="Changer de thème">
                 <!-- SVG injected by JS -->
@@ -57,9 +59,11 @@
                 </div>
                 <p style="margin-top: 1.25rem; font-size: 0.875rem; color: var(--text-secondary);">
                     <strong>Aisance pratique acquise :</strong> 2 ans de coupes amicales en autodidacte. <br><br>
-                    <strong>Objectif de formation :</strong> Maîtrise complète de la théorie scientifique et technologique pour exceller devant le jury d'examen.
+                    <strong>Objectif de formation :</strong> Maîtrise complète de la théorie scientifique et
+                    technologique pour exceller devant le jury d'examen.
                 </p>
-                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.8rem; color: var(--text-muted);">
+                <div
+                    style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.8rem; color: var(--text-muted);">
                     <strong>Statut du book :</strong> Prêt pour révision mobile
                 </div>
             </section>
@@ -79,12 +83,14 @@
             <section class="card card-dark" id="deadline-section">
                 <div>
                     <span class="badge badge-dark">Prochaine Échéance</span>
-                    <h3 style="font-size: 1.5rem; margin-top: 0.5rem; font-weight: 800;">Rentrée École des Métiers</h3>
+                    <h3 style="font-size: 1.5rem; margin-top: 0.5rem; font-weight: 800;">Rentrée École Terrade</h3>
                     <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 0.75rem; line-height: 1.5;">
-                        Préparez votre base théorique d'ici septembre 2026. Cette application web vous permet de réviser directement sur votre smartphone au salon entre deux clients !
+                        Préparez votre base théorique d'ici septembre 2026. Cette application web vous permet de réviser
+                        directement sur votre smartphone au salon entre deux clients !
                     </p>
                 </div>
-                <div style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #94a3b8;">
+                <div
+                    style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #94a3b8;">
                     <span>Dijon, Bourgogne</span>
                     <strong style="color: #ffffff;">CAP Coiffure ⚡</strong>
                 </div>
@@ -98,12 +104,14 @@
                     <div>
                         <h3 style="font-size: 1.35rem; font-weight: 800;">📓 Votre Journal de Bord & Notes de cours</h3>
                         <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem;">
-                            Notez ici vos questions de TP, vos formules de mélange ou vos astuces. Vos notes sont enregistrées automatiquement.
+                            Notez ici vos questions de TP, vos formules de mélange ou vos astuces. Vos notes sont
+                            enregistrées automatiquement.
                         </p>
                     </div>
                     <button onclick="clearNotes()" class="btn-clear" id="btn-clear-notes">Effacer le journal</button>
                 </div>
-                <textarea id="personal-notes" class="notes-textarea" oninput="saveNotes()" placeholder="Exemple : Toujours diluer l'oxydant pour une coloration ton sur ton, ou vérifier la symétrie des oreilles en traçant l'axe occipital..."></textarea>
+                <textarea id="personal-notes" class="notes-textarea" oninput="saveNotes()"
+                    placeholder="Exemple : Toujours diluer l'oxydant pour une coloration ton sur ton, ou vérifier la symétrie des oreilles en traçant l'axe occipital..."></textarea>
                 <div class="notes-status" id="save-status">Notes enregistrées localement ✓</div>
             </div>
         </section>
@@ -118,4 +126,5 @@
 
     <script src="js/main.js"></script>
 </body>
+
 </html>

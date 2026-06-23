@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biologie Appliquée | CAP Coiffure 2027</title>
-    <meta name="description" content="Cours de biologie cutanée, ostéologie de la tête, structure du cheveu, cycle pilaire et microbiologie pour le CAP Coiffure.">
+    <meta name="description"
+        content="Cours de biologie cutanée, ostéologie de la tête, structure du cheveu, cycle pilaire et microbiologie pour le CAP Coiffure.">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
     <header>
@@ -14,7 +17,8 @@
             <div class="header-title-box">
                 <span>Biologie Cutanée & Humaine</span>
                 <h1>🧬 Biologie Appliquée à la Coiffure</h1>
-                <p>Maîtrisez la structure microscopique, osseuse et les pathologies pour un diagnostic capillaire professionnel.</p>
+                <p>Maîtrisez la structure microscopique, osseuse et les pathologies pour un diagnostic capillaire
+                    professionnel.</p>
             </div>
             <div class="header-progress-box">
                 <div class="progress-text">
@@ -36,7 +40,6 @@
                 <a href="chimie.html" class="nav-item" id="nav-chemistry">🧪 Chimie Appliquée</a>
                 <a href="technologie.html" class="nav-item" id="nav-technology">✂️ Technologie Outillage</a>
                 <a href="quiz.html" class="nav-item" id="nav-quiz">📝 Quiz d'Examen</a>
-                <a href="github.html" class="nav-item" id="nav-github">🚀 Déployer sur GitHub</a>
             </div>
             <button class="theme-toggle-btn" id="theme-toggle" aria-label="Changer de thème">
                 <!-- SVG injected by JS -->
@@ -45,7 +48,7 @@
     </nav>
 
     <main class="animate-fade-in">
-        
+
         <!-- CHAPITRE 1 : OSTÉOLOGIE (WITH CLICKABLE SVG) -->
         <section class="chapter-block" id="ch-osteology">
             <h2 class="chapter-title">Chapitre 1 : Ostéologie de la Tête</h2>
@@ -53,15 +56,20 @@
                 <div class="card">
                     <h3 class="card-title">💀 Squelette Crânien et Facial</h3>
                     <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
-                        Le squelette de la tête comprend <strong>le crâne</strong> (8 os protégeant l'encéphale) et <strong>la face</strong> (14 os structurant le visage). En coiffure, ces os constituent des repères géométriques indispensables pour la coupe et les attaches.
+                        Le squelette de la tête comprend <strong>le crâne</strong> (8 os protégeant l'encéphale) et
+                        <strong>la face</strong> (14 os structurant le visage). En coiffure, ces os constituent des
+                        repères géométriques indispensables pour la coupe et les attaches.
                     </p>
                     <div class="alert-box alert-info">
-                        <strong>Méthode d'apprentissage :</strong> Cliquez directement sur les différentes parties colorées du schéma crânien pour charger sa fiche technique de coiffure.
+                        <strong>Méthode d'apprentissage :</strong> Cliquez directement sur les différentes parties
+                        colorées du schéma crânien pour charger sa fiche technique de coiffure.
                     </div>
-                    
+
                     <div id="osteology-info-box" class="info-display-box">
-                        <p style="text-align: center; font-style: italic; color: var(--text-muted); font-size: 0.85rem;">
-                            Sélectionnez une zone osseuse sur le schéma pour afficher ses caractéristiques et ses applications en coiffure...
+                        <p
+                            style="text-align: center; font-style: italic; color: var(--text-muted); font-size: 0.85rem;">
+                            Sélectionnez une zone osseuse sur le schéma pour afficher ses caractéristiques et ses
+                            applications en coiffure...
                         </p>
                     </div>
                 </div>
@@ -97,25 +105,39 @@
                             </linearGradient>
                         </defs>
                         <!-- Frontal Bone -->
-                        <path d="M120,120 C140,75 190,65 235,75 C235,75 260,110 250,165 C235,215 160,215 120,170 Z" fill="url(#grad-frontal)" opacity="0.65" class="svg-clickable-part" onclick="showOsteology('frontal')"></path>
+                        <path d="M120,120 C140,75 190,65 235,75 C235,75 260,110 250,165 C235,215 160,215 120,170 Z"
+                            fill="url(#grad-frontal)" opacity="0.65" class="svg-clickable-part"
+                            onclick="showOsteology('frontal')"></path>
                         <!-- Parietal Bone -->
-                        <path d="M235,75 C275,65 345,115 345,185 C345,205 315,235 270,215 C250,165 260,110 235,75 Z" fill="url(#grad-parietal)" opacity="0.65" class="svg-clickable-part" onclick="showOsteology('parietal')"></path>
+                        <path d="M235,75 C275,65 345,115 345,185 C345,205 315,235 270,215 C250,165 260,110 235,75 Z"
+                            fill="url(#grad-parietal)" opacity="0.65" class="svg-clickable-part"
+                            onclick="showOsteology('parietal')"></path>
                         <!-- Temporal Bone -->
-                        <path d="M205,215 C250,215 270,215 270,245 C270,285 220,305 185,265 Z" fill="url(#grad-temporal)" opacity="0.65" class="svg-clickable-part" onclick="showOsteology('temporal')"></path>
+                        <path d="M205,215 C250,215 270,215 270,245 C270,285 220,305 185,265 Z"
+                            fill="url(#grad-temporal)" opacity="0.65" class="svg-clickable-part"
+                            onclick="showOsteology('temporal')"></path>
                         <!-- Occipital Bone -->
-                        <path d="M345,185 C365,225 325,315 270,315 C250,285 270,245 270,215 C315,235 345,205 345,185 Z" fill="url(#grad-occipital)" opacity="0.65" class="svg-clickable-part" onclick="showOsteology('occipital')"></path>
+                        <path d="M345,185 C365,225 325,315 270,315 C250,285 270,245 270,215 C315,235 345,205 345,185 Z"
+                            fill="url(#grad-occipital)" opacity="0.65" class="svg-clickable-part"
+                            onclick="showOsteology('occipital')"></path>
                         <!-- Maxillaire -->
-                        <path d="M110,185 C140,185 160,205 160,225 C160,245 130,255 105,245 Z" fill="url(#grad-maxillaire)" opacity="0.65" class="svg-clickable-part" onclick="showOsteology('maxillaire')"></path>
+                        <path d="M110,185 C140,185 160,205 160,225 C160,245 130,255 105,245 Z"
+                            fill="url(#grad-maxillaire)" opacity="0.65" class="svg-clickable-part"
+                            onclick="showOsteology('maxillaire')"></path>
                         <!-- Mandibule -->
-                        <path d="M105,245 C130,255 185,265 185,295 C185,325 125,355 95,315 C95,315 85,265 105,245 Z" fill="url(#grad-mandibule)" opacity="0.65" class="svg-clickable-part" onclick="showOsteology('mandibule')"></path>
-                        
+                        <path d="M105,245 C130,255 185,265 185,295 C185,325 125,355 95,315 C95,315 85,265 105,245 Z"
+                            fill="url(#grad-mandibule)" opacity="0.65" class="svg-clickable-part"
+                            onclick="showOsteology('mandibule')"></path>
+
                         <!-- Text Labels directly embedded in SVG -->
                         <text x="145" y="130" class="svg-text-label" fill="#ffffff">Frontal</text>
                         <text x="265" y="130" class="svg-text-label" fill="#ffffff">Pariétal</text>
                         <text x="195" y="245" class="svg-text-label" fill="#ffffff">Temporal</text>
                         <text x="275" y="275" class="svg-text-label" fill="#ffffff">Occipital</text>
-                        <text x="75" y="225" class="svg-text-label" fill="#0f172a" style="font-size: 11px;">Maxillaire</text>
-                        <text x="95" y="295" class="svg-text-label" fill="#ffffff" style="font-size: 11px;">Mandibule</text>
+                        <text x="75" y="225" class="svg-text-label" fill="#0f172a"
+                            style="font-size: 11px;">Maxillaire</text>
+                        <text x="95" y="295" class="svg-text-label" fill="#ffffff"
+                            style="font-size: 11px;">Mandibule</text>
                     </svg>
                 </div>
             </div>
@@ -139,46 +161,63 @@
                             </linearGradient>
                             <linearGradient id="grad-hypodermis-bg" x1="0%" y1="0%" x2="0%" y2="100%">
                                 <stop offset="0%" stop-color="#fef08a" />
-                                <stop offset="100%" stop-color="#fef08a" opacity="0.6"/>
+                                <stop offset="100%" stop-color="#fef08a" opacity="0.6" />
                             </linearGradient>
                         </defs>
-                        
+
                         <!-- Layer 3: Hypoderme -->
-                        <rect x="20" y="280" width="460" height="90" rx="10" fill="url(#grad-hypodermis-bg)" stroke="#eab308" stroke-width="1.5" class="svg-clickable-part" onclick="showSkinLayer('hypoderme')"></rect>
-                        
+                        <rect x="20" y="280" width="460" height="90" rx="10" fill="url(#grad-hypodermis-bg)"
+                            stroke="#eab308" stroke-width="1.5" class="svg-clickable-part"
+                            onclick="showSkinLayer('hypoderme')"></rect>
+
                         <!-- Layer 2: Derme -->
-                        <rect x="20" y="90" width="460" height="190" rx="10" fill="url(#grad-dermis-bg)" stroke="#f43f5e" stroke-width="1.5" class="svg-clickable-part" onclick="showSkinLayer('derme')"></rect>
-                        
+                        <rect x="20" y="90" width="460" height="190" rx="10" fill="url(#grad-dermis-bg)"
+                            stroke="#f43f5e" stroke-width="1.5" class="svg-clickable-part"
+                            onclick="showSkinLayer('derme')"></rect>
+
                         <!-- Layer 1: Epiderme -->
-                        <rect x="20" y="30" width="460" height="60" rx="10" fill="url(#grad-epidermis-bg)" stroke="#ea580c" stroke-width="1.5" class="svg-clickable-part" onclick="showSkinLayer('epiderme')"></rect>
-                        
+                        <rect x="20" y="30" width="460" height="60" rx="10" fill="url(#grad-epidermis-bg)"
+                            stroke="#ea580c" stroke-width="1.5" class="svg-clickable-part"
+                            onclick="showSkinLayer('epiderme')"></rect>
+
                         <!-- Sebaceous Gland -->
-                        <path d="M220,130 Q190,120 200,160 Q215,170 235,150 Z" fill="#a7f3d0" stroke="#059669" stroke-width="2" class="svg-clickable-part" onclick="showSkinLayer('glande')"></path>
-                        
+                        <path d="M220,130 Q190,120 200,160 Q215,170 235,150 Z" fill="#a7f3d0" stroke="#059669"
+                            stroke-width="2" class="svg-clickable-part" onclick="showSkinLayer('glande')"></path>
+
                         <!-- Hair Follicle and Shaft -->
-                        <path d="M250,20 C250,20 260,110 240,240 C230,300 280,300 270,240 C280,110 270,20 270,20 Z" fill="#818cf8" stroke="#4f46e5" stroke-width="2" class="svg-clickable-part" onclick="showSkinLayer('follicule')"></path>
-                        
+                        <path d="M250,20 C250,20 260,110 240,240 C230,300 280,300 270,240 C280,110 270,20 270,20 Z"
+                            fill="#818cf8" stroke="#4f46e5" stroke-width="2" class="svg-clickable-part"
+                            onclick="showSkinLayer('follicule')"></path>
+
                         <!-- Text labels inside SVG -->
-                        <text x="40" y="65" class="svg-text-label" fill="#ea580c" style="font-size: 14px;">ÉPIDERME (Film protecteur)</text>
-                        <text x="40" y="125" class="svg-text-label" fill="#f43f5e" style="font-size: 14px;">DERME (Couche vivante)</text>
-                        <text x="40" y="315" class="svg-text-label" fill="#ca8a04" style="font-size: 14px;">HYPODERME (Gras isolant)</text>
-                        
-                        <text x="120" y="170" class="svg-text-label" fill="#047857" style="font-size: 11px;">Glande Sébacée</text>
-                        <text x="290" y="235" class="svg-text-label" fill="#4f46e5" style="font-size: 11px;">Follicule & Bulbe</text>
+                        <text x="40" y="65" class="svg-text-label" fill="#ea580c" style="font-size: 14px;">ÉPIDERME
+                            (Film protecteur)</text>
+                        <text x="40" y="125" class="svg-text-label" fill="#f43f5e" style="font-size: 14px;">DERME
+                            (Couche vivante)</text>
+                        <text x="40" y="315" class="svg-text-label" fill="#ca8a04" style="font-size: 14px;">HYPODERME
+                            (Gras isolant)</text>
+
+                        <text x="120" y="170" class="svg-text-label" fill="#047857" style="font-size: 11px;">Glande
+                            Sébacée</text>
+                        <text x="290" y="235" class="svg-text-label" fill="#4f46e5" style="font-size: 11px;">Follicule &
+                            Bulbe</text>
                     </svg>
                 </div>
-                
+
                 <div class="card">
                     <h3 class="card-title">🧬 Anatomie du Cuir Chevelu</h3>
                     <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
-                        La peau est un organe vital structuré en trois superpositions tissulaires. Elle abrite les follicules pileux et assure la protection biologique globale via le film hydrolipidique.
+                        La peau est un organe vital structuré en trois superpositions tissulaires. Elle abrite les
+                        follicules pileux et assure la protection biologique globale via le film hydrolipidique.
                     </p>
                     <div class="alert-box alert-info">
-                        <strong>Interactivité :</strong> Survolez et cliquez sur les couches anatomiques du schéma de gauche pour lire la description scientifique et les fonctions de chaque tissu.
+                        <strong>Interactivité :</strong> Survolez et cliquez sur les couches anatomiques du schéma de
+                        gauche pour lire la description scientifique et les fonctions de chaque tissu.
                     </div>
-                    
+
                     <div id="skin-info-box" class="info-display-box">
-                        <p style="text-align: center; font-style: italic; color: var(--text-muted); font-size: 0.85rem;">
+                        <p
+                            style="text-align: center; font-style: italic; color: var(--text-muted); font-size: 0.85rem;">
                             Sélectionnez une zone du tissu cutané pour révéler son rôle biologique...
                         </p>
                     </div>
@@ -190,17 +229,23 @@
                     <h4>🔬 Les 5 Couches de l'Épiderme</h4>
                     <p>De la profondeur vers la surface :</p>
                     <ul>
-                        <li><strong>Couche Germinative (Basale) :</strong> Assure la mitose cellulaire (renouvellement) et abrite les mélanocytes.</li>
-                        <li><strong>Couche Épineuse (de Malpighi) :</strong> Cellules liées par des desmosomes pour la cohésion mécanique.</li>
-                        <li><strong>Couche Granuleuse :</strong> Début de la kératinisation, accumulation de grains de kératohyaline.</li>
-                        <li><strong>Couche Claire (Stratum Lucidum) :</strong> Transition (présente surtout sur les paumes et plantes).</li>
-                        <li><strong>Couche Cornée :</strong> Composée de cornéocytes (cellules mortes de kératine dure) qui se détachent par desquamation.</li>
+                        <li><strong>Couche Germinative (Basale) :</strong> Assure la mitose cellulaire (renouvellement)
+                            et abrite les mélanocytes.</li>
+                        <li><strong>Couche Épineuse (de Malpighi) :</strong> Cellules liées par des desmosomes pour la
+                            cohésion mécanique.</li>
+                        <li><strong>Couche Granuleuse :</strong> Début de la kératinisation, accumulation de grains de
+                            kératohyaline.</li>
+                        <li><strong>Couche Claire (Stratum Lucidum) :</strong> Transition (présente surtout sur les
+                            paumes et plantes).</li>
+                        <li><strong>Couche Cornée :</strong> Composée de cornéocytes (cellules mortes de kératine dure)
+                            qui se détachent par desquamation.</li>
                     </ul>
                 </div>
                 <div class="detail-subcard">
                     <h4>💧 Le Film Hydrolipidique (FHL)</h4>
                     <p>
-                        Émulsion naturelle recouvrant toute la surface cutanée. Il joue le rôle de bouclier immunitaire et retient l'hydratation capillaire.
+                        Émulsion naturelle recouvrant toute la surface cutanée. Il joue le rôle de bouclier immunitaire
+                        et retient l'hydratation capillaire.
                     </p>
                     <p style="margin-top:0.5rem; font-size:0.8rem;">
                         <strong>Composition :</strong>
@@ -219,25 +264,36 @@
                 <div class="card">
                     <h3 class="card-title">🔬 Morphologie et Coupe Transversale</h3>
                     <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                        La tige pilaire est la partie visible du cheveu. Elle est entièrement morte (composée de cellules kératinisées) et comprend trois parties en coupe transversale.
+                        La tige pilaire est la partie visible du cheveu. Elle est entièrement morte (composée de
+                        cellules kératinisées) et comprend trois parties en coupe transversale.
                     </p>
                     <div style="margin: 1.5rem 0; display: flex; justify-content: center;">
-                        <svg viewBox="0 0 420 180" width="100%" height="150" style="background: var(--bg-tertiary); border-radius: var(--radius-md); padding: 1rem; border: 1px solid var(--border-color);">
+                        <svg viewBox="0 0 420 180" width="100%" height="150"
+                            style="background: var(--bg-tertiary); border-radius: var(--radius-md); padding: 1rem; border: 1px solid var(--border-color);">
                             <!-- Cuticle -->
-                            <rect x="10" y="10" width="400" height="130" rx="10" fill="var(--bg-secondary)" stroke="var(--text-muted)" stroke-width="2"></rect>
-                            <text x="25" y="32" class="svg-text-label" fill="var(--text-secondary)" style="font-size: 11px;">1. LA CUTICULE (Écailles imbriquées de kératine protégeant le cortex)</text>
-                            
+                            <rect x="10" y="10" width="400" height="130" rx="10" fill="var(--bg-secondary)"
+                                stroke="var(--text-muted)" stroke-width="2"></rect>
+                            <text x="25" y="32" class="svg-text-label" fill="var(--text-secondary)"
+                                style="font-size: 11px;">1. LA CUTICULE (Écailles imbriquées de kératine protégeant le
+                                cortex)</text>
+
                             <!-- Cortex -->
-                            <rect x="25" y="45" width="370" height="85" rx="8" fill="rgba(99, 102, 241, 0.15)" stroke="var(--accent-primary)" stroke-width="2"></rect>
-                            <text x="40" y="65" class="svg-text-label" fill="var(--accent-primary)" style="font-size: 11px;">2. LE CORTEX (Macro/microfibrilles, mélanine, élasticité)</text>
-                            
+                            <rect x="25" y="45" width="370" height="85" rx="8" fill="rgba(99, 102, 241, 0.15)"
+                                stroke="var(--accent-primary)" stroke-width="2"></rect>
+                            <text x="40" y="65" class="svg-text-label" fill="var(--accent-primary)"
+                                style="font-size: 11px;">2. LE CORTEX (Macro/microfibrilles, mélanine,
+                                élasticité)</text>
+
                             <!-- Medulla -->
-                            <rect x="90" y="78" width="240" height="40" rx="6" fill="rgba(236, 72, 153, 0.15)" stroke="var(--accent-secondary)" stroke-width="2"></rect>
-                            <text x="105" y="98" class="svg-text-label" fill="var(--accent-secondary)" style="font-size: 10px; font-weight: bold;">3. LA MOELLE (Canal central creux)</text>
+                            <rect x="90" y="78" width="240" height="40" rx="6" fill="rgba(236, 72, 153, 0.15)"
+                                stroke="var(--accent-secondary)" stroke-width="2"></rect>
+                            <text x="105" y="98" class="svg-text-label" fill="var(--accent-secondary)"
+                                style="font-size: 10px; font-weight: bold;">3. LA MOELLE (Canal central creux)</text>
                         </svg>
                     </div>
                     <p style="font-size: 0.85rem; color: var(--text-secondary);">
-                        La cuticule détermine la brillance (réflexion de la lumière sur les écailles refermées). Le cortex représente 90% du poids du cheveu et dicte sa couleur, sa résistance et sa forme.
+                        La cuticule détermine la brillance (réflexion de la lumière sur les écailles refermées). Le
+                        cortex représente 90% du poids du cheveu et dicte sa couleur, sa résistance et sa forme.
                     </p>
                 </div>
 
@@ -246,12 +302,19 @@
                     <div class="detail-subcard" style="background:transparent; border:none; padding:0;">
                         <h4 style="font-size: 1rem; margin-bottom: 0.5rem;">🔗 Les Liaisons de la Kératine</h4>
                         <p style="font-size: 0.825rem; color: var(--text-secondary); line-height: 1.5;">
-                            Les chaînes polypeptidiques parallèles de kératine sont reliées par trois types de ponts (liaisons) :
+                            Les chaînes polypeptidiques parallèles de kératine sont reliées par trois types de ponts
+                            (liaisons) :
                         </p>
-                        <ul style="font-size: 0.8rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
-                            <li><strong>Ponts Disulfures (Covalents / Forts) :</strong> Liaisons chimiques de Soufre. Résistants à l'eau et à la chaleur. Brisés uniquement par les produits réducteurs (permanente, défrisage) ou décolorants.</li>
-                            <li><strong>Ponts Salins (Ioniques / Moyens) :</strong> Liaisons d'attraction électrostatique. Sensibles aux variations extrêmes de pH (acides ou basiques).</li>
-                            <li><strong>Ponts Hydrogène (Faibles) :</strong> Liaisons très nombreuses rompues facilement par l'eau ou la chaleur (Brushing), permettant de donner une forme temporaire au séchage.</li>
+                        <ul
+                            style="font-size: 0.8rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                            <li><strong>Ponts Disulfures (Covalents / Forts) :</strong> Liaisons chimiques de Soufre.
+                                Résistants à l'eau et à la chaleur. Brisés uniquement par les produits réducteurs
+                                (permanente, défrisage) ou décolorants.</li>
+                            <li><strong>Ponts Salins (Ioniques / Moyens) :</strong> Liaisons d'attraction
+                                électrostatique. Sensibles aux variations extrêmes de pH (acides ou basiques).</li>
+                            <li><strong>Ponts Hydrogène (Faibles) :</strong> Liaisons très nombreuses rompues facilement
+                                par l'eau ou la chaleur (Brushing), permettant de donner une forme temporaire au
+                                séchage.</li>
                         </ul>
                     </div>
                 </div>
@@ -260,19 +323,25 @@
             <div class="detail-box-grid" style="margin-top: 1.5rem;">
                 <div class="detail-subcard">
                     <h4>🎨 Mélanogénèse et Pigments</h4>
-                    <p>La couleur naturelle est produite par les mélanocytes de la matrice. Il existe deux familles de mélanines :</p>
+                    <p>La couleur naturelle est produite par les mélanocytes de la matrice. Il existe deux familles de
+                        mélanines :</p>
                     <ul style="margin-top: 0.5rem;">
-                        <li><strong>Eumélanine :</strong> Pigments de forme granulaire, allant du brun au noir. Déterminent la profondeur de ton foncé.</li>
-                        <li><strong>Phéomélanine :</strong> Pigments de forme diffuse, allant du jaune au roux. Déterminent les reflets chauds et clairs.</li>
+                        <li><strong>Eumélanine :</strong> Pigments de forme granulaire, allant du brun au noir.
+                            Déterminent la profondeur de ton foncé.</li>
+                        <li><strong>Phéomélanine :</strong> Pigments de forme diffuse, allant du jaune au roux.
+                            Déterminent les reflets chauds et clairs.</li>
                     </ul>
                 </div>
                 <div class="detail-subcard">
                     <h4>🌾 Propriétés Physiques du Cheveu</h4>
                     <p>Les propriétés clés du cheveu à connaître pour les diagnostics :</p>
                     <ul style="margin-top: 0.5rem;">
-                        <li><strong>Élasticité :</strong> Propriété d'allongement et de retour à la forme initiale (due aux spires de kératine du cortex).</li>
-                        <li><strong>Porosité :</strong> Capacité d'absorption des liquides (due à l'ouverture de la cuticule).</li>
-                        <li><strong>Hydrophilie :</strong> Capacité à fixer l'eau (le cheveu peut absorber jusqu'à 30% de son poids en eau).</li>
+                        <li><strong>Élasticité :</strong> Propriété d'allongement et de retour à la forme initiale (due
+                            aux spires de kératine du cortex).</li>
+                        <li><strong>Porosité :</strong> Capacité d'absorption des liquides (due à l'ouverture de la
+                            cuticule).</li>
+                        <li><strong>Hydrophilie :</strong> Capacité à fixer l'eau (le cheveu peut absorber jusqu'à 30%
+                            de son poids en eau).</li>
                     </ul>
                 </div>
             </div>
@@ -286,41 +355,59 @@
                     <div>
                         <h3 class="card-title">🌀 Le cycle de renouvellement permanent</h3>
                         <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
-                            Chaque cheveu naît, grandit, meurt et tombe selon un cycle génétique prédéterminé de 20 à 25 cycles au cours d'une vie. 
+                            Chaque cheveu naît, grandit, meurt et tombe selon un cycle génétique prédéterminé de 20 à 25
+                            cycles au cours d'une vie.
                         </p>
-                        
+
                         <div class="cycle-tabs">
-                            <button onclick="switchCycleTab('anagene', this)" class="cycle-tab-btn active">1. Phase Anagène</button>
-                            <button onclick="switchCycleTab('catagene', this)" class="cycle-tab-btn">2. Phase Catagène</button>
-                            <button onclick="switchCycleTab('telogene', this)" class="cycle-tab-btn">3. Phase Télogène</button>
+                            <button onclick="switchCycleTab('anagene', this)" class="cycle-tab-btn active">1. Phase
+                                Anagène</button>
+                            <button onclick="switchCycleTab('catagene', this)" class="cycle-tab-btn">2. Phase
+                                Catagène</button>
+                            <button onclick="switchCycleTab('telogene', this)" class="cycle-tab-btn">3. Phase
+                                Télogène</button>
                         </div>
-                        
+
                         <div style="margin-top: 1.25rem;">
                             <!-- Anagene details -->
                             <div id="cycle-anagene" class="cycle-details active">
                                 <span class="badge badge-primary">Phase de croissance active</span>
-                                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-top: 0.5rem;">
+                                <p
+                                    style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-top: 0.5rem;">
                                     <strong>Statut :</strong> Environ 85% de la chevelure globale.
                                     <br><strong>Durée :</strong> 3 à 7 ans chez la femme, 2 à 5 ans chez l'homme.
-                                    <br><strong>Mécanisme :</strong> La mitose cellulaire dans la matrice du bulbe est très intense. Les kératinocytes s'empilent et se kératinisent pour former la tige pilaire en continu. Le bulbe est solidement ancré et irrigué par la papille.
+                                    <br><strong>Mécanisme :</strong> La mitose cellulaire dans la matrice du bulbe est
+                                    très intense. Les kératinocytes s'empilent et se kératinisent pour former la tige
+                                    pilaire en continu. Le bulbe est solidement ancré et irrigué par la papille.
                                 </p>
                             </div>
                             <!-- Catagene details -->
                             <div id="cycle-catagene" class="cycle-details">
-                                <span class="badge badge-secondary" style="background-color:rgba(245,158,11,0.1); color:#d97706; border:1px solid rgba(245,158,11,0.2);">Phase d'involution / transition</span>
-                                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-top: 0.5rem;">
+                                <span class="badge badge-secondary"
+                                    style="background-color:rgba(245,158,11,0.1); color:#d97706; border:1px solid rgba(245,158,11,0.2);">Phase
+                                    d'involution / transition</span>
+                                <p
+                                    style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-top: 0.5rem;">
                                     <strong>Statut :</strong> Environ 1% de la chevelure globale.
                                     <br><strong>Durée :</strong> 2 à 3 semaines.
-                                    <br><strong>Mécanisme :</strong> La mitose s'arrête brutalement dans la matrice. Le follicule pileux rétrécit et raccourcit. Le bulbe s'atrophie, se kératinise en forme de massue et se détache de la papille nourricière. Il remonte vers l'épiderme.
+                                    <br><strong>Mécanisme :</strong> La mitose s'arrête brutalement dans la matrice. Le
+                                    follicule pileux rétrécit et raccourcit. Le bulbe s'atrophie, se kératinise en forme
+                                    de massue et se détache de la papille nourricière. Il remonte vers l'épiderme.
                                 </p>
                             </div>
                             <!-- Telogene details -->
                             <div id="cycle-telogene" class="cycle-details">
-                                <span class="badge" style="background-color:rgba(239,68,68,0.1); color:#ef4444; border:1px solid rgba(239,68,68,0.2);">Phase de repos et de chute</span>
-                                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-top: 0.5rem;">
+                                <span class="badge"
+                                    style="background-color:rgba(239,68,68,0.1); color:#ef4444; border:1px solid rgba(239,68,68,0.2);">Phase
+                                    de repos et de chute</span>
+                                <p
+                                    style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-top: 0.5rem;">
                                     <strong>Statut :</strong> Environ 14% de la chevelure globale.
                                     <br><strong>Durée :</strong> 3 mois environ.
-                                    <br><strong>Mécanisme :</strong> Le cheveu mort reste simplement ancré superficiellement. À la base du follicule, une nouvelle papille s'active et génère un nouveau germe de cheveu anagène. En grandissant, ce nouveau cheveu expulse mécaniquement l'ancien cheveu mort (chute naturelle de 50 à 100 cheveux par jour).
+                                    <br><strong>Mécanisme :</strong> Le cheveu mort reste simplement ancré
+                                    superficiellement. À la base du follicule, une nouvelle papille s'active et génère
+                                    un nouveau germe de cheveu anagène. En grandissant, ce nouveau cheveu expulse
+                                    mécaniquement l'ancien cheveu mort (chute naturelle de 50 à 100 cheveux par jour).
                                 </p>
                             </div>
                         </div>
@@ -330,35 +417,41 @@
                         <!-- Animated bulbs SVG representing phases -->
                         <svg viewBox="0 0 400 300" width="100%" height="240">
                             <!-- Skin line -->
-                            <line x1="20" y1="40" x2="380" y2="40" stroke="var(--text-muted)" stroke-width="2" stroke-dasharray="4"></line>
-                            <text x="30" y="32" class="svg-text-label" fill="var(--text-muted)" style="font-size: 10px;">Épiderme</text>
-                            
+                            <line x1="20" y1="40" x2="380" y2="40" stroke="var(--text-muted)" stroke-width="2"
+                                stroke-dasharray="4"></line>
+                            <text x="30" y="32" class="svg-text-label" fill="var(--text-muted)"
+                                style="font-size: 10px;">Épiderme</text>
+
                             <!-- Anagene bulb -->
                             <g id="svg-bulb-anagene" opacity="1" class="transition-all">
                                 <rect x="75" y="40" width="20" height="200" fill="#a5b4fc" rx="4"></rect>
                                 <circle cx="85" cy="240" r="16" fill="#4f46e5"></circle>
                                 <path d="M70,256 Q85,230 100,256 Z" fill="#ef4444"></path> <!-- Papille -->
-                                <text x="60" y="275" class="svg-text-label" fill="var(--text-primary)" style="font-size: 11px; font-weight: 800;">Anagène</text>
+                                <text x="60" y="275" class="svg-text-label" fill="var(--text-primary)"
+                                    style="font-size: 11px; font-weight: 800;">Anagène</text>
                             </g>
-                            
+
                             <!-- Catagene bulb -->
                             <g id="svg-bulb-catagene" opacity="0.2" class="transition-all">
                                 <rect x="190" y="40" width="20" height="120" fill="#fde68a" rx="4"></rect>
                                 <circle cx="200" cy="160" r="12" fill="#d97706"></circle>
-                                <path d="M185,256 Q200,245 215,256 Z" fill="var(--text-muted)" opacity="0.3"></path> <!-- Papille vide -->
-                                <text x="175" y="275" class="svg-text-label" fill="var(--text-primary)" style="font-size: 11px; font-weight: 800;">Catagène</text>
+                                <path d="M185,256 Q200,245 215,256 Z" fill="var(--text-muted)" opacity="0.3"></path>
+                                <!-- Papille vide -->
+                                <text x="175" y="275" class="svg-text-label" fill="var(--text-primary)"
+                                    style="font-size: 11px; font-weight: 800;">Catagène</text>
                             </g>
-                            
+
                             <!-- Telogene bulb -->
                             <g id="svg-bulb-telogene" opacity="0.2" class="transition-all">
                                 <rect x="305" y="40" width="20" height="60" fill="#fca5a5" rx="4"></rect>
                                 <circle cx="315" cy="100" r="10" fill="#ef4444"></circle>
-                                
+
                                 <!-- New hair growing underneath pushing it -->
                                 <rect x="307" y="160" width="16" height="96" fill="#818cf8" rx="2" opacity="0.7"></rect>
                                 <circle cx="315" cy="256" r="10" fill="#4f46e5" opacity="0.7"></circle>
                                 <path d="M305,268 Q315,250 325,268 Z" fill="#ef4444"></path>
-                                <text x="290" y="275" class="svg-text-label" fill="var(--text-primary)" style="font-size: 11px; font-weight: 800;">Télogène</text>
+                                <text x="290" y="275" class="svg-text-label" fill="var(--text-primary)"
+                                    style="font-size: 11px; font-weight: 800;">Télogène</text>
                             </g>
                         </svg>
                     </div>
@@ -372,43 +465,61 @@
             <div class="grid-2">
                 <!-- Contagious vs Non-contagious -->
                 <div class="card">
-                    <h3 class="card-title" style="color: var(--accent-danger);">❌ Affections Contagieuses (Refus de Service)</h3>
+                    <h3 class="card-title" style="color: var(--accent-danger);">❌ Affections Contagieuses (Refus de
+                        Service)</h3>
                     <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                        Toute anomalie présentant un risque de transmission d'un agent pathogène (virus, bactérie, champignon, parasite) oblige le coiffeur à refuser la prestation.
+                        Toute anomalie présentant un risque de transmission d'un agent pathogène (virus, bactérie,
+                        champignon, parasite) oblige le coiffeur à refuser la prestation.
                     </p>
-                    <div class="detail-subcard" style="background-color:rgba(239,68,68,0.04); border-color:rgba(239,68,68,0.2); margin-bottom: 1rem;">
+                    <div class="detail-subcard"
+                        style="background-color:rgba(239,68,68,0.04); border-color:rgba(239,68,68,0.2); margin-bottom: 1rem;">
                         <h4 style="color:var(--accent-danger);">🍄 Infections Mycosiques (Champignons)</h4>
                         <p style="font-size: 0.8rem; color:var(--text-secondary);">
-                            <strong>La Teigne :</strong> Invasion des cheveux par des dermatophytes. Symptômes : plaques circulaires sèches, grisâtres et squameuses où les cheveux sont cassés à ras. Contagion très élevée. Refus obligatoire.
+                            <strong>La Teigne :</strong> Invasion des cheveux par des dermatophytes. Symptômes : plaques
+                            circulaires sèches, grisâtres et squameuses où les cheveux sont cassés à ras. Contagion très
+                            élevée. Refus obligatoire.
                         </p>
                     </div>
-                    <div class="detail-subcard" style="background-color:rgba(239,68,68,0.04); border-color:rgba(239,68,68,0.2);">
+                    <div class="detail-subcard"
+                        style="background-color:rgba(239,68,68,0.04); border-color:rgba(239,68,68,0.2);">
                         <h4 style="color:var(--accent-danger);">🕷️ Infections Parasitaires</h4>
                         <p style="font-size: 0.8rem; color:var(--text-secondary);">
-                            <strong>La Pédiculose :</strong> Infestation de poux de tête. Les lentes (œufs) sont collées fermement à la racine du cheveu (ne s'envolent pas au souffle, contrairement aux pellicules).
-                            <br><strong>La Gale :</strong> Causée par un acarien (Sarcopte). Provoque des démangeaisons intenses et des lésions de grattage avec croûtes.
+                            <strong>La Pédiculose :</strong> Infestation de poux de tête. Les lentes (œufs) sont collées
+                            fermement à la racine du cheveu (ne s'envolent pas au souffle, contrairement aux
+                            pellicules).
+                            <br><strong>La Gale :</strong> Causée par un acarien (Sarcopte). Provoque des démangeaisons
+                            intenses et des lésions de grattage avec croûtes.
                         </p>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h3 class="card-title" style="color: var(--accent-success);">⚠️ Affections Non-Contagieuses (Adapter le service)</h3>
+                    <h3 class="card-title" style="color: var(--accent-success);">⚠️ Affections Non-Contagieuses (Adapter
+                        le service)</h3>
                     <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                        Ce sont des désordres physiologiques ou génétiques. La prestation est possible mais nécessite des soins spécifiques ou des produits doux adaptés.
+                        Ce sont des désordres physiologiques ou génétiques. La prestation est possible mais nécessite
+                        des soins spécifiques ou des produits doux adaptés.
                     </p>
-                    <div class="detail-subcard" style="background-color:rgba(var(--accent-success-rgb),0.04); border-color:rgba(var(--accent-success-rgb),0.2); margin-bottom: 1rem;">
+                    <div class="detail-subcard"
+                        style="background-color:rgba(var(--accent-success-rgb),0.04); border-color:rgba(var(--accent-success-rgb),0.2); margin-bottom: 1rem;">
                         <h4>❄️ Anomalies du Cuir Chevelu (Pellicules)</h4>
                         <p style="font-size: 0.8rem; color:var(--text-secondary);">
-                            <strong>Pityriasis Simplex (Pellicules Sèches) :</strong> Desquamation excessive due au champignon *Malassezia*. Squames blanches, volantes et fines.
-                            <br><strong>Pityriasis Stéatoïde (Pellicules Grasses) :</strong> Squames épaisses, jaunâtres, collées au cuir chevelu par un excès de sébum (souvent associé à une séborrhée).
+                            <strong>Pityriasis Simplex (Pellicules Sèches) :</strong> Desquamation excessive due au
+                            champignon *Malassezia*. Squames blanches, volantes et fines.
+                            <br><strong>Pityriasis Stéatoïde (Pellicules Grasses) :</strong> Squames épaisses,
+                            jaunâtres, collées au cuir chevelu par un excès de sébum (souvent associé à une séborrhée).
                         </p>
                     </div>
-                    <div class="detail-subcard" style="background-color:rgba(var(--accent-success-rgb),0.04); border-color:rgba(var(--accent-success-rgb),0.2);">
+                    <div class="detail-subcard"
+                        style="background-color:rgba(var(--accent-success-rgb),0.04); border-color:rgba(var(--accent-success-rgb),0.2);">
                         <h4>🍂 Les Alopécies et Chutes</h4>
                         <p style="font-size: 0.8rem; color:var(--text-secondary);">
-                            <strong>Alopécie Androgénétique :</strong> Chute progressive d'origine hormonale et héréditaire (miniaturisation du bulbe).
-                            <br><strong>Pelade (Alopecia Areata) :</strong> Chute en plaques d'origine auto-immune ou nerveuse.
-                            <br><strong>Trichoptilose :</strong> Terme officiel pour les pointes fourchues (usure mécanique ou chimique).
+                            <strong>Alopécie Androgénétique :</strong> Chute progressive d'origine hormonale et
+                            héréditaire (miniaturisation du bulbe).
+                            <br><strong>Pelade (Alopecia Areata) :</strong> Chute en plaques d'origine auto-immune ou
+                            nerveuse.
+                            <br><strong>Trichoptilose :</strong> Terme officiel pour les pointes fourchues (usure
+                            mécanique ou chimique).
                         </p>
                     </div>
                 </div>
@@ -418,25 +529,32 @@
             <div class="card" style="margin-top: 1.5rem;">
                 <h3 class="card-title">🧼 Protocole d'Hygiène & Désinfection (Strict Examen CAP)</h3>
                 <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                    La microbiologie et l'hygiène sont notées avec sévérité le jour de l'épreuve pratique. Le candidat doit montrer des gestes précis d'asepsie.
+                    La microbiologie et l'hygiène sont notées avec sévérité le jour de l'épreuve pratique. Le candidat
+                    doit montrer des gestes précis d'asepsie.
                 </p>
                 <div class="detail-box-grid" style="grid-template-columns: 1fr 1fr 1fr; gap:1.25rem;">
                     <div class="detail-subcard" style="background:var(--bg-tertiary);">
                         <h4 style="font-size: 0.9rem;">1. Nettoyage (Détergent)</h4>
-                        <p style="font-size: 0.8rem;">Consiste à éliminer les souillures visibles (poils, sébum, poussière) avec de l'eau et un savon tensioactif. C'est l'étape préalable indispensable avant toute désinfection.</p>
+                        <p style="font-size: 0.8rem;">Consiste à éliminer les souillures visibles (poils, sébum,
+                            poussière) avec de l'eau et un savon tensioactif. C'est l'étape préalable indispensable
+                            avant toute désinfection.</p>
                     </div>
                     <div class="detail-subcard" style="background:var(--bg-tertiary);">
                         <h4 style="font-size: 0.9rem;">2. Désinfection (Chimique)</h4>
-                        <p style="font-size: 0.8rem;">Destruction des micro-organismes sur les surfaces et outils inertes (ciseaux, peignes). Utilisation de spray biocide aux normes européennes <strong>EN 1040</strong> (bactéricide) et <strong>EN 1275</strong> (levuricide/fongicide).</p>
+                        <p style="font-size: 0.8rem;">Destruction des micro-organismes sur les surfaces et outils
+                            inertes (ciseaux, peignes). Utilisation de spray biocide aux normes européennes <strong>EN
+                                1040</strong> (bactéricide) et <strong>EN 1275</strong> (levuricide/fongicide).</p>
                     </div>
                     <div class="detail-subcard" style="background:var(--bg-tertiary);">
                         <h4 style="font-size: 0.9rem;">3. Stérilisation (Thermique)</h4>
-                        <p style="font-size: 0.8rem;">Destruction absolue de toute forme de vie microbienne (spores comprises). Réalisée en salon par autoclave (chaleur humide sous pression) ou boîte à ultraviolets (maintien en milieu stérile).</p>
+                        <p style="font-size: 0.8rem;">Destruction absolue de toute forme de vie microbienne (spores
+                            comprises). Réalisée en salon par autoclave (chaleur humide sous pression) ou boîte à
+                            ultraviolets (maintien en milieu stérile).</p>
                     </div>
                 </div>
             </div>
         </section>
-        
+
     </main>
 
     <footer>
@@ -448,4 +566,5 @@
 
     <script src="js/main.js"></script>
 </body>
+
 </html>
