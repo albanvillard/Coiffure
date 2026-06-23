@@ -12,8 +12,8 @@ const chapters = [
     { id: 'chim-ch3', name: 'Chimie Ch.3 : Oxydants & Réducteurs', progress: 15 }
 ];
 
-// Flashcards definitions pool
-const flashcardsPool = [
+// Flashcards default pool
+const defaultFlashcards = [
     { id: 'fc-1', term: 'Kératine', def: 'Protéine fibreuse insoluble riche en acides aminés soufrés (cystine), constituant plus de 90 % de la tige pilaire et lui conférant sa solidité.', cat: 'Biologie' },
     { id: 'fc-2', term: 'pH Physiologique', def: 'Potentiel Hydrogène naturel de la peau et du cheveu sain, situé entre 4.5 et 5.5 (acide). Il protège contre la prolifération microbienne.', cat: 'Chimie' },
     { id: 'fc-3', term: 'Eumélanine', def: 'Pigment mélanique de forme granulaire, de couleur brune à noire, qui détermine la hauteur de ton foncée naturelle du cheveu.', cat: 'Biologie' },
@@ -31,10 +31,21 @@ const flashcardsPool = [
     { id: 'fc-15', term: 'Teigne', def: 'Infection fongique (champignon dermatophyte) hautement contagieuse du cuir chevelu, provoquant des plaques rondes squameuses où les cheveux cassent à ras.', cat: 'Biologie' }
 ];
 
+function getFlashcardsPool() {
+    let pool = localStorage.getItem('alban_flashcards_pool');
+    if (!pool) {
+        localStorage.setItem('alban_flashcards_pool', JSON.stringify(defaultFlashcards));
+        return defaultFlashcards;
+    }
+    return JSON.parse(pool);
+}
+
+
 // Initialize application on DOM load
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     updateProgressBar();
+    initGamification(); // Initialize levels, XP and Streaks
     
     // Page-specific initializations
     if (document.getElementById('chapter-checklist')) {
@@ -51,6 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (document.getElementById('flashcards-container')) {
         initFlashcards();
+    }
+    if (document.getElementById('duo-nodes-container')) {
+        initDuolingo();
     }
 });
 
@@ -679,6 +693,26 @@ function submitQuizAnswer(qIndex, letter, element) {
     if (scoreDisplay) {
         scoreDisplay.innerText = `${score}/10`;
     }
+    
+    // Gamification Hook for Quiz completion
+    let answeredCount = Object.keys(quizUserAnswers).length;
+    if (answeredCount === 10) {
+        if (score >= 7) {
+            setTimeout(() => {
+                playVictorySound();
+                startConfetti();
+                addXP(score * 10); // Gain score * 10 XP
+                if (scoreDisplay) {
+                    scoreDisplay.innerHTML = `${score}/10 <span class="text-emerald-400 block text-xs mt-1 font-semibold animate-pulse">Succès ! +${score * 10} XP 🏆</span>`;
+                }
+            }, 600);
+        } else {
+            if (scoreDisplay) {
+                scoreDisplay.innerHTML = `${score}/10 <span class="text-amber-500 block text-xs mt-1 font-semibold">Essayez d'avoir ≥ 7/10 pour l'XP !</span>`;
+            }
+        }
+        updateStreak();
+    }
 }
 
 // ==========================================
@@ -715,9 +749,10 @@ function filterFlashcards(filter, element) {
 
 function updateFlashcardCounters() {
     const state = getFlashcardsState();
+    const pool = getFlashcardsPool();
     let learnedCount = 0;
     
-    flashcardsPool.forEach(fc => {
+    pool.forEach(fc => {
         if (state[fc.id] === 'learned') learnedCount++;
     });
     
@@ -726,8 +761,8 @@ function updateFlashcardCounters() {
     const totalEl = document.getElementById('fc-count-total');
     
     if (learnedEl) learnedEl.innerText = learnedCount;
-    if (reviewEl) reviewEl.innerText = flashcardsPool.length - learnedCount;
-    if (totalEl) totalEl.innerText = flashcardsPool.length;
+    if (reviewEl) reviewEl.innerText = pool.length - learnedCount;
+    if (totalEl) totalEl.innerText = pool.length;
 }
 
 function renderFlashcards() {
@@ -735,9 +770,10 @@ function renderFlashcards() {
     if (!container) return;
     
     const state = getFlashcardsState();
+    const pool = getFlashcardsPool();
     container.innerHTML = '';
     
-    let filteredList = flashcardsPool.filter(fc => {
+    let filteredList = pool.filter(fc => {
         const status = state[fc.id] || 'review';
         if (activeFlashcardsFilter === 'learned') return status === 'learned';
         if (activeFlashcardsFilter === 'review') return status === 'review';
@@ -765,12 +801,23 @@ function renderFlashcards() {
                 
                 <!-- Front Side -->
                 <div class="absolute w-full h-full backface-hidden bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between items-center text-center shadow-lg hover:border-indigo-500/40 transition-colors">
-                    <span class="text-[10px] uppercase font-bold tracking-widest px-2.5 py-0.5 rounded-full ${
-                        fc.cat === 'Biologie' 
-                        ? 'bg-emerald-950 text-emerald-400 border border-emerald-900/30' 
-                        : 'bg-indigo-950 text-indigo-400 border border-indigo-900/30'
-                    }">${fc.cat}</span>
-                    <h3 class="text-lg sm:text-xl font-extrabold text-slate-100">${fc.term}</h3>
+                    <div class="w-full flex justify-between items-center">
+                        <span class="text-[10px] uppercase font-bold tracking-widest px-2.5 py-0.5 rounded-full ${
+                            fc.cat === 'Biologie' 
+                            ? 'bg-emerald-950 text-emerald-400 border border-emerald-900/30' 
+                            : 'bg-indigo-950 text-indigo-400 border border-indigo-900/30'
+                        }">${fc.cat}</span>
+                        
+                        <!-- Delete Button -->
+                        <button onclick="event.stopPropagation(); deleteFlashcard('${fc.id}')" 
+                            class="p-1 rounded bg-slate-950 border border-slate-850 hover:border-rose-500/50 hover:bg-rose-950/20 text-slate-500 hover:text-rose-400 transition-all cursor-pointer" title="Supprimer la carte">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-extrabold text-slate-100 px-2">${fc.term}</h3>
                     <p class="text-xs text-slate-500 flex items-center gap-1">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 1 1 21.306 7M7 9h8V1M17 17v-5h-.581m0 0a8.003 8.003 0 0 1-15.357-2m15.357 2H9v8"></path></svg>
                         Cliquez pour retourner
@@ -779,7 +826,17 @@ function renderFlashcards() {
                 
                 <!-- Back Side -->
                 <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-slate-950 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between shadow-lg">
-                    <div class="flex-grow flex items-center justify-center text-center">
+                    <div class="w-full flex justify-between items-center">
+                        <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Réponse</span>
+                        <button onclick="event.stopPropagation(); deleteFlashcard('${fc.id}')" 
+                            class="p-1 rounded bg-slate-950 border border-slate-850 hover:border-rose-500/50 hover:bg-rose-950/20 text-slate-500 hover:text-rose-400 transition-all cursor-pointer" title="Supprimer la carte">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex-grow flex items-center justify-center text-center px-2">
                         <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">${fc.def}</p>
                     </div>
                     
@@ -822,3 +879,668 @@ function markCardState(cardId, status) {
     updateFlashcardCounters();
     renderFlashcards();
 }
+
+// User-created Flashcards Helpers
+function toggleCardForm() {
+    const form = document.getElementById('create-card-form');
+    if (form) {
+        form.classList.toggle('hidden');
+    }
+}
+
+function submitNewCard(event) {
+    event.preventDefault();
+    const term = document.getElementById('fc-input-term').value.trim();
+    const def = document.getElementById('fc-input-def').value.trim();
+    const cat = document.getElementById('fc-input-cat').value;
+    
+    if (!term || !def) return;
+    
+    addNewFlashcard(term, def, cat);
+    
+    event.target.reset();
+    toggleCardForm();
+}
+
+function addNewFlashcard(term, def, cat) {
+    const pool = getFlashcardsPool();
+    const newCard = {
+        id: `fc-custom-${Date.now()}`,
+        term: term,
+        def: def,
+        cat: cat
+    };
+    pool.push(newCard);
+    localStorage.setItem('alban_flashcards_pool', JSON.stringify(pool));
+    
+    initFlashcards();
+}
+
+function deleteFlashcard(cardId) {
+    if (confirm("Voulez-vous vraiment supprimer cette carte de révision ?")) {
+        let pool = getFlashcardsPool();
+        pool = pool.filter(fc => fc.id !== cardId);
+        localStorage.setItem('alban_flashcards_pool', JSON.stringify(pool));
+        
+        const state = getFlashcardsState();
+        delete state[cardId];
+        saveFlashcardsState(state);
+        
+        initFlashcards();
+    }
+}
+
+// ==========================================
+// 10. GAMIFICATION & DUOLINGO PATH SYSTEM
+// ==========================================
+
+// Global state for gamification
+let gamificationState = {
+    xp: 0,
+    level: 1,
+    streak: 0,
+    lastActiveDate: null,
+    completedLessons: []
+};
+
+// Lessons database
+const duolingoLessons = [
+    {
+        id: 'duo-1',
+        title: 'Ostéologie Crânienne',
+        cat: 'Biologie',
+        emoji: '🧬',
+        desc: 'Identifiez les os du crâne servant de repères géométriques pour vos coupes.',
+        questions: [
+            { q: 'Quel os forme le front ?', a: ['Os Frontal', 'Os Occipital', 'Os Pariétal'], c: 0, explain: 'L\'os frontal est situé à l\'avant du crâne.' },
+            { q: 'Où se situe l\'os occipital ?', a: ['Au sommet', 'À l\'arrière de la tête', 'Sur les côtés'], c: 1, explain: 'L\'os occipital est situé à la base arrière du crâne.' },
+            { q: 'Combien d\'os pariétaux possède-t-on ?', a: ['Un seul', 'Deux', 'Aucun'], c: 1, explain: 'Il y a deux os pariétaux, un de chaque côté de la voûte crânienne.' }
+        ]
+    },
+    {
+        id: 'duo-2',
+        title: 'pH Cutané & Écailles',
+        cat: 'Chimie',
+        emoji: '🧪',
+        desc: 'Maîtrisez l\'action chimique du pH acide ou alcalin sur la cuticule.',
+        questions: [
+            { q: 'Quel type de pH referme les écailles du cheveu ?', a: ['pH Acide', 'pH Neutre', 'pH Alcalin'], c: 0, explain: 'L\'acidité resserre les écailles de la cuticule.' },
+            { q: 'Quel est le pH physiologique de la peau et des cheveux sains ?', a: ['De 1.0 à 2.0', 'De 4.5 à 5.5', 'De 7.0 à 8.0'], c: 1, explain: 'Le pH physiologique est acide, situé entre 4.5 et 5.5.' },
+            { q: 'Quel est l\'effet d\'un pH alcalin supérieur à 7 ?', a: ['Il lisse le cheveu', 'Il écarte les écailles de la cuticule', 'Il neutralise les pigments'], c: 1, explain: 'L\'alcalinité ouvre les écailles, ce qui permet de faire pénétrer les colorations/décolorations.' }
+        ]
+    },
+    {
+        id: 'duo-3',
+        title: 'Le Matériel de Coupe',
+        cat: 'Technologie',
+        emoji: '✂️',
+        desc: 'Identifiez vos outils de coupe et leur position ergonomique.',
+        questions: [
+            { q: 'Quels ciseaux possèdent une lame pleine et une lame dentelée ?', a: ['Ciseaux droits', 'Ciseaux sculpteurs', 'Ciseaux effileurs'], c: 1, explain: 'Les ciseaux sculpteurs ont une seule lame dentelée pour désépaissir.' },
+            { q: 'Dans quel anneau insère-t-on l\'annulaire lors de la tenue des ciseaux ?', a: ['L\'anneau fixe', 'L\'anneau mobile', 'Le repose-doigt'], c: 0, explain: 'L\'annulaire se glisse dans l\'anneau fixe (portant le repose-doigt).' },
+            { q: 'Quel outil est utilisé pour raser la nuque à ras en fin de coupe ?', a: ['Le rasoir shavette', 'Les ciseaux droits', 'Le peigne ciseaux'], c: 0, explain: 'Le rasoir shavette permet un rasage parfait et hygiénique de la nuque.' }
+        ]
+    },
+    {
+        id: 'duo-4',
+        title: 'Structure du Cheveu',
+        cat: 'Biologie',
+        emoji: '🧬',
+        desc: 'Distinguez les trois couches concentriques de la tige pilaire.',
+        questions: [
+            { q: 'Quelle couche contient les pigments mélaniques ?', a: ['Le cortex', 'La cuticule', 'La moelle'], c: 0, explain: 'Le cortex (la couche intermédiaire) contient la mélanine.' },
+            { q: 'De quoi est formée la cuticule protectrice ?', a: ['De ponts disulfures', 'D\'écailles imbriquées', 'De sébum pur'], c: 1, explain: 'La cuticule est constituée d\'écailles de kératine empilées.' },
+            { q: 'Quelle protéine compose 90% de la structure du cheveu ?', a: ['Le sébum', 'La kératine', 'Le collagène'], c: 1, explain: 'La kératine est la protéine fibreuse insoluble constituant du cheveu.' }
+        ]
+    },
+    {
+        id: 'duo-5',
+        title: 'Molécules Tensioactives',
+        cat: 'Chimie',
+        emoji: '🧪',
+        desc: 'Comprenez comment agissent les micelles des shampooings.',
+        questions: [
+            { q: 'Quelle partie du tensioactif s\'accroche au gras (sébum) ?', a: ['La tête hydrophile', 'La queue lipophile', 'La charge électrique'], c: 1, explain: 'La queue apolaire lipophile aime et capture les corps gras.' },
+            { q: 'Que forment les tensioactifs pour emprisonner le gras dans l\'eau ?', a: ['Des micelles', 'Des ponts disulfures', 'Des acides aminés'], c: 0, explain: 'Ils forment des micelles sphériques emprisonnant les salissures au centre.' },
+            { q: 'Quels tensioactifs sont connus pour gainer le cheveu abîmé ?', a: ['Anioniques (-)', 'Cationiques (+)', 'Non-ioniques'], c: 1, explain: 'Les tensioactifs cationiques (+) se fixent par attraction sur la kératine endommagée (-).' }
+        ]
+    },
+    {
+        id: 'duo-6',
+        title: 'Diagnostic des Affections',
+        cat: 'Biologie',
+        emoji: '🧬',
+        desc: 'Identifiez les anomalies pour adapter votre protocole de soin.',
+        questions: [
+            { q: 'Qu\'est-ce que le pityriasis simplex ?', a: ['Des pellicules sèches', 'Des pellicules grasses', 'Des poux'], c: 0, explain: 'C\'est le terme officiel pour désigner un état pelliculaire sec.' },
+            { q: 'Quelle infection fongique contagieuse provoque la cassure des cheveux ?', a: ['La teigne', 'Le pityriasis', 'L\'alopécie'], c: 0, explain: 'La teigne est une mycose hautement transmissible du cuir chevelu.' },
+            { q: 'Comment nomme-t-on scientifiquement les pointes fourchues ?', a: ['La trichoptilose', 'Le pityriasis', 'La séborrhée'], c: 0, explain: 'La trichoptilose est le dédoublement de l\'extrémité du cheveu.' }
+        ]
+    }
+];
+
+// Load State from LocalStorage
+function getGamificationState() {
+    const saved = localStorage.getItem('alban_gamification');
+    if (saved) {
+        gamificationState = JSON.parse(saved);
+    }
+    return gamificationState;
+}
+
+// Save State to LocalStorage
+function saveGamificationState() {
+    localStorage.setItem('alban_gamification', JSON.stringify(gamificationState));
+}
+
+// Update gamification display elements across the page
+function updateGamificationDisplay() {
+    const state = getGamificationState();
+    
+    // Header level displays
+    const lvlEl = document.getElementById('gamification-level');
+    const xpEl = document.getElementById('gamification-xp');
+    const strEl = document.getElementById('gamification-streak');
+    
+    if (lvlEl) lvlEl.innerText = `Nv. ${state.level}`;
+    if (xpEl) xpEl.innerText = `${state.xp} XP`;
+    if (strEl) strEl.innerText = `${state.streak} ${state.streak > 1 ? 'jrs' : 'jr'}`;
+    
+    // Duolingo page stats displays
+    const duoXp = document.getElementById('duo-stats-xp');
+    const duoLvl = document.getElementById('duo-stats-level');
+    const duoPercent = document.getElementById('duo-stats-percent');
+    
+    if (duoXp) duoXp.innerText = `${state.xp} XP`;
+    if (duoLvl) duoLvl.innerText = `Nv. ${state.level}`;
+    
+    if (duoPercent) {
+        const percent = Math.round((state.completedLessons.length / duolingoLessons.length) * 100);
+        duoPercent.innerText = `${percent}%`;
+    }
+}
+
+// Add XP and handle level up
+function addXP(amount) {
+    const state = getGamificationState();
+    const oldLevel = state.level;
+    
+    state.xp += amount;
+    state.level = Math.floor(state.xp / 100) + 1;
+    
+    saveGamificationState();
+    updateGamificationDisplay();
+    
+    if (state.level > oldLevel) {
+        setTimeout(() => {
+            playVictorySound();
+            startConfetti();
+            alert(`🎉 FÉLICITATIONS ! Vous passez au Niveau ${state.level} ! Continuez ainsi !`);
+        }, 800);
+    }
+}
+
+// Increment / Reset Streak based on daily access
+function updateStreak() {
+    const state = getGamificationState();
+    const todayStr = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+    
+    if (!state.lastActiveDate) {
+        state.streak = 1;
+    } else {
+        const lastDate = new Date(state.lastActiveDate);
+        const todayDate = new Date(todayStr);
+        const diffTime = Math.abs(todayDate - lastDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 1) {
+            state.streak += 1;
+        } else if (diffDays > 1) {
+            state.streak = 1; // reset streak if missed a day
+        }
+        // if diffDays === 0, keep current streak (same day access)
+    }
+    
+    state.lastActiveDate = todayStr;
+    saveGamificationState();
+    updateGamificationDisplay();
+}
+
+// Init Gamification Module
+function initGamification() {
+    getGamificationState();
+    updateStreak();
+    updateGamificationDisplay();
+}
+
+// SWITCH TABS IN DASHBOARD (VANILLA SPA EFFECT)
+function initDuolingoTabs() {
+    const navDash = document.getElementById('nav-dashboard');
+    const navDuo = document.getElementById('nav-duolingo');
+    const contentDash = document.getElementById('tab-content-dashboard');
+    const contentDuo = document.getElementById('tab-content-duolingo');
+    
+    if (!contentDash || !contentDuo) return;
+    
+    function showTab(tabName) {
+        if (tabName === 'duolingo') {
+            contentDash.classList.add('hidden');
+            contentDuo.classList.remove('hidden');
+            
+            if (navDash) navDash.className = "text-slate-400 hover:text-slate-100 text-sm font-medium flex items-center gap-2 pb-1.5 transition-all";
+            if (navDuo) navDuo.className = "text-pink-400 border-b-2 border-pink-500 text-sm font-semibold flex items-center gap-2 pb-1.5 transition-all";
+        } else {
+            contentDash.classList.remove('hidden');
+            contentDuo.classList.add('hidden');
+            
+            if (navDash) navDash.className = "text-indigo-400 border-b-2 border-indigo-500 text-sm font-semibold flex items-center gap-2 pb-1.5 transition-all";
+            if (navDuo) navDuo.className = "text-slate-400 hover:text-slate-100 text-sm font-medium flex items-center gap-2 pb-1.5 transition-all";
+        }
+    }
+    
+    if (navDash) {
+        navDash.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Update URL search query without reloading
+            window.history.pushState({}, '', 'index.html');
+            showTab('dashboard');
+        });
+    }
+    
+    if (navDuo) {
+        navDuo.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.history.pushState({}, '', 'index.html?tab=duolingo');
+            showTab('duolingo');
+        });
+    }
+    
+    // Check initial query string tab parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('tab') === 'duolingo') {
+        showTab('duolingo');
+    } else {
+        showTab('dashboard');
+    }
+}
+
+// DUOLINGO PATHWAY MAP GENERATION
+function initDuolingo() {
+    renderDuolingoPath();
+    initDuolingoTabs();
+}
+
+function renderDuolingoPath() {
+    const container = document.getElementById('duo-nodes-container');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    const state = getGamificationState();
+    
+    duolingoLessons.forEach((lesson, index) => {
+        const isCompleted = state.completedLessons.includes(lesson.id);
+        // An index is unlocked if it's the first lesson or the previous one is completed
+        const isUnlocked = index === 0 || state.completedLessons.includes(duolingoLessons[index - 1].id);
+        
+        // Alternating positions (zig-zag): left, center, right, center
+        let zigzagClass = '';
+        if (index % 4 === 0) zigzagClass = 'md:-translate-x-14 -translate-x-8';      // Left
+        else if (index % 4 === 2) zigzagClass = 'md:translate-x-14 translate-x-8';   // Right
+        else zigzagClass = 'translate-x-0';                                           // Center
+        
+        let btnClasses = '';
+        let badgeHtml = '';
+        let buttonContent = '';
+        
+        if (isCompleted) {
+            btnClasses = 'bg-gradient-to-br from-emerald-500 to-emerald-600 border-emerald-300 text-white cursor-pointer hover:scale-105';
+            buttonContent = '✓';
+            badgeHtml = `<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-900/50">Complété</span>`;
+        } else if (isUnlocked) {
+            btnClasses = 'bg-gradient-to-br from-pink-500 to-pink-600 border-pink-300 text-white cursor-pointer hover:scale-110 active:scale-95 animate-pulse shadow-lg shadow-pink-500/20';
+            buttonContent = lesson.emoji;
+            badgeHtml = `<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] font-bold text-pink-400 bg-pink-950/80 px-2 py-0.5 rounded-full border border-pink-900/50">Démarrer</span>`;
+        } else {
+            btnClasses = 'bg-slate-800 border-slate-900 text-slate-500 cursor-not-allowed';
+            buttonContent = '🔒';
+            badgeHtml = `<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] font-bold text-slate-500 bg-slate-950/80 px-2 py-0.5 rounded-full border border-slate-850">Verrouillé</span>`;
+        }
+        
+        const nodeWrapper = document.createElement('div');
+        nodeWrapper.className = `relative flex flex-col items-center z-10 transition-transform duration-300 ${zigzagClass}`;
+        
+        nodeWrapper.innerHTML = `
+            <button onclick="${isUnlocked ? `openLessonPopup('${lesson.id}')` : ''}" 
+                class="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black border-4 shadow-xl transition-all ${btnClasses}"
+                title="${lesson.title}">
+                ${buttonContent}
+            </button>
+            <div class="text-center mt-2">
+                <p class="text-[11px] font-bold text-slate-300 max-w-[120px] truncate">${lesson.title}</p>
+                <span class="text-[9px] text-slate-500 block uppercase font-bold tracking-wider">${lesson.cat}</span>
+            </div>
+            ${badgeHtml}
+        `;
+        
+        container.appendChild(nodeWrapper);
+    });
+}
+
+// LESSON MODAL PLAY SYSTEM
+let currentActiveLesson = null;
+let currentLessonStep = 0; // 0: intro, 1-3: questions, 4: results
+let lessonScore = 0;
+
+function openLessonPopup(lessonId) {
+    const lesson = duolingoLessons.find(l => l.id === lessonId);
+    if (!lesson) return;
+    
+    currentActiveLesson = lesson;
+    currentLessonStep = 0;
+    lessonScore = 0;
+    
+    const modal = document.getElementById('lesson-modal');
+    const modalContent = document.getElementById('lesson-modal-content');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => modalContent.classList.remove('scale-95'), 10);
+    }
+    
+    renderLessonStep();
+}
+
+function closeLessonPopup() {
+    const modal = document.getElementById('lesson-modal');
+    const modalContent = document.getElementById('lesson-modal-content');
+    if (modal) {
+        modalContent.classList.add('scale-95');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }, 150);
+    }
+}
+
+function renderLessonStep() {
+    const inner = document.getElementById('lesson-modal-inner');
+    if (!inner || !currentActiveLesson) return;
+    
+    inner.innerHTML = '';
+    
+    if (currentLessonStep === 0) {
+        // Step 0: Intro panel
+        inner.innerHTML = `
+            <div class="text-center space-y-4">
+                <span class="inline-block text-4xl mb-2">${currentActiveLesson.emoji}</span>
+                <span class="block text-[10px] font-bold uppercase tracking-widest text-indigo-400">${currentActiveLesson.cat}</span>
+                <h3 class="text-xl font-extrabold text-slate-100 font-heading">${currentActiveLesson.title}</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${currentActiveLesson.desc}</p>
+                <div class="bg-slate-950/60 border border-slate-850 p-4 rounded-2xl text-left text-xs text-slate-400 space-y-2">
+                    <span class="font-bold text-slate-200 block">Instructions :</span>
+                    <p>Répondez correctement aux 3 questions de révision pour valider la leçon et gagner <strong class="text-pink-400">+50 XP</strong> !</p>
+                </div>
+                <button onclick="startLessonQuiz()" 
+                    class="w-full py-3 text-xs sm:text-sm font-bold text-white bg-pink-600 hover:bg-pink-500 rounded-xl transition-all shadow-lg shadow-pink-500/20 cursor-pointer">
+                    C'est parti ! 🚀
+                </button>
+            </div>
+        `;
+    } else if (currentLessonStep >= 1 && currentLessonStep <= 3) {
+        // Step 1 to 3: Questions
+        const qIndex = currentLessonStep - 1;
+        const question = currentActiveLesson.questions[qIndex];
+        
+        const progressPercent = Math.round(((currentLessonStep - 1) / 3) * 100);
+        
+        const optionsHtml = question.a.map((opt, oIdx) => {
+            return `
+                <button onclick="submitLessonAnswer(${oIdx}, this)" 
+                    class="lesson-opt-btn w-full text-left p-3.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950 border border-slate-850 hover:border-indigo-500/50 hover:bg-slate-900 transition-all text-slate-300 cursor-pointer">
+                    ${opt}
+                </button>
+            `;
+        }).join('');
+        
+        inner.innerHTML = `
+            <div class="space-y-5">
+                <!-- Progress bar -->
+                <div class="flex items-center gap-3">
+                    <div class="flex-grow bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-850">
+                        <div class="bg-gradient-to-r from-pink-500 to-indigo-500 h-full transition-all duration-300" style="width: ${progressPercent}%"></div>
+                    </div>
+                    <span class="text-[10px] font-bold text-slate-500">${currentLessonStep}/3</span>
+                </div>
+                
+                <h4 class="text-base font-extrabold text-slate-100 leading-snug">${question.q}</h4>
+                <div class="space-y-2.5">
+                    ${optionsHtml}
+                </div>
+                
+                <!-- Feedback panel hidden by default -->
+                <div id="lesson-feedback" class="p-4 rounded-xl text-xs sm:text-sm font-bold border hidden animate-fade-in-up"></div>
+                
+                <!-- Continue button hidden by default -->
+                <button id="lesson-continue-btn" onclick="nextLessonStep()" 
+                    class="w-full py-3 text-xs sm:text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl transition-all hidden cursor-pointer">
+                    Continuer ➔
+                </button>
+            </div>
+        `;
+    } else {
+        // Step 4: Results screen
+        const isSuccess = lessonScore === 3;
+        
+        if (isSuccess) {
+            inner.innerHTML = `
+                <div class="text-center space-y-4">
+                    <span class="inline-block text-5xl animate-bounce">🏆</span>
+                    <h3 class="text-xl font-extrabold text-emerald-400 font-heading">Leçon Validée !</h3>
+                    <p class="text-xs sm:text-sm text-slate-300">Excellent travail ! Vous avez répondu correctement à toutes les questions.</p>
+                    
+                    <div class="bg-slate-950/80 p-4 border border-slate-850 rounded-2xl flex justify-around">
+                        <div>
+                            <span class="text-[9px] text-slate-500 block uppercase font-bold mb-1">XP Gagnés</span>
+                            <strong class="text-lg text-pink-400 font-heading">+50 XP</strong>
+                        </div>
+                        <div>
+                            <span class="text-[9px] text-slate-500 block uppercase font-bold mb-1">Statut</span>
+                            <strong class="text-lg text-emerald-400 font-heading">Réussi</strong>
+                        </div>
+                    </div>
+                    
+                    <button onclick="finishActiveLesson()" 
+                        class="w-full py-3 text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-all cursor-pointer shadow-lg shadow-emerald-500/20">
+                        Terminer la leçon 🏁
+                    </button>
+                </div>
+            `;
+            // Trigger sound & confettis
+            playVictorySound();
+            startConfetti();
+        } else {
+            inner.innerHTML = `
+                <div class="text-center space-y-4">
+                    <span class="inline-block text-5xl">❌</span>
+                    <h3 class="text-xl font-extrabold text-rose-400 font-heading">Dommage...</h3>
+                    <p class="text-xs sm:text-sm text-slate-300">Vous avez fait des erreurs (${lessonScore}/3 réponses correctes). Révisez bien vos cours pour retenter le test !</p>
+                    
+                    <button onclick="openLessonPopup('${currentActiveLesson.id}')" 
+                        class="w-full py-3 text-xs sm:text-sm font-bold text-white bg-slate-850 hover:bg-slate-850 border border-slate-700 rounded-xl transition-all cursor-pointer mb-2">
+                        🔄 Recommencer le test
+                    </button>
+                    
+                    <button onclick="closeLessonPopup()" 
+                        class="w-full py-3 text-xs font-bold text-slate-500 hover:text-slate-400 cursor-pointer">
+                        Fermer
+                    </button>
+                </div>
+            `;
+        }
+    }
+}
+
+function startLessonQuiz() {
+    currentLessonStep = 1;
+    renderLessonStep();
+}
+
+function submitLessonAnswer(selectedIndex, btnElement) {
+    const qIndex = currentLessonStep - 1;
+    const question = currentActiveLesson.questions[qIndex];
+    
+    // Disable all options
+    document.querySelectorAll('.lesson-opt-btn').forEach(btn => btn.disabled = true);
+    
+    const isCorrect = (selectedIndex === question.c);
+    const feedback = document.getElementById('lesson-feedback');
+    const contBtn = document.getElementById('lesson-continue-btn');
+    
+    if (isCorrect) {
+        lessonScore++;
+        btnElement.classList.add('border-emerald-500', 'bg-emerald-950/20', 'text-emerald-300');
+        if (feedback) {
+            feedback.className = "p-4 rounded-xl text-xs sm:text-sm font-bold bg-emerald-950/30 border border-emerald-500/20 text-emerald-400 animate-fade-in-up";
+            feedback.innerHTML = `✓ Correct ! ${question.explain}`;
+            feedback.classList.remove('hidden');
+        }
+    } else {
+        btnElement.classList.add('border-rose-500', 'bg-rose-950/20', 'text-rose-300');
+        if (feedback) {
+            feedback.className = "p-4 rounded-xl text-xs sm:text-sm font-bold bg-rose-950/30 border border-rose-500/20 text-rose-400 animate-fade-in-up";
+            feedback.innerHTML = `✗ Incorrect. La bonne réponse était la <strong>${question.a[question.c]}</strong>.<br>${question.explain}`;
+            feedback.classList.remove('hidden');
+        }
+        
+        // Highlight correct option
+        document.querySelectorAll('.lesson-opt-btn').forEach((btn, idx) => {
+            if (idx === question.c) {
+                btn.classList.add('border-emerald-500', 'bg-emerald-950/10', 'text-emerald-400');
+            }
+        });
+    }
+    
+    if (contBtn) contBtn.classList.remove('hidden');
+}
+
+function nextLessonStep() {
+    currentLessonStep++;
+    renderLessonStep();
+}
+
+function finishActiveLesson() {
+    const state = getGamificationState();
+    
+    if (!state.completedLessons.includes(currentActiveLesson.id)) {
+        state.completedLessons.push(currentActiveLesson.id);
+        saveGamificationState();
+        addXP(50); // Earn 50 XP
+    }
+    
+    closeLessonPopup();
+    renderDuolingoPath();
+    updateGamificationDisplay();
+}
+
+// LIGHTWEIGHT CONFETTI RAIN SYSTEM
+function startConfetti() {
+    const canvas = document.getElementById('confetti-canvas');
+    if (!canvas) return;
+    
+    canvas.classList.remove('hidden');
+    const ctx = canvas.getContext('2d');
+    
+    // Set size to window size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const particles = [];
+    const colors = ['#f43f5e', '#ec4899', '#d946ef', '#a855f7', '#8b5cf6', '#6366f1', '#3b82f6', '#0ea5e9', '#10b981'];
+    
+    for (let i = 0; i < 150; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height - canvas.height,
+            r: Math.random() * 6 + 4,
+            d: Math.random() * canvas.height,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            tilt: Math.random() * 10 - 5,
+            tiltAngleIncremental: Math.random() * 0.07 + 0.02,
+            tiltAngle: 0
+        });
+    }
+    
+    let animationId;
+    const startTime = Date.now();
+    
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        let finished = true;
+        particles.forEach((p, index) => {
+            p.tiltAngle += p.tiltAngleIncremental;
+            p.y += (Math.cos(p.tiltAngle) + 3 + p.r / 2) / 2;
+            p.x += Math.sin(p.tiltAngle);
+            p.tilt = Math.sin(p.tiltAngle - index) * 15;
+            
+            if (p.y < canvas.height) {
+                finished = false;
+            }
+            
+            ctx.beginPath();
+            ctx.lineWidth = p.r;
+            ctx.strokeStyle = p.color;
+            ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+            ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+            ctx.stroke();
+        });
+        
+        if (finished || Date.now() - startTime > 4000) {
+            cancelAnimationFrame(animationId);
+            canvas.classList.add('hidden');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        } else {
+            animationId = requestAnimationFrame(draw);
+        }
+    }
+    
+    draw();
+}
+
+// WEB AUDIO API SOUND GENERATOR
+function playVictorySound() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Sound 1: E5
+        const osc1 = audioCtx.createOscillator();
+        const gain1 = audioCtx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(659.25, audioCtx.currentTime); // E5
+        gain1.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain1.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+        
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        osc1.start();
+        osc1.stop(audioCtx.currentTime + 0.3);
+        
+        // Sound 2: A5 after 120ms
+        setTimeout(() => {
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(880.00, audioCtx.currentTime); // A5
+            gain2.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain2.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+            
+            osc2.connect(gain2);
+            gain2.connect(audioCtx.destination);
+            osc2.start();
+            osc2.stop(audioCtx.currentTime + 0.5);
+        }, 120);
+    } catch (e) {
+        console.error("Audio Context not supported", e);
+    }
+}
+

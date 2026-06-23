@@ -46,14 +46,33 @@
                 </p>
             </div>
             
-            <!-- Global Progress Tracker -->
-            <div class="w-full md:w-auto bg-slate-900/80 p-4 rounded-2xl border border-slate-800 backdrop-blur-md flex items-center gap-4 min-w-[280px]">
-                <div class="text-left">
-                    <span class="text-[10px] text-slate-500 font-bold uppercase block">Progression globale</span>
-                    <strong class="text-2xl font-black text-indigo-400" id="global-progress-percent">0%</strong>
+            <!-- Stats & Progress Tracker -->
+            <div class="w-full md:w-auto flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+                <!-- Gamification Stats -->
+                <div class="flex gap-2">
+                    <!-- XP / Level -->
+                    <div class="bg-slate-900/80 px-3.5 py-2.5 rounded-2xl border border-slate-800 backdrop-blur-md flex flex-col justify-center min-w-[110px]">
+                        <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider block leading-none mb-1">Niveau</span>
+                        <div class="flex items-baseline gap-1.5 leading-none">
+                            <strong class="text-sm font-black text-pink-400 font-heading" id="gamification-level">Nv. 1</strong>
+                            <span class="text-[10px] text-slate-400 font-semibold" id="gamification-xp">0 XP</span>
+                        </div>
+                    </div>
+                    <!-- Streak -->
+                    <div class="bg-slate-900/80 px-3.5 py-2.5 rounded-2xl border border-slate-800 backdrop-blur-md flex flex-col justify-center min-w-[85px]">
+                        <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider block leading-none mb-1">🔥 Streak</span>
+                        <strong class="text-sm font-black text-amber-500 font-heading leading-none" id="gamification-streak">0 jr</strong>
+                    </div>
                 </div>
-                <div class="flex-grow bg-slate-950 rounded-full h-2.5 overflow-hidden border border-slate-850">
-                    <div class="bg-gradient-to-r from-indigo-500 to-emerald-500 h-full w-0 transition-all duration-700" id="global-progress-bar"></div>
+                <!-- Global Progress -->
+                <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 backdrop-blur-md flex items-center gap-4 min-w-[240px]">
+                    <div class="text-left leading-none">
+                        <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider block mb-1">Progression</span>
+                        <strong class="text-lg font-black text-indigo-400 font-heading" id="global-progress-percent">0%</strong>
+                    </div>
+                    <div class="flex-grow bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-850">
+                        <div class="bg-gradient-to-r from-indigo-500 to-emerald-500 h-full w-0 transition-all duration-700" id="global-progress-bar"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -81,6 +100,9 @@
                 <a href="flashcards.html" class="text-pink-400 border-b-2 border-pink-500 text-sm font-semibold flex items-center gap-2 pb-1.5 transition-all" id="nav-flashcards">
                     🎴 Flashcards
                 </a>
+                <a href="index.html?tab=duolingo" class="text-slate-400 hover:text-slate-100 text-sm font-medium flex items-center gap-2 pb-1.5 transition-all" id="nav-duolingo">
+                    🗺️ Parcours (Duolingo)
+                </a>
             </div>
             
             <button class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-all cursor-pointer" id="theme-toggle" aria-label="Changer de thème">
@@ -96,7 +118,7 @@
         <section class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 glow-card flex flex-col md:flex-row gap-6 justify-between items-center">
             
             <!-- Filters -->
-            <div class="flex flex-wrap gap-2.5 w-full md:w-auto">
+            <div class="flex flex-wrap gap-2.5 w-full md:w-auto items-center">
                 <button onclick="filterFlashcards('all', this)" 
                     class="fc-filter-btn px-4 py-2.5 text-xs sm:text-sm font-extrabold rounded-xl transition-all bg-indigo-600 text-white cursor-pointer border border-transparent">
                     Toutes les cartes
@@ -108,6 +130,10 @@
                 <button onclick="filterFlashcards('learned', this)" 
                     class="fc-filter-btn px-4 py-2.5 text-xs sm:text-sm font-extrabold rounded-xl transition-all bg-slate-900/60 text-slate-400 border border-slate-800 hover:border-slate-700 cursor-pointer">
                     Apprises ✓
+                </button>
+                <button onclick="toggleCardForm()" 
+                    class="px-4 py-2.5 text-xs sm:text-sm font-extrabold rounded-xl transition-all bg-pink-600 hover:bg-pink-500 text-white cursor-pointer border border-transparent flex items-center gap-1.5 shadow-lg shadow-pink-500/20 ml-2">
+                    ➕ Créer une carte
                 </button>
             </div>
             
@@ -126,6 +152,55 @@
                     <strong class="text-base text-slate-300 font-heading" id="fc-count-total">0</strong>
                 </div>
             </div>
+        </section>
+
+        <!-- Creation Form (hidden by default) -->
+        <section id="create-card-form" class="hidden bg-slate-900/40 border border-pink-900/30 rounded-3xl p-6 sm:p-8 glow-card transition-all duration-300 animate-fade-in-up">
+            <h3 class="text-xl font-bold text-slate-100 font-heading mb-2 flex items-center gap-2">
+                ✨ Créer une nouvelle carte de révision
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-400 mb-6">
+                Personnalisez vos révisions en ajoutant des définitions ou questions-réponses spécifiques. Elles seront enregistrées localement dans votre navigateur.
+            </p>
+            
+            <form onsubmit="submitNewCard(event)" class="space-y-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label for="fc-input-term" class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Recto (Terme ou Question)</label>
+                        <input type="text" id="fc-input-term" required
+                            class="w-full px-4 py-3 text-xs sm:text-sm rounded-xl bg-slate-950 border border-slate-850 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 outline-none text-slate-100 placeholder-slate-600 transition-all"
+                            placeholder="Ex: Cuticule ou Quel est le pH d'un shampooing neutre ?">
+                    </div>
+                    <div>
+                        <label for="fc-input-cat" class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Catégorie</label>
+                        <select id="fc-input-cat"
+                            class="w-full px-4 py-3 text-xs sm:text-sm rounded-xl bg-slate-950 border border-slate-850 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 outline-none text-slate-100 transition-all">
+                            <option value="Biologie">🧬 Biologie</option>
+                            <option value="Chimie">🧪 Chimie</option>
+                            <option value="Technologie">✂️ Technologie</option>
+                            <option value="Autre">📝 Autre / Général</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="fc-input-def" class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Verso (Définition ou Réponse)</label>
+                    <textarea id="fc-input-def" required rows="3"
+                        class="w-full px-4 py-3 text-xs sm:text-sm rounded-xl bg-slate-950 border border-slate-850 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 outline-none text-slate-100 placeholder-slate-600 transition-all leading-relaxed"
+                        placeholder="Ex: Couche externe protectrice du cheveu, formée d'écailles imbriquées... ou Le pH est neutre à 7."></textarea>
+                </div>
+                
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="toggleCardForm()"
+                        class="px-5 py-2.5 text-xs sm:text-sm font-bold text-slate-400 hover:text-white border border-slate-850 hover:bg-slate-900 rounded-xl transition-all cursor-pointer">
+                        Annuler
+                    </button>
+                    <button type="submit"
+                        class="px-5 py-2.5 text-xs sm:text-sm font-bold text-white bg-pink-600 hover:bg-pink-500 rounded-xl shadow-lg shadow-pink-500/20 transition-all cursor-pointer">
+                        Enregistrer la carte
+                    </button>
+                </div>
+            </form>
         </section>
 
         <!-- Flashcards grid container -->
