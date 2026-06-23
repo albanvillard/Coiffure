@@ -1,305 +1,263 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="light">
-
+<html lang="fr" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chimie Appliquée | CAP Coiffure 2027</title>
-    <meta name="description"
-        content="Cours de chimie sur le pH cutané, la composition de l'eau, les tensioactifs, les colorations d'oxydation et le mécanisme de la permanente.">
+    <meta name="description" content="Cours de chimie sur le pH cutané, la dureté de l'eau, les agents tensioactifs et les réactions de permanente et décoloration.">
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            850: '#1e293b',
+                            950: '#020617',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        heading: ['"Outfit"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="css/style.css">
 </head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
 
-<body>
-
-    <header>
-        <div class="header-container">
-            <div class="header-title-box">
-                <span>Formulation, Chimie & Cosmétologie</span>
-                <h1>🧪 Chimie Appliquée au Salon de Coiffure</h1>
-                <p>Maîtrisez les réactions d'oxydo-réduction, les équilibres de pH et les formules pour des services
-                    techniques d'élite.</p>
+    <!-- Header Section -->
+    <header class="relative overflow-hidden bg-slate-950 border-b border-slate-900 py-8 px-4 sm:px-6 lg:px-8">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_-20%,rgba(99,102,241,0.12),transparent_70%)] pointer-events-none"></div>
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
+            <div>
+                <span class="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-widest text-indigo-400 bg-indigo-950/50 border border-indigo-900/50 px-3 py-1 rounded-full mb-2">
+                    Formulation, Chimie & Cosmétologie
+                </span>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-300 bg-clip-text text-transparent font-heading">
+                    🧪 Chimie Appliquée au Salon
+                </h1>
+                <p class="text-slate-400 text-sm sm:text-base mt-1">
+                    Maîtrisez les réactions d'oxydo-réduction, la dureté de l'eau, les tensioactifs et les équilibres de pH.
+                </p>
             </div>
-            <div class="header-progress-box">
-                <div class="progress-text">
-                    <span>Progression globale</span>
-                    <strong id="global-progress-percent">45%</strong>
+            
+            <!-- Global Progress Tracker -->
+            <div class="w-full md:w-auto bg-slate-900/80 p-4 rounded-2xl border border-slate-800 backdrop-blur-md flex items-center gap-4 min-w-[280px]">
+                <div class="text-left">
+                    <span class="text-[10px] text-slate-500 font-bold uppercase block">Progression globale</span>
+                    <strong class="text-2xl font-black text-indigo-400" id="global-progress-percent">0%</strong>
                 </div>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="global-progress-bar"></div>
+                <div class="flex-grow bg-slate-950 rounded-full h-2.5 overflow-hidden border border-slate-850">
+                    <div class="bg-gradient-to-r from-indigo-500 to-emerald-500 h-full w-0 transition-all duration-700" id="global-progress-bar"></div>
                 </div>
             </div>
         </div>
     </header>
 
-    <nav>
-        <div class="nav-container">
-            <div class="nav-menu">
-                <a href="index.html" class="nav-item" id="nav-dashboard">📊 Mon Espace & Notes</a>
-                <a href="biologie.html" class="nav-item" id="nav-biology">🧬 Biologie Appliquée</a>
-                <a href="chimie.html" class="nav-item active" id="nav-chemistry">🧪 Chimie Appliquée</a>
-                <a href="technologie.html" class="nav-item" id="nav-technology">✂️ Technologie Outillage</a>
-                <a href="quiz.html" class="nav-item" id="nav-quiz">📝 Quiz d'Examen</a>
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-slate-950/80 border-b border-slate-900 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+            <div class="flex space-x-6 overflow-x-auto py-3 no-scrollbar flex-grow">
+                <a href="index.html" class="text-slate-400 hover:text-slate-100 text-sm font-medium flex items-center gap-2 pb-1.5 transition-all" id="nav-dashboard">
+                    📊 Mon Espace
+                </a>
+                <a href="biologie.html" class="text-slate-400 hover:text-slate-100 text-sm font-medium flex items-center gap-2 pb-1.5 transition-all" id="nav-biology">
+                    🧬 Biologie
+                </a>
+                <a href="chimie.html" class="text-indigo-400 border-b-2 border-indigo-500 text-sm font-semibold flex items-center gap-2 pb-1.5 transition-all" id="nav-chemistry">
+                    🧪 Chimie & pH
+                </a>
+                <a href="technologie.html" class="text-slate-400 hover:text-slate-100 text-sm font-medium flex items-center gap-2 pb-1.5 transition-all" id="nav-technology">
+                    ✂️ Technologie
+                </a>
+                <a href="quiz.html" class="text-slate-400 hover:text-slate-100 text-sm font-medium flex items-center gap-2 pb-1.5 transition-all" id="nav-quiz">
+                    📝 Quiz d'Examen
+                </a>
+                <a href="flashcards.html" class="text-slate-400 hover:text-slate-100 text-sm font-medium flex items-center gap-2 pb-1.5 transition-all" id="nav-flashcards">
+                    🎴 Flashcards
+                </a>
             </div>
-            <button class="theme-toggle-btn" id="theme-toggle" aria-label="Changer de thème">
+            
+            <button class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-all cursor-pointer" id="theme-toggle" aria-label="Changer de thème">
                 <!-- SVG injected by JS -->
             </button>
         </div>
     </nav>
 
-    <main class="animate-fade-in">
+    <!-- Main Content Area -->
+    <main class="max-w-6xl w-full mx-auto px-4 py-8 sm:px-6 lg:px-8 flex-grow space-y-12 animate-fade-in-up">
 
-        <!-- SIMULATEUR INTERACTIF DE PH & CUTICULE -->
-        <section class="chapter-block" id="ch-ph-simulator">
-            <h2 class="chapter-title">Simulateur Interactif : Échelle de pH et Action Cutanée</h2>
-            <div class="grid-2">
-                <div class="card ph-sim-container">
-                    <h3 class="card-title">💡 Action mécanique du pH sur la Kératine</h3>
-                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
-                        Le pH (Potentiel Hydrogène) mesure le caractère acide, neutre ou alcalin d'un milieu sur une
-                        échelle de 0 à 14. Modifiez le curseur ci-dessous pour voir la réaction des écailles du cheveu
-                        au salon.
-                    </p>
-
-                    <div class="ph-value-card">
-                        <span style="font-weight: 700; font-size: 0.85rem; color: var(--text-secondary);">Sélectionnez
-                            une valeur :</span>
-                        <span class="ph-value-display" id="ph-display-val">pH 5.0</span>
+        <!-- MODULE 1 : SIMULATEUR PH ET ÉCAILLES -->
+        <section class="space-y-6" id="ph-module">
+            <h2 class="text-2xl font-black text-slate-100 font-heading border-b border-slate-900 pb-2">
+                Module I : Action mécanique du pH sur la Cuticule
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Interactive slider card -->
+                <div class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 glow-card flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-100 font-heading mb-3">💡 Échelle de pH & Kératine</h3>
+                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-5">
+                            Le Potentiel Hydrogène détermine l'état d'ouverture ou de fermeture des écailles. Ajustez le curseur pour simuler l'application de produits acides ou alcalins.
+                        </p>
+                        
+                        <div class="flex justify-between items-center bg-slate-950 p-4 rounded-xl border border-slate-850 mb-4">
+                            <span class="text-xs font-semibold text-slate-400">Curseur de pH :</span>
+                            <span class="text-xl font-black text-indigo-400 font-heading" id="ph-display-val">pH 5.0</span>
+                        </div>
+                        
+                        <input type="range" id="ph-slider" min="2" max="12" step="0.5" value="5" 
+                            class="ph-slider w-full h-2 rounded-lg cursor-pointer bg-slate-950 border border-slate-850" oninput="updatePhSimulator()">
                     </div>
-
-                    <input type="range" id="ph-slider" min="2" max="12" step="0.5" value="5" class="ph-slider"
-                        oninput="updatePhSimulator()">
-
-                    <div id="ph-info-panel" class="alert-box">
-                        <!-- Content dynamically loaded by JS -->
+                    
+                    <div id="ph-info-panel" class="mt-6 p-4 rounded-2xl border transition-all duration-300">
+                        <!-- Loaded dynamically by main.js -->
                     </div>
                 </div>
 
-                <div class="card svg-interactive-container" style="min-height: 280px; flex-direction: row; gap: 2rem;">
+                <!-- Cuticle representation scales -->
+                <div class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 glow-card flex flex-row items-center justify-center gap-8 min-h-[300px]">
                     <div>
-                        <span class="badge badge-primary">Vue Microscopique</span>
-                        <p
-                            style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem; max-width: 180px;">
-                            Observez comment les écailles s'écartent sous l'action alcaline et se verrouillent sous
-                            l'action acide.
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-400 bg-indigo-950/40 border border-indigo-900/30 px-3 py-1 rounded-full">
+                            Vue Microscopique
+                        </span>
+                        <p class="text-[11px] text-slate-500 mt-3 max-w-[150px] leading-relaxed">
+                            Observez les écailles (cuticules) pivoter et s'ouvrir sous l'effet du pH alcalin (supérieur à 7).
                         </p>
                     </div>
-
-                    <!-- Cuticle representation scales -->
-                    <div class="scale-visualizer">
+                    
+                    <!-- Vertical cuticle representation model -->
+                    <div class="scale-visualizer w-24 bg-slate-950 rounded-2xl h-60 border border-slate-850 relative flex flex-col justify-around py-4 items-center overflow-hidden">
                         <!-- Hair core (cortex) -->
-                        <div
-                            style="position: absolute; width: 30px; height: 100%; background: #c7d2fe; border-radius: 9999px; z-index: 1;">
-                        </div>
-
-                        <!-- Left Scales -->
-                        <div class="scale-cuticle-layer" style="position: absolute; left: 5px; top: 15%; z-index: 2;"
-                            id="scale-l1"></div>
-                        <div class="scale-cuticle-layer" style="position: absolute; left: 5px; top: 35%; z-index: 2;"
-                            id="scale-l2"></div>
-                        <div class="scale-cuticle-layer" style="position: absolute; left: 5px; top: 55%; z-index: 2;"
-                            id="scale-l3"></div>
-                        <div class="scale-cuticle-layer" style="position: absolute; left: 5px; top: 75%; z-index: 2;"
-                            id="scale-l4"></div>
-
-                        <!-- Right Scales (rotated oppositely) -->
-                        <div class="scale-cuticle-layer"
-                            style="position: absolute; right: 5px; top: 25%; z-index: 2; transform-origin: right center;"
-                            id="scale-r1"></div>
-                        <div class="scale-cuticle-layer"
-                            style="position: absolute; right: 5px; top: 45%; z-index: 2; transform-origin: right center;"
-                            id="scale-r2"></div>
-                        <div class="scale-cuticle-layer"
-                            style="position: absolute; right: 5px; top: 65%; z-index: 2; transform-origin: right center;"
-                            id="scale-r3"></div>
+                        <div class="absolute w-8 bg-indigo-950 border border-indigo-900/50 rounded-full h-full z-10"></div>
+                        
+                        <!-- Left side scales -->
+                        <div class="scale-cuticle-layer w-16 h-3 bg-indigo-500 rounded-b-md absolute left-1 transition-all duration-300 z-20" style="top: 15%; transform-origin: left center;" id="scale-l1"></div>
+                        <div class="scale-cuticle-layer w-16 h-3 bg-indigo-500 rounded-b-md absolute left-1 transition-all duration-300 z-20" style="top: 35%; transform-origin: left center;" id="scale-l2"></div>
+                        <div class="scale-cuticle-layer w-16 h-3 bg-indigo-500 rounded-b-md absolute left-1 transition-all duration-300 z-20" style="top: 55%; transform-origin: left center;" id="scale-l3"></div>
+                        <div class="scale-cuticle-layer w-16 h-3 bg-indigo-500 rounded-b-md absolute left-1 transition-all duration-300 z-20" style="top: 75%; transform-origin: left center;" id="scale-l4"></div>
+                        
+                        <!-- Right side scales -->
+                        <div class="scale-cuticle-layer w-16 h-3 bg-indigo-500 rounded-b-md absolute right-1 transition-all duration-300 z-20" style="top: 25%; transform-origin: right center;" id="scale-r1"></div>
+                        <div class="scale-cuticle-layer w-16 h-3 bg-indigo-500 rounded-b-md absolute right-1 transition-all duration-300 z-20" style="top: 45%; transform-origin: right center;" id="scale-r2"></div>
+                        <div class="scale-cuticle-layer w-16 h-3 bg-indigo-500 rounded-b-md absolute right-1 transition-all duration-300 z-20" style="top: 65%; transform-origin: right center;" id="scale-r3"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- COURS THÉORIQUE DÉTAILLÉ -->
-        <section class="chapter-block" id="ch-chemistry-details">
-            <h2 class="chapter-title">Chapitre 1 : L'Eau et les Agents de Surface (Tensioactifs)</h2>
-            <div class="grid-2">
-                <div class="card">
-                    <h3 class="card-title">🚿 L'Eau et la Dureté (TH)</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
-                        L'eau ($H_2O$) est le solvant universel au salon. Sa dureté est mesurée par le <strong>Titre
-                            Hydrotimétrique (TH)</strong> exprimé en degrés français (°f). Un degré français équivaut à
-                        10 mg de carbonate de calcium ($CaCO_3$) ou de magnésium par litre d'eau.
+        <!-- MODULE 2 : L'EAU & TENSIOACTIFS -->
+        <section class="space-y-6" id="water-surfactants-module">
+            <h2 class="text-2xl font-black text-slate-100 font-heading border-b border-slate-900 pb-2">
+                Module II : Dureté de l'Eau & Tensioactifs
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Hardness detailed card -->
+                <div class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 glow-card space-y-4">
+                    <h3 class="text-lg font-bold text-slate-100 font-heading">🚿 TH de l'Eau & Calcaire</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                        L'eau ($H_2O$) est le fluide roi au salon. Sa teneur en sels minéraux définit sa dureté ou <strong>Titre Hydrotimétrique (TH)</strong> en degrés français (°f).
                     </p>
-                    <ul
-                        style="font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.5rem; list-style-type: square; padding-left: 1.25rem;">
-                        <li><strong>Eau Douce (TH < 15°f) :</strong> Facilite le moussage des shampooings, respecte la
-                                    fibre pilaire.</li>
-                        <li><strong>Eau Dure / Calcaire (TH > 30°f) :</strong> Forme des précipités insolubles au
-                            contact du savon (savon calcaire) qui ternissent, alourdissent et dessèchent la cuticule.
-                            Nécessite l'installation d'un adoucisseur d'eau à base de résines échangeuses d'ions.</li>
-                    </ul>
-                </div>
-
-                <div class="card">
-                    <h3 class="card-title">🧼 Les Tensioactifs (Formulation du shampooing)</h3>
-                    <p
-                        style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.75rem;">
-                        Les tensioactifs sont des molécules **amphiphiles** (double affinité) composées de deux parties
-                        :
-                    </p>
-                    <div
-                        style="margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.8rem; color: var(--text-secondary);">
-                        <p><strong>1. Une tête hydrophile (polaire) :</strong> Qui a de l'affinité avec l'eau.</p>
-                        <p><strong>2. Une queue lipophile (apolaire / chaîne carbonée) :</strong> Qui a de l'affinité
-                            avec les lipides (corps gras / sébum).</p>
-                        <p style="margin-top:0.5rem; font-style:italic;">
-                            <strong>Mécanisme de lavage :</strong> Les queues lipophiles s'ancrent dans la particule de
-                            sébum grasse. Les têtes hydrophiles restent orientées vers l'eau de rinçage. Sous l'action
-                            mécanique, elles s'assemblent en **micelles** sphériques, englobant la saleté pour
-                            l'éliminer au rinçage.
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-850 space-y-3 text-xs sm:text-sm">
+                        <p class="border-l-2 border-indigo-500 pl-3">
+                            <strong class="text-slate-200">Eau Douce (TH &lt; 15°f) :</strong> Facilite le moussage du shampooing et préserve la douceur naturelle des cuticules.
+                        </p>
+                        <p class="border-l-2 border-indigo-500 pl-3">
+                            <strong class="text-slate-200">Eau Dure/Calcaire (TH &gt; 30°f) :</strong> Forme un savon calcaire insoluble qui ternit, dessèche et alourdit la fibre. Nécessite l'installation d'un adoucisseur d'eau à résines.
                         </p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Custom Micelle SVG schema -->
-            <div class="card" style="margin-bottom: 2rem;">
-                <h3 class="card-title">🔬 Schéma Moléculaire : Formation de la Micelle de Lavage</h3>
-                <div class="grid-2" style="align-items: center; margin-bottom:0;">
-                    <div class="svg-interactive-container">
-                        <!-- Micelle SVG -->
-                        <svg viewBox="0 0 350 250" width="100%" height="200">
-                            <!-- Grease droplet in center -->
-                            <circle cx="175" cy="125" r="40" fill="#f59e0b" opacity="0.85" stroke="#d97706"
-                                stroke-width="2"></circle>
-                            <text x="145" y="129" class="svg-text-label" fill="#ffffff" style="font-size: 11px;">SÉBUM /
-                                GRAS</text>
-
-                            <!-- Tensioactive molecules (heads + tails) pointing inward -->
-                            <!-- Top -->
-                            <line x1="175" y1="45" x2="175" y2="85" stroke="#4f46e5" stroke-width="3"></line>
-                            <circle cx="175" cy="45" r="10" fill="#ec4899"></circle>
-                            <!-- Bottom -->
-                            <line x1="175" y1="205" x2="175" y2="165" stroke="#4f46e5" stroke-width="3"></line>
-                            <circle cx="175" cy="205" r="10" fill="#ec4899"></circle>
-                            <!-- Left -->
-                            <line x1="95" y1="125" x2="135" y2="125" stroke="#4f46e5" stroke-width="3"></line>
-                            <circle cx="95" cy="125" r="10" fill="#ec4899"></circle>
-                            <!-- Right -->
-                            <line x1="255" y1="125" x2="215" y2="125" stroke="#4f46e5" stroke-width="3"></line>
-                            <circle cx="255" cy="125" r="10" fill="#ec4899"></circle>
-                            <!-- Diagonals -->
-                            <line x1="118" y1="68" x2="147" y2="97" stroke="#4f46e5" stroke-width="3"></line>
-                            <circle cx="118" cy="68" r="10" fill="#ec4899"></circle>
-
-                            <line x1="232" y1="68" x2="203" y2="97" stroke="#4f46e5" stroke-width="3"></line>
-                            <circle cx="232" cy="68" r="10" fill="#ec4899"></circle>
-
-                            <line x1="118" y1="182" x2="147" y2="153" stroke="#4f46e5" stroke-width="3"></line>
-                            <circle cx="118" cy="182" r="10" fill="#ec4899"></circle>
-
-                            <line x1="232" y1="182" x2="203" y2="153" stroke="#4f46e5" stroke-width="3"></line>
-                            <circle cx="232" cy="182" r="10" fill="#ec4899"></circle>
-                        </svg>
-                    </div>
+                <!-- Surfactants card with Micelle SVG -->
+                <div class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 glow-card flex flex-col justify-between">
                     <div>
-                        <h4 style="font-size: 1rem; color: var(--accent-primary); margin-bottom: 0.5rem;">Classification
-                            des Tensioactifs :</h4>
-                        <ul
-                            style="font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.5rem; list-style-type: circle; padding-left: 1.25rem;">
-                            <li><strong>Anioniques (Charge négative -) :</strong> Fort pouvoir moussant et détergent
-                                (ex: Sodium Laureth Sulfate). Composant principal des shampooings.</li>
-                            <li><strong>Cationiques (Charge positive +) :</strong> N'ont pas de pouvoir lavant mais se
-                                fixent sur la kératine abîmée (chargée négativement). Pouvoir démêlant et adoucissant
-                                (ex: Quaterniums, conditionneurs).</li>
-                            <li><strong>Amphotères (Double charge + / -) :</strong> Doux, s'adaptent au pH du milieu.
-                                Très peu irritants, utilisés dans les shampooings bébé.</li>
-                            <li><strong>Non-ioniques (Pas de charge) :</strong> Très doux, servent de stabilisateurs de
-                                mousse ou d'émulsifiants.</li>
+                        <h3 class="text-lg font-bold text-slate-100 font-heading mb-2">🧼 Tensioactifs & Élimination du Sébum</h3>
+                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4">
+                            Les shampooings contiennent des molécules **amphiphiles** qui emprisonnent le sébum grasse dans des structures sphériques appelées **micelles** pour être évacuées au rinçage.
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                        <div class="bg-slate-950 p-3 border border-slate-850 rounded-2xl flex items-center justify-center">
+                            <!-- Micelle schema SVG -->
+                            <svg viewBox="0 0 250 220" width="100%" height="150">
+                                <!-- Grease droplet -->
+                                <circle cx="125" cy="110" r="30" fill="#f59e0b" stroke="#d97706" stroke-width="1.5"></circle>
+                                <text x="105" y="113" fill="#ffffff" font-family="'Outfit'" font-size="9" font-weight="bold">GRAS</text>
+                                
+                                <!-- Surfactants -->
+                                <line x1="125" y1="40" x2="125" y2="80" stroke="#4f46e5" stroke-width="2.5"></line>
+                                <circle cx="125" cy="40" r="7" fill="#ec4899"></circle>
+                                
+                                <line x1="125" y1="180" x2="125" y2="140" stroke="#4f46e5" stroke-width="2.5"></line>
+                                <circle cx="125" cy="180" r="7" fill="#ec4899"></circle>
+                                
+                                <line x1="55" y1="110" x2="95" y2="110" stroke="#4f46e5" stroke-width="2.5"></line>
+                                <circle cx="55" cy="110" r="7" fill="#ec4899"></circle>
+                                
+                                <line x1="195" y1="110" x2="155" y2="110" stroke="#4f46e5" stroke-width="2.5"></line>
+                                <circle cx="195" cy="110" r="7" fill="#ec4899"></circle>
+                            </svg>
+                        </div>
+                        <ul class="text-[11px] sm:text-xs text-slate-400 space-y-1">
+                            <li>💧 <strong class="text-slate-200">Tête hydrophile (polaire) :</strong> Se lie à l'eau de rinçage.</li>
+                            <li>🧼 <strong class="text-slate-200">Queue lipophile (apolaire) :</strong> Se fixe sur le gras du sébum.</li>
+                            <li class="text-indigo-400 font-semibold mt-2">➔ Les tensioactifs cationiques (+) gainent et adoucissent les zones endommagées (-).</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CHAPITRE 2 : L'OXYDATION & COLORATION -->
-        <section class="chapter-block" id="ch-oxidation">
-            <h2 class="chapter-title">Chapitre 2 : L'Oxydation & Coloration Permanente</h2>
-            <div class="grid-2">
-                <div class="card">
-                    <h3 class="card-title">🧪 Chimie de la Décoloration</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
-                        La décoloration (éclaircissement artificiel) est une réaction d'oxydation destructrice des
-                        pigments mélaniques du cortex. Elle nécessite l'association de deux éléments clés :
-                    </p>
-                    <div
-                        style="font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
-                        <p><strong>1. L'agent oxydant :</strong> L'eau oxygénée (Peroxyde d'Hydrogène $H_2O_2$) qui
-                            libère de l'oxygène gazeux.</p>
-                        <p><strong>2. L'agent alcalin :</strong> L'ammoniaque ($NH_3$) ou la monoéthanolamine (MEA) qui
-                            ouvre les écailles de la cuticule par gonflement et active l'eau oxygénée.</p>
-                        <p><strong>3. Catalyseurs :</strong> Les persulfates d'ammonium ou de sodium contenus dans les
-                            poudres bleues décolorantes, qui accélèrent fortement la réaction.</p>
+        <!-- MODULE 3 : OXYDATION, DECOLORATION & PERMANENTE -->
+        <section class="space-y-6" id="oxidation-perm-module">
+            <h2 class="text-2xl font-black text-slate-100 font-heading border-b border-slate-900 pb-2">
+                Module III : Chimie des Transformations Techniques
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Coloration / Oxidation -->
+                <div class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 glow-card flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-100 font-heading mb-3">🧪 Oxydation & Décoloration</h3>
+                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4">
+                            L'oxydation modifie de façon irréversible la mélanine du cortex grâce au peroxyde d'hydrogène ($H_2O_2$) en milieu alcalin (ammoniaque ou MEA) qui fait gonfler le cheveu et ouvre sa cuticule.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-xs sm:text-sm">
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-850">
+                            <span class="font-bold text-emerald-400 block mb-0.5">10 Vol. (3%)</span>
+                            Fonce ou fixe les reflets ton sur ton.
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-850">
+                            <span class="font-bold text-indigo-400 block mb-0.5">20 Vol. (6%)</span>
+                            Éclaircit d'un ton. Seul autorisé sur cuir chevelu.
+                        </div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <h3 class="card-title">⚠️ Les Volumes d'Oxydants et dosages</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                        La concentration en eau oxygénée détermine la force d'éclaircissement (exprimée en Volume ou en
-                        pourcentage) :
-                    </p>
-                    <ul
-                        style="font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.5rem; list-style-type: none;">
-                        <li style="border-left:3px solid var(--accent-success); padding-left:0.5rem;"><strong>10 Volumes
-                                (3% $H_2O_2$) :</strong> Libère 10 litres d'oxygène par litre de solution. Pour foncer
-                            ou fixer un reflet ton sur ton.</li>
-                        <li style="border-left:3px solid var(--accent-primary); padding-left:0.5rem;"><strong>20 Volumes
-                                (6% $H_2O_2$) :</strong> Éclaircit de 1 à 2 tons et couvre 100% des cheveux blancs.
-                            <strong>Seul volume toléré en contact direct avec le cuir chevelu.</strong></li>
-                        <li style="border-left:3px solid var(--accent-warning); padding-left:0.5rem;"><strong>30 Volumes
-                                (9% $H_2O_2$) :</strong> Éclaircit de 2 à 3 tons. Utilisé uniquement pour les mèches et
-                            balayages enveloppés (hors cuir chevelu).</li>
-                        <li style="border-left:3px solid var(--accent-danger); padding-left:0.5rem;"><strong>40 Volumes
-                                (12% $H_2O_2$) :</strong> Éclaircit de 3 à 4 tons (super-éclaircissants). Danger
-                            d'altération de la kératine, interdit sur peau.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- CHAPITRE 3 : LA PERMANENTE (RÉDUCTION / FIXATION) -->
-        <section class="chapter-block" id="ch-perm">
-            <h2 class="chapter-title">Chapitre 3 : La Permanente (Modification de structure)</h2>
-            <div class="card">
-                <h3 class="card-title">🌀 La double réaction chimique d'Oxydo-Réduction</h3>
-                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
-                    La permanente consiste à déformer durablement la tige pilaire en agissant chimiquement sur les
-                    liaisons les plus fortes : les ponts disulfures (liaisons covalentes de soufre). C'est un processus
-                    en 2 étapes distinctes :
-                </p>
-                <div class="grid-2" style="margin-bottom:0; gap:1.5rem;">
-                    <div class="detail-subcard"
-                        style="background-color:rgba(var(--accent-secondary-rgb), 0.04); border-color:rgba(var(--accent-secondary-rgb), 0.2);">
-                        <h4 style="color:var(--accent-secondary);">Étape 1 : La Réduction (Brise-ponts)</h4>
-                        <p style="font-size:0.8rem; color:var(--text-secondary); line-height: 1.5; margin-top:0.5rem;">
-                            <strong>Le Produit :</strong> Le liquide de permanente (à base d'acide thioglycolique, pH
-                            alcalin entre 8.0 et 9.5).
-                            <br><br><strong>Mécanisme :</strong> L'acide thioglycolique apporte de l'hydrogène ($H^+$)
-                            qui brise les liaisons disulfures ($S-S$) en les transformant en groupes thiols libres
-                            ($S-H$ / $H-S$). Les chaînes de kératine du cortex glissent les unes sur les autres. Le
-                            cheveu enroulé épouse la forme cylindrique du bigoudi.
+                <!-- Permanente / Red-Ox -->
+                <div class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 glow-card flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-100 font-heading mb-3">🌀 Permanente (Double réaction)</h3>
+                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4">
+                            Elle rompt et reconstitue les liaisons de soufre (ponts disulfures) de la kératine pour déformer durablement le cheveu.
                         </p>
                     </div>
-                    <div class="detail-subcard"
-                        style="background-color:rgba(var(--accent-success-rgb), 0.04); border-color:rgba(var(--accent-success-rgb), 0.2);">
-                        <h4 style="color:var(--accent-success);">Étape 2 : La Fixation / Oxydation (Ressoude-ponts)</h4>
-                        <p style="font-size:0.8rem; color:var(--text-secondary); line-height: 1.5; margin-top:0.5rem;">
-                            <strong>Le Produit :</strong> Le fixateur ou neutralisant (pH acide ~3.0 à 4.0, formulé à
-                            base d'eau oxygénée très diluée à environ 8 Volumes).
-                            <br><br><strong>Mécanisme :</strong> Après un rinçage à chaud minutieux pour éliminer le
-                            réducteur, on applique le fixateur. L'oxygène ($O_2$) du produit capte l'hydrogène ajouté à
-                            l'étape 1 (formant de l'eau $H_2O$ éliminée au lavage) et force les atomes de soufre à se
-                            souder de nouveau. Les ponts disulfures sont reconstitués dans leur nouvelle forme frisée.
-                        </p>
+                    <div class="grid grid-cols-2 gap-3 text-xs sm:text-sm">
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-850">
+                            <span class="font-bold text-pink-400 block mb-0.5">Étape 1 : Réduction</span>
+                            L'acide thioglycolique (réducteur) casse les ponts disulfures ($S-S$).
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-850">
+                            <span class="font-bold text-emerald-400 block mb-0.5">Étape 2 : Fixation</span>
+                            Le fixateur acide ressoude les liaisons dans la nouvelle forme.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -307,8 +265,9 @@
 
     </main>
 
-    <footer>
-        <div class="footer-container">
+    <!-- Footer Section -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-6 px-4">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-center text-xs text-slate-500">
             <p>© 2026 Alban Coiffure. Tous droits réservés.</p>
             <p>Conçu en binôme avec votre prof expert en coiffure.</p>
         </div>
@@ -316,5 +275,4 @@
 
     <script src="js/main.js"></script>
 </body>
-
 </html>

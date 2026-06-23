@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grand Quiz d'Examen | CAP Coiffure 2027</title>
-    <meta name="description" content="Testez vos connaissances en biologie, chimie et technologie avec le quiz interactif de 10 questions du CAP Coiffure.">
+    <title>Cartes de Révision Actives (Flashcards) | CAP Coiffure 2027</title>
+    <meta name="description" content="Révisez activement les définitions clés du programme CAP Coiffure avec des flashcards 3D interactives.">
     <!-- Tailwind Play CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -32,17 +32,17 @@
 
     <!-- Header Section -->
     <header class="relative overflow-hidden bg-slate-950 border-b border-slate-900 py-8 px-4 sm:px-6 lg:px-8">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_-20%,rgba(99,102,241,0.12),transparent_70%)] pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_-20%,rgba(236,72,153,0.1),transparent_70%)] pointer-events-none"></div>
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
             <div>
-                <span class="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-widest text-indigo-400 bg-indigo-950/50 border border-indigo-900/50 px-3 py-1 rounded-full mb-2">
-                    Évaluation Théorique Interactive
+                <span class="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-widest text-pink-400 bg-pink-950/50 border border-pink-900/50 px-3 py-1 rounded-full mb-2">
+                    Mémorisation active - Système Leitner
                 </span>
-                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-300 bg-clip-text text-transparent font-heading">
-                    📝 Grand Quiz d'Évaluation Officiel
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-pink-300 bg-clip-text text-transparent font-heading">
+                    🎴 Cartes de Révision Capillaire
                 </h1>
                 <p class="text-slate-400 text-sm sm:text-base mt-1">
-                    Entraînez-vous avec 10 questions aléatoires tirées du programme de biologie, chimie et technologie.
+                    Entraînez votre mémoire avec ces cartes recto-verso 3D pour maîtriser le vocabulaire scientifique officiel.
                 </p>
             </div>
             
@@ -75,10 +75,10 @@
                 <a href="technologie.html" class="text-slate-400 hover:text-slate-100 text-sm font-medium flex items-center gap-2 pb-1.5 transition-all" id="nav-technology">
                     ✂️ Technologie
                 </a>
-                <a href="quiz.html" class="text-indigo-400 border-b-2 border-indigo-500 text-sm font-semibold flex items-center gap-2 pb-1.5 transition-all" id="nav-quiz">
+                <a href="quiz.html" class="text-slate-400 hover:text-slate-100 text-sm font-medium flex items-center gap-2 pb-1.5 transition-all" id="nav-quiz">
                     📝 Quiz d'Examen
                 </a>
-                <a href="flashcards.html" class="text-slate-400 hover:text-slate-100 text-sm font-medium flex items-center gap-2 pb-1.5 transition-all" id="nav-flashcards">
+                <a href="flashcards.html" class="text-pink-400 border-b-2 border-pink-500 text-sm font-semibold flex items-center gap-2 pb-1.5 transition-all" id="nav-flashcards">
                     🎴 Flashcards
                 </a>
             </div>
@@ -90,39 +90,48 @@
     </nav>
 
     <!-- Main Content Area -->
-    <main class="max-w-3xl w-full mx-auto px-4 py-8 sm:px-6 flex-grow animate-fade-in-up">
+    <main class="max-w-6xl w-full mx-auto px-4 py-8 sm:px-6 lg:px-8 flex-grow space-y-8 animate-fade-in-up">
         
-        <!-- Header Info Card -->
-        <section class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 sm:p-8 glow-card transition-all mb-8">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-                <div>
-                    <h3 class="text-xl font-bold text-slate-100 font-heading">🧪 Session d'Examen CAP</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 mt-1 leading-relaxed">
-                        Chaque session propose 10 questions aléatoires. Répondez à chacune pour afficher les explications scientifiques du référentiel.
-                    </p>
+        <!-- Controls & Status Bar -->
+        <section class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 glow-card flex flex-col md:flex-row gap-6 justify-between items-center">
+            
+            <!-- Filters -->
+            <div class="flex flex-wrap gap-2.5 w-full md:w-auto">
+                <button onclick="filterFlashcards('all', this)" 
+                    class="fc-filter-btn px-4 py-2.5 text-xs sm:text-sm font-extrabold rounded-xl transition-all bg-indigo-600 text-white cursor-pointer border border-transparent">
+                    Toutes les cartes
+                </button>
+                <button onclick="filterFlashcards('review', this)" 
+                    class="fc-filter-btn px-4 py-2.5 text-xs sm:text-sm font-extrabold rounded-xl transition-all bg-slate-900/60 text-slate-400 border border-slate-800 hover:border-slate-700 cursor-pointer">
+                    À réviser ⚠️
+                </button>
+                <button onclick="filterFlashcards('learned', this)" 
+                    class="fc-filter-btn px-4 py-2.5 text-xs sm:text-sm font-extrabold rounded-xl transition-all bg-slate-900/60 text-slate-400 border border-slate-800 hover:border-slate-700 cursor-pointer">
+                    Apprises ✓
+                </button>
+            </div>
+            
+            <!-- Stats -->
+            <div class="flex gap-4 w-full md:w-auto justify-around md:justify-end text-center text-xs">
+                <div class="bg-slate-950/80 border border-slate-850 px-4 py-2 rounded-xl">
+                    <span class="text-slate-500 font-semibold block uppercase text-[10px]">Appris</span>
+                    <strong class="text-base text-emerald-400 font-heading" id="fc-count-learned">0</strong>
                 </div>
-                
-                <div class="bg-indigo-950/40 border border-indigo-900/30 px-5 py-3 rounded-2xl flex items-center gap-3 min-w-[140px] justify-between sm:justify-end">
-                    <div class="text-right">
-                        <span class="text-[10px] text-slate-500 font-bold uppercase block">Score</span>
-                        <strong class="text-2xl font-black text-indigo-400 font-heading" id="quiz-score-display">0/10</strong>
-                    </div>
+                <div class="bg-slate-950/80 border border-slate-850 px-4 py-2 rounded-xl">
+                    <span class="text-slate-500 font-semibold block uppercase text-[10px]">À réviser</span>
+                    <strong class="text-base text-indigo-400 font-heading" id="fc-count-review">0</strong>
+                </div>
+                <div class="bg-slate-950/80 border border-slate-850 px-4 py-2 rounded-xl">
+                    <span class="text-slate-500 font-semibold block uppercase text-[10px]">Total</span>
+                    <strong class="text-base text-slate-300 font-heading" id="fc-count-total">0</strong>
                 </div>
             </div>
         </section>
 
-        <!-- Quiz Questions Wrapper -->
-        <div id="quiz-container" class="space-y-6">
-            <!-- Questions loaded dynamically by main.js -->
-        </div>
-
-        <!-- Restart Button Container -->
-        <div class="mt-10 py-6 border-t border-slate-900 text-center">
-            <button onclick="loadQuiz()" 
-                class="px-8 py-3.5 text-sm font-bold text-indigo-400 hover:text-white border border-indigo-900 hover:bg-indigo-950/40 rounded-2xl transition-all cursor-pointer" id="btn-restart-quiz">
-                🔄 Recommencer avec 10 autres questions
-            </button>
-        </div>
+        <!-- Flashcards grid container -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="flashcards-container">
+            <!-- Dynamically populated by main.js -->
+        </section>
 
     </main>
 
