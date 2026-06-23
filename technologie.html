@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technologie Outillage | CAP Coiffure 2027</title>
+    <meta name="description" content="Cours de technologie sur le matériel de coupe, de séchage et de coiffage. Protocoles de décontamination et ergonomie pour le coiffeur.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="header-title-box">
+                <span>Ingénierie & Matériel Professionnel</span>
+                <h1>✂️ Technologie de l'Outillage & Ergonomie</h1>
+                <p>Maîtrisez le fonctionnement, l'entretien réglementaire de vos outils et la posture professionnelle en salon.</p>
+            </div>
+            <div class="header-progress-box">
+                <div class="progress-text">
+                    <span>Progression globale</span>
+                    <strong id="global-progress-percent">45%</strong>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="global-progress-bar"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="index.html" class="nav-item" id="nav-dashboard">📊 Mon Espace & Notes</a>
+                <a href="biologie.html" class="nav-item" id="nav-biology">🧬 Biologie Appliquée</a>
+                <a href="chimie.html" class="nav-item" id="nav-chemistry">🧪 Chimie Appliquée</a>
+                <a href="technologie.html" class="nav-item active" id="nav-technology">✂️ Technologie Outillage</a>
+                <a href="quiz.html" class="nav-item" id="nav-quiz">📝 Quiz d'Examen</a>
+                <a href="github.html" class="nav-item" id="nav-github">🚀 Déployer sur GitHub</a>
+            </div>
+            <button class="theme-toggle-btn" id="theme-toggle" aria-label="Changer de thème">
+                <!-- SVG injected by JS -->
+            </button>
+        </div>
+    </nav>
+
+    <main class="animate-fade-in">
+        
+        <!-- SECTION 1 : LES OUTILS DE COUPE -->
+        <section class="chapter-block" id="ch-scissors">
+            <h2 class="chapter-title">Chapitre 1 : Les Outils de Coupe</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title">✂️ Ciseaux Droits (Ciseaux de Coupe)</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6;">
+                        Constitués de deux branches articulées par une vis centrale de tension, se terminant par deux lames lisses et tranchantes.
+                    </p>
+                    <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary);">
+                        <p><strong>• Action :</strong> Coupent 100% de la mèche de cheveux engagée.</p>
+                        <p><strong>• Utilisation :</strong> Lignes de coupe nettes, dégradés, effilage glissé (lame glissant le long de la mèche).</p>
+                        <p><strong>• Matériaux de pointe :</strong> Acier inoxydable enrichi en carbone, alliages de Cobalt ou de Titane pour une résistance accrue à la corrosion chimique et une longévité d'affûtage.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title">🦷 Ciseaux Sculpteurs (Effileurs)</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6;">
+                        Constitués d'une lame lisse (tranchante) et d'une lame dentelée (crantée) munie de petites encoches.
+                    </p>
+                    <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary);">
+                        <p><strong>• Action :</strong> Coupent seulement un certain pourcentage des cheveux (généralement 15% à 35% de la mèche selon le nombre et l'espacement des dents).</p>
+                        <p><strong>• Utilisation :</strong> Désépaissir les masses capillaires lourdes sans raccourcir la longueur globale, harmoniser les raccords de dégradés.</p>
+                        <p><strong>• Entretien :</strong> Réglage de la vis de tension (si trop serrée : usure prématurée ; si trop lâche : plie le cheveu).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2 : TONDEUSES ET MATÉRIEL ÉLECTRIQUE -->
+        <section class="chapter-block" id="ch-electrical">
+            <h2 class="chapter-title">Chapitre 2 : Tondeuses et Matériels Électriques</h2>
+            <div class="grid-2">
+                <!-- Tondeuse and disinfection -->
+                <div class="card">
+                    <h3 class="card-title">🔌 Tondeuses de Coupe et Finition</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                        Fonctionnent par l'oscillation ultra-rapide d'une lame mobile dentelée sur une lame fixe dentelée, entraînée par un moteur rotatif ou magnétique.
+                    </p>
+                    <div class="alert-box alert-warning">
+                        <strong>Protocole obligatoire d'Examen (Après chaque client) :</strong>
+                        <ol style="margin-top: 0.5rem; padding-left: 1.25rem; font-size: 0.775rem; display: flex; flex-direction: column; gap: 0.35rem;">
+                            <li><strong>Brossage mécanique :</strong> Retirer tous les résidus de poils de la tête de coupe avec la petite brosse en nylon rigide.</li>
+                            <li><strong>Désinfection biocide :</strong> Vaporiser un spray désinfectant (type Clinispray, bactéricide et fongicide selon les normes EN 1040/1275) directement sur la tête. Essuyer l'excès.</li>
+                            <li><strong>Lubrification :</strong> Appliquer une goutte d'huile de vaseline fluide sur les points de friction des lames en mouvement pour réduire l'échauffement et préserver la longévité du moteur.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Dryer and straightener technologies -->
+                <div class="card">
+                    <h3 class="card-title">💨 Sèche-cheveux et Fer à lisser</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;">
+                        Outils de coiffage thermomécaniques modifiant temporairement les ponts hydrogène de la kératine.
+                    </p>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.5rem;">
+                        <p><strong>• Sèche-cheveux Ionique :</strong> Émet des ions négatifs qui fractionnent les gouttes d'eau en micro-molécules. Accélère le séchage, élimine l'électricité statique et referme la cuticule pour plus de brillance.</p>
+                        <p><strong>• Revêtement des Plaques (Lisseurs) :</strong>
+                            <br>- *Céramique* : Diffusion homogène de la chaleur, glisse douce.
+                            <br>- *Tourmaline* : Pierre semi-précieuse émettant naturellement des ions négatifs (anti-frisottis).
+                            <br>- *Titane* : Métal ultra-conducteur et extrêmement résistant aux produits chimiques, idéal pour les lissages techniques.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3 : ERGONOMIC / TMS PREVENTION -->
+        <section class="chapter-block" id="ch-ergonomics">
+            <h2 class="chapter-title">Chapitre 3 : Ergonomie et Prévention des Risques Professionnels</h2>
+            <div class="card card-gradient">
+                <h3 class="card-title">🏥 Prévention des Troubles Musculosquelettiques (TMS)</h3>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                    La coiffure est une profession à forte contrainte physique (position debout prolongée, mouvements répétitifs des bras et poignets). Les TMS représentent la première cause de maladie professionnelle dans la branche.
+                </p>
+                <div class="detail-box-grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom:0;">
+                    <div class="detail-subcard" style="background: var(--bg-secondary);">
+                        <h4 style="color:var(--accent-primary);">⚠️ Facteurs de Risque majeurs</h4>
+                        <ul style="font-size: 0.775rem;">
+                            <li><strong>Postures contraignantes :</strong> Travail les bras levés au-dessus des épaules, dos courbé.</li>
+                            <li><strong>Sollicitation des articulations :</strong> Flexions répétés du poignet lors du maniement des ciseaux ou brosses (syndrome du canal carpien).</li>
+                            <li><strong>Statique debout :</strong> Piétinement prolongé entraînant des troubles circulatoires (varices, jambes lourdes).</li>
+                        </ul>
+                    </div>
+                    <div class="detail-subcard" style="background: var(--bg-secondary);">
+                        <h4 style="color:var(--accent-success);">💪 Bonnes Pratiques & Gestes Corrects</h4>
+                        <ul style="font-size: 0.775rem;">
+                            <li><strong>Réglage de la hauteur :</strong> Adapter la hauteur du fauteuil pompe hydraulique pour travailler à hauteur de buste, les coudes près du corps.</li>
+                            <li><strong>Position des pieds :</strong> Adopter un appui large au sol (pieds écartés de la largeur du bassin) pour répartir le poids du corps.</li>
+                            <li><strong>Sélection d'outils légers :</strong> Utiliser des sèche-cheveux ergonomiques légers (moins de 500g) et des ciseaux munis d'un repose-doigt pour soulager le poignet.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p>© 2026 Alban Coiffure. Tous droits réservés.</p>
+            <p>Conçu en binôme avec votre prof expert en coiffure.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

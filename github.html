@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Déploiement GitHub Pages | CAP Coiffure 2027</title>
+    <meta name="description" content="Guide pas-à-pas pour héberger gratuitement votre application de révision CAP Coiffure sur GitHub Pages.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="header-title-box">
+                <span>Hébergement & Partage Professionnel</span>
+                <h1>🚀 Déployez votre Hub de Révision en Ligne</h1>
+                <p>GitHub Pages vous permet d'héberger ce site gratuitement pour y accéder sur votre mobile au salon de coiffure !</p>
+            </div>
+            <div class="header-progress-box">
+                <div class="progress-text">
+                    <span>Progression globale</span>
+                    <strong id="global-progress-percent">45%</strong>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="global-progress-bar"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="index.html" class="nav-item" id="nav-dashboard">📊 Mon Espace & Notes</a>
+                <a href="biologie.html" class="nav-item" id="nav-biology">🧬 Biologie Appliquée</a>
+                <a href="chimie.html" class="nav-item" id="nav-chemistry">🧪 Chimie Appliquée</a>
+                <a href="technologie.html" class="nav-item" id="nav-technology">✂️ Technologie Outillage</a>
+                <a href="quiz.html" class="nav-item" id="nav-quiz">📝 Quiz d'Examen</a>
+                <a href="github.html" class="nav-item active" id="nav-github">🚀 Déployer sur GitHub</a>
+            </div>
+            <button class="theme-toggle-btn" id="theme-toggle" aria-label="Changer de thème">
+                <!-- SVG injected by JS -->
+            </button>
+        </div>
+    </nav>
+
+    <main class="animate-fade-in">
+        <div class="grid-2">
+            <!-- Steps -->
+            <section class="card" id="github-steps-section">
+                <h3 class="card-title">📦 Les 4 Étapes Magiques 🪄</h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    Suivez ce tutoriel simple pour mettre votre site en ligne en moins de 2 minutes.
+                </p>
+
+                <div class="step-card-grid">
+                    <!-- Step 1 -->
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Rassemblez vos fichiers</h4>
+                            <p>Assurez-vous que vos fichiers sont bien nommés et organisés dans votre dossier local :</p>
+                            <div style="background-color: var(--bg-tertiary); padding: 0.5rem 1rem; border-radius: var(--radius-sm); margin-top: 0.5rem; font-family: monospace; font-size: 0.75rem; color: var(--text-secondary);">
+                                📁 Cours_Coiffure/<br>
+                                &nbsp;&nbsp;├── index.html<br>
+                                &nbsp;&nbsp;├── biologie.html<br>
+                                &nbsp;&nbsp;├── chimie.html<br>
+                                &nbsp;&nbsp;├── technologie.html<br>
+                                &nbsp;&nbsp;├── quiz.html<br>
+                                &nbsp;&nbsp;├── github.html<br>
+                                &nbsp;&nbsp;├── 📁 css/<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── style.css<br>
+                                &nbsp;&nbsp;└── 📁 js/<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── main.js
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Créez un compte GitHub</h4>
+                            <p>Rendez-vous sur le site officiel de <a href="https://github.com" target="_blank">GitHub (github.com)</a> et inscrivez-vous gratuitement en créant votre compte étudiant ou professionnel.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Créez un nouveau projet (Repository)</h4>
+                            <p>
+                                Créez un nouveau dépôt public nommé <code>cap-coiffure</code>. Cliquez sur le bouton "Upload existing files" et glissez-déposez l'intégralité du dossier <strong>Cours_Coiffure</strong> (ou sélectionnez tous les fichiers et dossiers intérieurs) directement dans l'interface web pour les téléverser.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Activez l'hébergement GitHub Pages</h4>
+                            <p>
+                                Rendez-vous dans les <strong>Settings</strong> (paramètres) de votre projet GitHub, puis dans l'onglet vertical <strong>Pages</strong>. Sous la section "Build and deployment", sélectionnez la branche <code>main</code> (ou <code>master</code>) et le dossier racine <code>/ (root)</code>, puis cliquez sur <strong>Save</strong>. Votre site web est maintenant en ligne !
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advantages & Terminal method -->
+            <div class="step-card-grid" style="gap: 1.75rem;">
+                <section class="card card-dark">
+                    <h3 class="card-title">🌟 Pourquoi héberger votre site ?</h3>
+                    <ul style="font-size: 0.85rem; color: #e2e8f0; display: flex; flex-direction: column; gap: 1rem; list-style-type: none;">
+                        <li>🚀 <strong>Accès Mobile Permanent :</strong> Réviser directement sur votre téléphone portable au salon pendant les temps calmes de vos TP.</li>
+                        <li>💼 <strong>Book de Recrutement :</strong> Envoyer ce lien à des employeurs potentiels de Dijon ou d'ailleurs pour prouver votre sérieux et votre esprit innovant.</li>
+                        <li>🔄 <strong>Mises à jour instantanées :</strong> Modifiez ou enrichissez vos fiches de cours à mesure de l'année scolaire, le site en ligne se mettra à jour automatiquement.</li>
+                    </ul>
+                    <div style="margin-top: 2rem; padding: 1rem; background-color: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md);">
+                        <span style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; display: block;">Votre future URL sera :</span>
+                        <strong style="font-size: 0.85rem; color: #ffffff; display: block; margin-top: 0.25rem; font-family: monospace;">https://votre-pseudo.github.io/cap-coiffure</strong>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h3 class="card-title">💻 Méthode Ligne de Commande (Optionnel)</h3>
+                    <p style="font-size: 0.825rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                        Si vous utilisez déjà Git en local sur votre machine, voici les commandes pour publier :
+                    </p>
+                    <div style="background-color: var(--bg-tertiary); padding: 1rem; border-radius: var(--radius-md); font-family: monospace; font-size: 0.775rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.5rem; border: 1px solid var(--border-color);">
+                        <p># Initialiser le dépôt local</p>
+                        <p style="color:var(--accent-primary);">git init</p>
+                        <p># Ajouter tous les fichiers</p>
+                        <p style="color:var(--accent-primary);">git add .</p>
+                        <p># Valider le commit de départ</p>
+                        <p style="color:var(--accent-primary);">git commit -m "Initial commit CAP Coiffure"</p>
+                        <p># Lier au dépôt distant sur GitHub</p>
+                        <p style="color:var(--accent-primary);">git remote add origin https://github.com/pseudo/cap-coiffure.git</p>
+                        <p># Envoyer les fichiers</p>
+                        <p style="color:var(--accent-primary);">git push -u origin main</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p>© 2026 Alban Coiffure. Tous droits réservés.</p>
+            <p>Conçu en binôme avec votre prof expert en coiffure.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
